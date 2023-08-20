@@ -3,9 +3,9 @@ import {
 	createRoutesFromElements,
 	Route,
 } from "react-router-dom";
-import MainPage from "../pages/Main/MainPage";
-import AdminDashboardMain from "../pages/AdminDashboard/AdminDashboardMain";
-import UserDashboardMain from "../pages/UserDashboard/UserDashboardMain";
+import MainPage from "../pages/main/MainPage";
+import AdminDashboardMain from "../pages/dashboard-admin/AdminDashboardMain";
+import UserDashboardMain from "../pages/dashboard-user/UserDashboardMain";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 const router = createBrowserRouter(

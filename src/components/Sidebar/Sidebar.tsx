@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
-import SidebarLogout from "./SidebarLogout";
 import Logo from "../../assets/Logo";
 import SidebarContext, {
 	SidebarContextType,
 } from "../../context/SidebarContext";
+import SidebarLogout from "./SidebarLogout";
 
 type SidebarProps = {
 	children: JSX.Element | JSX.Element[];
@@ -15,7 +15,7 @@ const Sidebar = ({ children }: SidebarProps) => {
 
 	return (
 		<div
-			className={`fixed left-0 top-0 flex z-1 flex-col justify-between h-full p-6 bg-white transition-[transform] ${
+			className={`fixed shadow-sm left-0 top-0 flex z-1 flex-col justify-between h-full p-6 bg-white transition-[transform] ${
 				!isOpen ? "-translate-x-full" : ""
 			}`}
 		>

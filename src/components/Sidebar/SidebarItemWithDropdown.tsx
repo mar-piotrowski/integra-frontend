@@ -3,7 +3,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IconType } from "react-icons";
 import { NavigationItemDropdown } from "../../Constants";
-import Dropdown from "../Dropdown";
+import Accordion from "../Accordion";
 type SidebarItemWithDropdownProps = {
 	icon: IconType;
 	name: string;
@@ -48,9 +48,9 @@ const SidebarItemWithDropdown = ({
 					}`}
 				/>
 			</div>
-			<Dropdown isOpen={open}>
+			<Accordion isOpen={open}>
 				<div className="flex flex-col">{renderedDropdowns}</div>
-			</Dropdown>
+			</Accordion>
 		</>
 	);
 };

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-type DropdownProps = {
+type AccordionProps = {
 	children: JSX.Element | JSX.Element[];
 	isOpen: boolean;
 };
 
-const Dropdown = ({ children, isOpen }: DropdownProps) => {
+const Accordion = ({ children, isOpen }: AccordionProps) => {
 	const [childrenHeight, setChildrenHeight] = useState(0);
 	const elementRef = useRef<HTMLDivElement | null>(null);
 
@@ -25,4 +25,4 @@ const Dropdown = ({ children, isOpen }: DropdownProps) => {
 	);
 };
 
-export default Dropdown;
+export default Accordion;
