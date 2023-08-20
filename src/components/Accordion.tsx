@@ -13,12 +13,11 @@ const Accordion = ({ children, isOpen }: AccordionProps) => {
 		if (elementRef.current == null) return;
 		setChildrenHeight(elementRef.current.clientHeight);
 	}, []);
-	const style = `max-h-[${childrenHeight}px]`;
+
 	return (
 		<div
-			className={`overflow-hidden transition-max-height ease-out ${
-				isOpen ? style : "max-h-0"
-			}`}
+			className={`overflow-hidden transition-max-height ease-linear`}
+			style={{ maxHeight: isOpen ? childrenHeight : 0 }}
 		>
 			<div ref={elementRef}>{children}</div>
 		</div>
