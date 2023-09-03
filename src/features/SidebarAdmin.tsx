@@ -3,8 +3,8 @@ import { BiHomeAlt } from "react-icons/bi";
 import { LiaWarehouseSolid, LiaFileInvoiceSolid } from "react-icons/lia";
 import { MdOutlineAccountBalance, MdOutlinePayments } from "react-icons/md";
 import { NavigationItemDropdown, NavigationItem } from "../Constants";
-import Sidebar from "../components/sidebar/Sidebar";
-import SidebarNavigationItem from "../components/sidebar/SidebarNavigationItem";
+import SidebarNavigationItem from "../components/Sidebar/SidebarNavigationItem";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 const dropdownEmployee: NavigationItemDropdown[] = [
 	{
@@ -59,8 +59,8 @@ const menuItems: NavigationItem[] = [
 ];
 
 const SidebarAdmin = () => {
-	const renderedMenuItems = menuItems.map((item) => (
-		<SidebarNavigationItem {...item} />
+	const renderedMenuItems = menuItems.map((item, index) => (
+		<SidebarNavigationItem key={index} {...item} />
 	));
 	return (
 		<Sidebar>

@@ -21,6 +21,7 @@ export default {
 				darker: "#515151",
 			},
 			white: "#FFFFFF",
+			black: "#000000",
 		},
 	},
 	plugins: [],
