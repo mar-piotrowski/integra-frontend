@@ -8,17 +8,17 @@ const DashboardLayout = () => {
 	const { isOpen } = useContext(SidebarContext) as SidebarContextType;
 
 	return (
-		<div className="flex h-full">
+		<main className="flex h-full">
 			<SidebarAdmin />
-			<div
+			<section
 				className={`w-full p-4 transition-[margin] bg-default-background ${
 					isOpen ? "ml-content" : ""
 				}`}
 			>
 				<Topbar />
 				<Outlet />
-			</div>
-		</div>
+			</section>
+		</main>
 	);
 };
 

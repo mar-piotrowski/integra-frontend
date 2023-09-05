@@ -35,8 +35,8 @@ const SidebarItemWithDropdown = ({
 			<div
 				onClick={onChangeOpen}
 				className={`flex items-center justify-between py-2 px-3 mt-2 w-[250px] rounded cursor-pointer ${
-					open ? "bg-primary-500 text-default-white" : "text-default-text "
-				} hover:bg-primary-500 hover:text-default-white`}
+					open ? "bg-primary-600 text-default-white" : "text-default-text "
+				} hover:bg-primary-600 hover:text-default-white`}
 			>
 				<div className="flex items-center gap-3">
 					<Icon className="text-lg" />
