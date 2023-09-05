@@ -15,7 +15,7 @@ const Sidebar = ({ children }: SidebarProps) => {
 
 	return (
 		<div
-			className={`fixed shadow-sm left-0 top-0 flex z-1 flex-col justify-between h-full p-6 bg-white transition-[transform] ${
+			className={`fixed shadow-sm left-0 top-0 flex z-1 flex-col justify-between h-full p-6 transition-[transform] ${
 				!isOpen ? "-translate-x-full" : ""
 			}`}
 		>
