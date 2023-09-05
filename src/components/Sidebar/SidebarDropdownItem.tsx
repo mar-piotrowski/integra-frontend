@@ -7,7 +7,7 @@ type SidebarDropdownProps = {
 
 const SidebarDropdownItem = ({ name, to }: SidebarDropdownProps) => {
 	const mainStyle = "p-2 text-sm cursor-pointer";
-	const active = mainStyle + "bg-normal";
+	const active = mainStyle + " bg-default-background";
 	return (
 		<NavLink
 			to={to}

@@ -29,7 +29,7 @@ const NotFoundPage = () => {
 
 						<NavLink
 							to={"/dashboard"}
-							className="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 rounded-lg bg-primary-normal hover:bg-primary-normal_hover shrink-0 sm:w-auto"
+							className="w-1/2 px-5 py-2 text-sm tracking-wide transition-colors duration-200 rounded-lg text-default-white bg-primary-600 hover:bg-primary-500 shrink-0 sm:w-auto"
 						>
 							Idź do panelu
 						</NavLink>

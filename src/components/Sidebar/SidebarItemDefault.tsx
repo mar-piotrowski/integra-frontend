@@ -10,11 +10,9 @@ type SidebarDefaultItemProps = {
 const SidebarItemDefault = ({ icon, name, to }: SidebarDefaultItemProps) => {
 	const Icon = icon;
 	const mainStyle =
-		"flex items-center w-[250px] justify-between py-2 px-3 mt-2 rounded cursor-pointer transition-colors";
-	const inActive =
-		mainStyle +
-		"hover:bg-slate-300 hover:bg-primary-normal hover:text-white text-gray-darker";
-	const active = mainStyle + " bg-primary-normal text-white";
+		"flex items-center w-[250px] justify-between py-2 px-3 mt-2 rounded cursor-pointer text-default-text";
+	const inActive = mainStyle + " hover:bg-primary-500 hover:text-default-white";
+	const active = mainStyle + " bg-primary-600 text-default-white";
 	return (
 		<NavLink
 			to={to}

@@ -64,10 +64,10 @@ const SidebarAdmin = () => {
 	));
 	return (
 		<Sidebar>
-			<div>
+			<>
 				<div className="text-sm ">Menu</div>
 				{renderedMenuItems}
-			</div>
+			</>
 		</Sidebar>
 	);
 };

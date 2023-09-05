@@ -24,7 +24,7 @@ const SidebarItemWithDropdown = ({
 		<NavLink
 			key={index}
 			to={item.to}
-			className="p-2 mx-1 text-sm bg-gray-light hover:bg-gray-normal"
+			className="p-2 mx-1 text-sm hover:bg-default-background bg-default-background"
 		>
 			{item.name}
 		</NavLink>
@@ -34,9 +34,9 @@ const SidebarItemWithDropdown = ({
 		<>
 			<div
 				onClick={onChangeOpen}
-				className={`flex items-center justify-between py-2 px-3 mt-2 w-[250px] rounded transition-colors cursor-pointer ${
-					open ? "bg-primary-normal text-white" : ""
-				} hover:bg-primary-normal hover:text-white text-gray-darker`}
+				className={`flex items-center justify-between py-2 px-3 mt-2 w-[250px] rounded cursor-pointer ${
+					open ? "bg-primary-500 text-default-white" : "text-default-text "
+				} hover:bg-primary-500 hover:text-default-white`}
 			>
 				<div className="flex items-center gap-3">
 					<Icon className="text-lg" />
