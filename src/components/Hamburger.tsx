@@ -8,9 +8,9 @@ const Hamburger = ({ onClick }: HamburgerProps) => {
 			onClick={onClick}
 			className="flex flex-col items-center justify-center cursor-pointer"
 		>
-			<div className="w-[28px] h-[2px] mb-[5px] bg-gray-darker rounded"></div>
-			<div className="w-[28px] h-[2px] mb-[5px] bg-gray-darker rounded"></div>
-			<div className="w-[28px] h-[2px] bg-gray-darker rounded"></div>
+			<div className="w-[26px] h-[2px] mb-[5px] bg-black rounded"></div>
+			<div className="w-[26px] h-[2px] mb-[5px] bg-black rounded"></div>
+			<div className="w-[26px] h-[2px] bg-black rounded"></div>
 		</div>
 	);
 };

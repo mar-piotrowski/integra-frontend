@@ -1,5 +1,5 @@
 import { NavLinkItem } from "../Constants";
-import SidebarButtonContent from "../components/SidebarButtonContent";
+import ButtonSidebarContent from "../components/buttons/ButtonSidebarContent";
 
 const navigationItems: NavLinkItem[] = [
 	{
@@ -14,7 +14,7 @@ const navigationItems: NavLinkItem[] = [
 
 const SidebarAccount = () => {
 	const renderedItems = navigationItems.map((item, index) => (
-		<SidebarButtonContent key={index} name={item.name} to={item.to} />
+		<ButtonSidebarContent key={index} name={item.name} to={item.to} />
 	));
 	return <nav className="flex flex-col gap-3">{renderedItems}</nav>;
 };

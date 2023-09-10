@@ -9,9 +9,7 @@ const NotFoundPage = () => {
 			<div className="container flex items-center min-h-screen px-6 py-12 mx-auto">
 				<div className="flex flex-col items-center max-w-sm mx-auto text-center">
 					<p className="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800"></p>
-					<h1 className="mt-3 font-semibold text-black text-gray-800 text-8xl">
-						404
-					</h1>
+					<h1 className="mt-3 font-semibold text-gray-800 text-8xl">404</h1>
 					<p className="mt-4 text-lg font-medium text-gray-500 dark:text-gray-400">
 						Nie znaleziono podanej strony!
 					</p>
@@ -29,7 +27,7 @@ const NotFoundPage = () => {
 
 						<NavLink
 							to={"/dashboard"}
-							className="w-1/2 px-5 py-2 text-sm tracking-wide transition-colors duration-200 rounded-lg text-default-white bg-primary-600 hover:bg-primary-500 shrink-0 sm:w-auto"
+							className="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 rounded-lg bg-primary-600 hover:bg-primary-500 shrink-0 sm:w-auto"
 						>
 							Idź do panelu
 						</NavLink>

@@ -25,7 +25,7 @@ const LastLoggedDevice = ({
 		<div className="flex items-center gap-4">
 			<FiMonitor className="text-3xl " />
 			<div className="text-sm">
-				<div className="flex gap-2 font-medium text-default-text dark:text-default-white">
+				<div className="flex gap-2 font-medium text-fontColor dark:text-white">
 					<div>{device}</div>
 					<div>{localization}</div>
 				</div>

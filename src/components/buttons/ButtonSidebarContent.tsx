@@ -5,13 +5,13 @@ interface SidebarButtonContentProps {
 	to: string;
 }
 
-const SidebarButtonContent = ({ name, to }: SidebarButtonContentProps) => {
+const ButtonSidebarContent = ({ name, to }: SidebarButtonContentProps) => {
 	return (
 		<NavLink
 			className={({ isActive }) =>
 				isActive
 					? "bg-primary-200 text-primary-600 py-2 px-4 rounded-xl font-medium text-center transition-colors"
-					: "text-default-text p-2 rounded-xl text-center hover:bg-primary-200 hover:text-primary-600 transition-colors py-2 px-4"
+					: "text-fontColor p-2 rounded-xl text-center hover:bg-primary-200 font-medium hover:text-primary-600 transition-colors py-2 px-4"
 			}
 			to={to}
 		>
@@ -20,4 +20,4 @@ const SidebarButtonContent = ({ name, to }: SidebarButtonContentProps) => {
 	);
 };
 
-export default SidebarButtonContent;
+export default ButtonSidebarContent;
