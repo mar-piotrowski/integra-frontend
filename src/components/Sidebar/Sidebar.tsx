@@ -1,32 +1,54 @@
-import { useContext } from "react";
+import { Box, Drawer, Toolbar, Typography, useTheme } from "@mui/material";
+
+import NavGroup from "./NavGroup";
+import React from "react";
+import { dashboardMenu } from "../../constants/navigation/menuItems";
 import Logo from "../../assets/Logo";
-import SidebarContext, {
-	SidebarContextType,
-} from "../../context/SidebarContext";
-import ButtonLogout from "../buttons/ButtonLogout";
 
-type SidebarProps = {
-	children: JSX.Element | JSX.Element[];
-};
-
-const Sidebar = ({ children }: SidebarProps) => {
-	const { isOpen } = useContext(SidebarContext) as SidebarContextType;
+const Sidebar = () => {
+	const theme = useTheme();
+	const drawerWidth = 250;
 
 	return (
-		<div
-			className={`fixed left-0 top-0 flex z-1 flex-col justify-between h-full p-6 transition-[transform] dark:bg-dark-background-ligher ${
-				!isOpen ? "-translate-x-full" : ""
-			}`}
+		<Box
+			component="nav"
+			sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, p: 2 }}
+			aria-label="mailbox folders"
 		>
-			<div>
-				<div className="flex items-center justify-center gap-2 p-5 mb-5">
-					<Logo height={35} width={35} />
-					<div className="text-2xl font-bold text-primary-600">INTEGRA</div>
-				</div>
-				{children}
-			</div>
-			<ButtonLogout />
-		</div>
+			<Drawer
+				variant="permanent"
+				sx={{
+					display: { xs: "none", sm: "block" },
+					"& .MuiDrawer-paper": {
+						boxSizing: "border-box",
+						width: drawerWidth,
+						padding: 2,
+						border: "none",
+					},
+				}}
+				open
+			>
+				<Toolbar
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						gap: "10px",
+					}}
+				>
+					<Logo width={30} height={30} />
+					<Typography
+						variant="h3"
+						fontSize={24}
+						sx={{
+							color: theme.palette.primary.dark,
+						}}
+					>
+						INTEGRA
+					</Typography>
+				</Toolbar>
+				<NavGroup item={dashboardMenu.items[0]} />
+			</Drawer>
+		</Box>
 	);
 };
 

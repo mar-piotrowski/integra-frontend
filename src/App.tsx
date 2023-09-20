@@ -1,22 +1,20 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/Router";
-import { SidebarProvider } from "./context/SidebarContext";
 import { QueryClient, QueryClientProvider } from "react-query";
-import ThemeContextProvider from "./context/ThemeContext";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import theme from "./configuration/theme/theme";
+import React from "react";
 
 const queryClient = new QueryClient();
 
 const App = () => {
 	return (
-		<>
-			<ThemeContextProvider>
-				<QueryClientProvider client={queryClient}>
-					<SidebarProvider>
-						<RouterProvider router={router} />
-					</SidebarProvider>
-				</QueryClientProvider>
-			</ThemeContextProvider>
-		</>
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
+		</ThemeProvider>
 	);
 };
 

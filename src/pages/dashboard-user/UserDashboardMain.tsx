@@ -1,3 +1,5 @@
+import React from "react";
+
 const UserDashboardMain = () => {
 	return <h1>User dashboard</h1>;
 };

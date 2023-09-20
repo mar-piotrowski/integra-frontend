@@ -1,24 +1,31 @@
 import { Outlet } from "react-router-dom";
-import { useContext } from "react";
-import SidebarContext, { SidebarContextType } from "../context/SidebarContext";
+import { Box, useTheme } from "@mui/material";
+import React from "react";
+import Sidebar from "../components/Sidebar/Sidebar";
 import Topbar from "../components/Topbar";
-import SidebarAdmin from "../features/SidebarAdmin";
 
 const DashboardLayout = () => {
-	const { isOpen } = useContext(SidebarContext) as SidebarContextType;
-
+	const theme = useTheme();
 	return (
-		<main className="flex min-h-screen">
-			<SidebarAdmin />
-			<section
-				className={`w-full p-6 transition-[margin] bg-background dark:bg-dark-background-darker ${
-					isOpen ? "ml-content" : ""
-				}`}
+		<Box
+			sx={{
+				display: "flex",
+				width: 1,
+			}}
+		>
+			<Sidebar />
+			<Box
+				component="main"
+				sx={{
+					backgroundColor: "#f8fafc",
+					flexGrow: 1,
+					p: 2,
+				}}
 			>
 				<Topbar />
 				<Outlet />
-			</section>
-		</main>
+			</Box>
+		</Box>
 	);
 };
 

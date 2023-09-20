@@ -1,45 +1,63 @@
-import { useContext } from "react";
-import SidebarContext, { SidebarContextType } from "../context/SidebarContext";
-import { SlArrowDown } from "react-icons/sl";
-import { RxDashboard } from "react-icons/rx";
-import { IoSettingsOutline } from "react-icons/io5";
-import Hamburger from "./Hamburger";
-import ThemeSwitcher from "../features/themeSwitcher/ThemeSwitcher";
-import ButtonNavigation from "./buttons/ButtonNavigation";
-import Dropdown from "./Dropdown";
+import {
+	Box,
+	AppBar,
+	Toolbar,
+	IconButton,
+	Typography,
+	useTheme,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountDropdown from "./AccountDropdown";
+import React from "react";
 
 const Topbar = () => {
-	const { setOpen } = useContext(SidebarContext) as SidebarContextType;
-
+	const theme = useTheme();
 	return (
-		<div className="flex items-center justify-between w-full px-5 py-3 mb-4 bg-white rounded dark:bg-dark-background-ligher">
-			<Hamburger onClick={setOpen} />
-			<div className="flex gap-4">
-				<div className="flex items-center gap-2">
-					<div className="w-8 h-8 rounded-full bg-primary-600"></div>
-					<div className="mr-3">
-						<div className="text-sm font-bold">Marcin Piotrowski</div>
-						<div className="text-xs">Senior engineer</div>
-					</div>
-					<Dropdown
-						header={<SlArrowDown className="text-xl cursor-pointer" />}
-						menu={[
-							<ButtonNavigation
-								icon={RxDashboard}
-								text="Konto"
-								to="/management-panel/account/profile"
-							/>,
-							<ButtonNavigation
-								icon={IoSettingsOutline}
-								text="Ustawienia"
-								to="/management-panel/settings"
-							/>,
-							<ThemeSwitcher />,
-						]}
-					/>
-				</div>
-			</div>
-		</div>
+		<Box>
+			<AppBar
+				position="static"
+				sx={{
+					backgroundColor: "white",
+					borderRadius: 2,
+					color: "black",
+					boxShadow: "none",
+				}}
+			>
+				<Toolbar>
+					<Box sx={{ flexGrow: 1 }}>
+						<IconButton
+							size="large"
+							edge="start"
+							color="inherit"
+							aria-label="menu"
+							sx={{ mr: 2 }}
+						>
+							<MenuIcon sx={{ color: theme.palette.background }} />
+						</IconButton>
+					</Box>
+					<Box
+						sx={{
+							display: " flex",
+						}}
+					>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								justifyContent: "center",
+							}}
+						>
+							<Typography variant="caption" fontWeight="bold">
+								Marcin Piotrowski
+							</Typography>
+							<Typography variant="caption">Senior Engineer</Typography>
+						</Box>
+
+						<AccountDropdown />
+					</Box>
+				</Toolbar>
+			</AppBar>
+		</Box>
 	);
 };
 export default Topbar;
