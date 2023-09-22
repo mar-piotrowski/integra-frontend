@@ -1,5 +1,4 @@
 import {
-	ListItemButton,
 	ListItemIcon,
 	ListItemText,
 	Typography,
@@ -9,9 +8,12 @@ import {
 import { MenuItem } from "../../constants/navigation/menuItems";
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/customizatonReducerStore";
-import { CustomizationActionKind } from "../../store/customizationReducer";
 import React from "react";
+import { CustomListItemButton } from "../CustomListItemButton";
+import { Link } from "react-router-dom";
+import { RootState } from "../../store/store";
+import { set } from "../../store/sidebarSlice";
+import { add } from "../../store/collapseMenuSlice";
 
 interface NavItemProps {
 	item: MenuItem;
@@ -20,8 +22,10 @@ interface NavItemProps {
 
 const NavItem = ({ item, level }: NavItemProps) => {
 	const theme = useTheme();
+	const collapseMenusSelector = useSelector(
+		(state: RootState) => state.collepseMenus.collapaseMenus
+	);
 	const dispatch = useDispatch();
-	const customization = useSelector((state: RootState) => state.customization);
 	const responsive = useMediaQuery(theme.breakpoints.down("lg"));
 
 	const Icon = item.icon;
@@ -32,15 +36,11 @@ const NavItem = ({ item, level }: NavItemProps) => {
 			<FiberManualRecordRoundedIcon
 				sx={{
 					width:
-						customization.collapseMenusOpen.findIndex(
-							(id: string) => id === item?.id
-						) > -1
+						collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
 							? 8
 							: 6,
 					height:
-						customization.collapseMenusOpen.findIndex(
-							(id: string) => id === item?.id
-						) > -1
+						collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
 							? 8
 							: 6,
 				}}
@@ -48,14 +48,15 @@ const NavItem = ({ item, level }: NavItemProps) => {
 			/>
 		);
 
-	const itemHandler = (id: string) => {
-		dispatch({ type: CustomizationActionKind.MENU_OPEN, id });
-		if (responsive)
-			dispatch({ type: CustomizationActionKind.SET_MENU, opened: false });
+	const listItemHandler = (id: string) => {
+		dispatch(add(id));
+		if (responsive) dispatch(set(false));
 	};
 
 	return (
-		<ListItemButton
+		<CustomListItemButton
+			component={Link}
+			to={item.url}
 			disabled={item.disabled}
 			sx={{
 				mb: 0.5,
@@ -65,9 +66,9 @@ const NavItem = ({ item, level }: NavItemProps) => {
 				pl: `${level * 24}px`,
 			}}
 			selected={
-				customization.collapseMenusOpen.findIndex((id) => id === item.id) > -1
+				collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
 			}
-			onClick={() => itemHandler(item.id)}
+			onClick={() => listItemHandler(item.id)}
 		>
 			<ListItemIcon sx={{ my: "auto", minWidth: !item?.icon ? 18 : 36 }}>
 				{itemIcon}
@@ -76,9 +77,8 @@ const NavItem = ({ item, level }: NavItemProps) => {
 				primary={
 					<Typography
 						variant={
-							customization.collapseMenusOpen.findIndex(
-								(id) => id === item.id
-							) > -1
+							collapseMenusSelector.findIndex((id: string) => id === item.id) >
+							-1
 								? "h5"
 								: "body1"
 						}
@@ -96,7 +96,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
 					)
 				}
 			></ListItemText>
-		</ListItemButton>
+		</CustomListItemButton>
 	);
 };
 

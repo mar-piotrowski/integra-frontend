@@ -1,5 +1,4 @@
 import {
-	ListItemButton,
 	ListItemIcon,
 	ListItemText,
 	Typography,
@@ -9,14 +8,12 @@ import {
 } from "@mui/material";
 import { MenuItem } from "../../constants/navigation/menuItems";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/customizatonReducerStore";
-// import { useLocation, useNavigate } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
 import NavItem from "./NavItem";
 import React from "react";
+import { CustomListItemButton } from "../CustomListItemButton";
 
 interface NavCollapseProps {
 	menu: MenuItem;
@@ -27,9 +24,6 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState<string | null>(null);
-	const customization = useSelector((state: RootState) => state.customization);
-	// const { pathname } = useLocation();
-	// const navigate = useNavigate();
 
 	const collapseHanlder = () => {
 		setOpen(!open);
@@ -66,7 +60,7 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
 
 	return (
 		<>
-			<ListItemButton
+			<CustomListItemButton
 				sx={{
 					mb: 0.5,
 					alignItems: "flex-start",
@@ -99,7 +93,7 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
 					}
 				/>
 				{open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-			</ListItemButton>
+			</CustomListItemButton>
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<List
 					component="div"

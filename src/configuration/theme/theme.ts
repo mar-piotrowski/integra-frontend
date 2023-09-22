@@ -27,12 +27,12 @@ export const themeOption = {
 	heading: colors.grey900,
 	paper: colors.paper,
 	backgroundDefault: colors.paper,
-	background: colors.primaryLight,
+	background: colors.background,
 	darkTextPrimary: colors.grey700,
 	darkTextSecondary: colors.grey500,
 	textDark: colors.grey900,
-	menuSelected: colors.secondaryDark,
-	menuSelectedBack: colors.secondaryLight,
+	menuSelected: colors.primaryDark,
+	menuSelectedBack: colors.primaryLight,
 	divider: colors.grey200,
 };
 

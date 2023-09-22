@@ -1,17 +1,20 @@
-import { Settings, Logout } from "@mui/icons-material";
 import {
 	Box,
 	Tooltip,
 	IconButton,
 	Avatar,
 	Menu,
-	MenuItem,
+	ListItemButton,
+	ListItemText,
 	ListItemIcon,
+	Typography,
+	Divider,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
-import PersonIcon from "@mui/icons-material/Person";
-import { NavLink } from "react-router-dom";
 import React from "react";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const AccountDropdown = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,14 +31,8 @@ const AccountDropdown = () => {
 
 	return (
 		<>
-			<Box
-				sx={{
-					display: "flex",
-					alignItems: "center",
-					textAlign: "center",
-				}}
-			>
-				<Tooltip title="Account settings">
+			<Box>
+				<Tooltip title="Konto">
 					<IconButton
 						onClick={handleClick}
 						size="small"
@@ -54,66 +51,51 @@ const AccountDropdown = () => {
 				open={open}
 				onClose={handleClose}
 				onClick={handleClose}
-				PaperProps={{
-					elevation: 0,
-					sx: {
-						borderRadius: "9px",
-						overflow: "visible",
-						filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.20))",
-						mt: 1.5,
-						"& .MuiAvatar-root": {
-							width: 32,
-							height: 32,
-							ml: -0.5,
-							mr: 1,
-						},
-						"&:before": {
-							content: '""',
-							display: "block",
-							position: "absolute",
-							top: 0,
-							right: 14,
-							width: 10,
-							height: 10,
-							bgcolor: "background.paper",
-							transform: "translateY(-50%) rotate(45deg)",
-							zIndex: 0,
-						},
-					},
-				}}
 				transformOrigin={{ horizontal: "right", vertical: "top" }}
 				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+				sx={{ mt: 3 }}
+				MenuListProps={{
+					sx: { p: 2, width: "100%", maxWidth: 250, minWidth: 250 },
+				}}
 			>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon
-						sx={{
-							color: "black",
-						}}
-					>
-						<PersonIcon />
+				<Box sx={{ mb: 2 }}>
+					<Typography variant="subtitle1">Witaj, Marcin Piotrowski</Typography>
+					<Typography variant="caption">Senior Engineer</Typography>
+				</Box>
+				<Divider sx={{ my: 1 }} />
+				<ListItemButton
+					onClick={handleClose}
+					sx={{
+						color: "black",
+					}}
+				>
+					<ListItemIcon>
+						<PermIdentityOutlinedIcon />
 					</ListItemIcon>
-					<NavLink to={"/profil"}>Profil</NavLink>
-				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon
-						sx={{
-							color: "black",
-						}}
-					>
-						<Settings fontSize="small" />
+					<ListItemText>Profil</ListItemText>
+				</ListItemButton>
+				<ListItemButton
+					onClick={handleClose}
+					sx={{
+						color: "black",
+					}}
+				>
+					<ListItemIcon>
+						<SettingsOutlinedIcon />
 					</ListItemIcon>
-					Settings
-				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<ListItemIcon
-						sx={{
-							color: "black",
-						}}
-					>
-						<Logout fontSize="small" />
+					<ListItemText>Ustawienia</ListItemText>
+				</ListItemButton>
+				<ListItemButton
+					onClick={handleClose}
+					sx={{
+						color: "black",
+					}}
+				>
+					<ListItemIcon>
+						<LogoutOutlinedIcon />
 					</ListItemIcon>
-					Logout
-				</MenuItem>
+					<ListItemText>Wyloguj</ListItemText>
+				</ListItemButton>
 			</Menu>
 		</>
 	);

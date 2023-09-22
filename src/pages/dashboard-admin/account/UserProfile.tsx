@@ -1,7 +1,7 @@
 import React from "react";
 
 const UserProfile = () => {
-	return <section className="flex flex-col gap-10 text-fontColor"></section>;
+	return <section>KONTO</section>;
 };
 
 export default UserProfile;
