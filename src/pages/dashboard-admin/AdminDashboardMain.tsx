@@ -3,6 +3,8 @@
 // 	SidebarContextType,
 // } from "../../context/SidebarContext";
 
+import React from "react";
+
 const AdminDashboardMain = () => {
 	// const { isOpen, setOpen } = useContext(SidebarContext) as SidebarContextType;
 

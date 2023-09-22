@@ -1,31 +1,90 @@
-import { useContext } from "react";
-import SidebarContext, { SidebarContextType } from "../context/SidebarContext";
-import { SlArrowDown } from "react-icons/sl";
-import { IoMailOutline } from "react-icons/io5";
-import { BsSearch } from "react-icons/bs";
-import Hamburger from "./Hamburger";
+import {
+	Box,
+	Toolbar,
+	IconButton,
+	Typography,
+	useTheme,
+	styled,
+	useMediaQuery,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountDropdown from "./AccountDropdown";
+import React from "react";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-const Topbar = () => {
-	const { setOpen } = useContext(SidebarContext) as SidebarContextType;
+interface TopbarProps {
+	sidebarToggle: boolean;
+	sidebarSetToggle: () => void;
+}
 
+interface AppBarProps extends MuiAppBarProps {
+	open?: boolean;
+	mdSize?: boolean;
+}
+const drawerWidth = 280;
+
+const AppBar = styled(MuiAppBar, {
+	shouldForwardProp: (prop) => prop !== "open",
+})<AppBarProps>(({ theme, open, mdSize }) => ({
+	transition: theme.transitions.create(["margin", "width"], {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+	}),
+	...(open && {
+		width: mdSize ? "100%" : `calc(100% - ${drawerWidth}px)`,
+		transition: theme.transitions.create(["margin", "width"], {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+	}),
+}));
+
+const Topbar = ({ sidebarToggle, sidebarSetToggle }: TopbarProps) => {
+	const theme = useTheme();
+	const response = useMediaQuery(theme.breakpoints.down("md"));
 	return (
-		<div className="flex items-center justify-between w-full px-5 py-3 mb-4 rounded shadow-sm bg-default-white">
-			<Hamburger onClick={setOpen} />
-			<div className="flex gap-4">
-				<div className="flex items-center gap-4">
-					<BsSearch className="text-xl" />
-					<IoMailOutline className="text-2xl" />
-				</div>
-				<div className="flex items-center gap-2">
-					<div className="w-8 h-8 rounded-full bg-primary-600"></div>
-					<div className="mr-3">
-						<div className="text-sm font-bold">Marcin Piotrowski</div>
-						<div className="text-xs">Senior engineer</div>
-					</div>
-					<SlArrowDown className="relative text-xl cursor-pointer" />
-				</div>
-			</div>
-		</div>
+		<AppBar
+			enableColorOnDark
+			position="fixed"
+			color="inherit"
+			elevation={0}
+			open={sidebarToggle}
+			mdSize={response}
+		>
+			<Toolbar>
+				<Box sx={{ flexGrow: 1 }}>
+					<IconButton
+						size="large"
+						edge="start"
+						aria-label="menu"
+						sx={{ mr: 2 }}
+						onClick={sidebarSetToggle}
+					>
+						<MenuIcon />
+					</IconButton>
+				</Box>
+				<Box
+					sx={{
+						display: " flex",
+					}}
+				>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "center",
+						}}
+					>
+						<Typography variant="caption" fontWeight="bold">
+							Marcin Piotrowski
+						</Typography>
+						<Typography variant="caption">Senior Engineer</Typography>
+					</Box>
+
+					<AccountDropdown />
+				</Box>
+			</Toolbar>
+		</AppBar>
 	);
 };
 export default Topbar;

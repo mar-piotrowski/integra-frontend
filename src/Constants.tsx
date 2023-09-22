@@ -13,6 +13,11 @@ export type NavigationItemDropdown = {
 	to: string;
 };
 
+export interface NavLinkItem {
+	name: string;
+	to: string;
+}
+
 // export const SidebarUserNavigation: SidebarNavigation[] = [
 // 	{
 // 		categoryName: "Menu",

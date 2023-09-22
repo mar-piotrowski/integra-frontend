@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 
 type AccordionProps = {
@@ -16,10 +17,12 @@ const Accordion = ({ children, isOpen }: AccordionProps) => {
 
 	return (
 		<div
-			className={`overflow-hidden transition-max-height ease-linear`}
+			className={`overflow-hidden transition-max-height ease-linear `}
 			style={{ maxHeight: isOpen ? childrenHeight : 0 }}
 		>
-			<div ref={elementRef}>{children}</div>
+			<div ref={elementRef} className="flex flex-col">
+				{children}
+			</div>
 		</div>
 	);
 };

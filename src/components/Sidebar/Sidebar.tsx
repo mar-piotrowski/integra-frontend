@@ -1,33 +1,71 @@
-import { useContext } from "react";
+import {
+	Box,
+	Drawer,
+	Toolbar,
+	Typography,
+	useMediaQuery,
+	useTheme,
+} from "@mui/material";
 
+import NavGroup from "./NavGroup";
+import React from "react";
+import { dashboardMenu } from "../../constants/navigation/menuItems";
 import Logo from "../../assets/Logo";
-import SidebarContext, {
-	SidebarContextType,
-} from "../../context/SidebarContext";
-import SidebarLogout from "./SidebarLogout";
 
-type SidebarProps = {
-	children: JSX.Element | JSX.Element[];
-};
+interface SidebarProps {
+	toggle: boolean;
+	setToggle: () => void;
+}
 
-const Sidebar = ({ children }: SidebarProps) => {
-	const { isOpen } = useContext(SidebarContext) as SidebarContextType;
+const Sidebar = ({ toggle, setToggle }: SidebarProps) => {
+	const theme = useTheme();
+	const responsive = useMediaQuery(theme.breakpoints.up("md"));
+	const drawerWidth = 280;
+
+	const container =
+		window !== undefined ? () => window.document.body : undefined;
 
 	return (
-		<div
-			className={`fixed shadow-sm left-0 top-0 flex z-1 flex-col justify-between h-full p-6 transition-[transform] ${
-				!isOpen ? "-translate-x-full" : ""
-			}`}
-		>
-			<div>
-				<div className="flex items-center justify-center gap-2 p-5 mb-5">
-					<Logo height={35} width={35} />
-					<div className="text-2xl font-bold text-primary-normal">INTEGRA</div>
-				</div>
-				{children}
-			</div>
-			<SidebarLogout />
-		</div>
+		<Box component="nav">
+			<Drawer
+				container={container}
+				variant={responsive ? "persistent" : "temporary"}
+				anchor="left"
+				open={toggle}
+				onClose={setToggle}
+				sx={{
+					width: drawerWidth,
+					flexShrink: 0,
+					"& .MuiDrawer-paper": {
+						width: drawerWidth,
+						border: "none",
+						padding: "20px",
+						boxSizing: "border-box",
+					},
+				}}
+				ModalProps={{ keepMounted: true }}
+			>
+				<Toolbar
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						gap: "10px",
+					}}
+				>
+					<Logo width={30} height={30} />
+					<Typography
+						variant="h3"
+						fontSize={24}
+						sx={{
+							color: theme.palette.primary.dark,
+						}}
+					>
+						INTEGRA
+					</Typography>
+				</Toolbar>
+				<NavGroup item={dashboardMenu.items[0]} />
+			</Drawer>
+		</Box>
 	);
 };
 
