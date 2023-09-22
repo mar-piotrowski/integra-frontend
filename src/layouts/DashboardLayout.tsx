@@ -24,7 +24,7 @@ const Main = styled("main")<MainProps>(({ theme, open, mdSize }) => ({
 	...theme.typography.mainContent,
 	flexGrow: 1,
 	marginLeft: mdSize ? 0 : `-${drawerWidth}px`,
-	borderTopLeftRadius: mdSize ? 0 : "20px",
+	borderTopLeftRadius: mdSize || !open ? 0 : "20px",
 	transition: theme.transitions.create(["margin"], {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
