@@ -8,7 +8,7 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountDropdown from "./AccountDropdown";
+import AccountDropdown from "../features/AccountDropdown";
 import React from "react";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
@@ -19,19 +19,19 @@ interface TopbarProps {
 
 interface AppBarProps extends MuiAppBarProps {
 	open?: boolean;
-	mdSize?: boolean;
+	mdsize: boolean;
 }
-const drawerWidth = 280;
+const drawerWidth = 300;
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open, mdSize }) => ({
+})<AppBarProps>(({ theme, open, mdsize }: AppBarProps) => ({
 	transition: theme.transitions.create(["margin", "width"], {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
 	}),
 	...(open && {
-		width: mdSize ? "100%" : `calc(100% - ${drawerWidth}px)`,
+		width: mdsize ? "100%" : `calc(100% - ${drawerWidth}px)`,
 		transition: theme.transitions.create(["margin", "width"], {
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen,
@@ -49,7 +49,7 @@ const Topbar = ({ sidebarToggle, sidebarSetToggle }: TopbarProps) => {
 			color="inherit"
 			elevation={0}
 			open={sidebarToggle}
-			mdSize={response}
+			mdsize={response}
 		>
 			<Toolbar>
 				<Box sx={{ flexGrow: 1 }}>

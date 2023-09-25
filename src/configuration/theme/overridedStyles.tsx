@@ -3,14 +3,6 @@ import { ThemeOption } from "./theme";
 export const componentStyleOverrides = (theme: ThemeOption) => {
 	const bgColor = theme.colors?.grey50;
 	return {
-		MuiButton: {
-			styleOverrides: {
-				root: {
-					fontWeight: 500,
-					borderRadius: "4px",
-				},
-			},
-		},
 		MuiPaper: {
 			defaultProps: {
 				elevation: 0,
@@ -89,15 +81,30 @@ export const componentStyleOverrides = (theme: ThemeOption) => {
 			},
 		},
 		MuiInputBase: {
-			styleOverrides: {
-				input: {
-					color: theme.textDark,
-					"&::placeholder": {
-						color: theme.darkTextSecondary,
-						fontSize: "0.875rem",
-					},
-				},
-			},
+			// styleOverrides: {
+			// 	input: {
+			// 		padding: "8px",
+			// 		color: theme.textDark,
+			// 		"&::placeholder": {
+			// 			color: theme.darkTextSecondary,
+			// 			fontSize: "0.875rem",
+			// 		},
+			// 	},
+			// 	root: {
+			// 		borderRadius: "10px",
+			// 		padding: "5px",
+			// 		border: "none",
+			// 		background: theme.background,
+			// 		"&.MuiInput-underline": {
+			// 			"&:after": {
+			// 				border: "none !important",
+			// 			},
+			// 			"&:before": {
+			// 				border: "none !important",
+			// 			},
+			// 		},
+			// 	},
+			// },
 		},
 		MuiOutlinedInput: {
 			styleOverrides: {
@@ -130,7 +137,7 @@ export const componentStyleOverrides = (theme: ThemeOption) => {
 					paddingLeft: 4,
 				},
 				notchedOutline: {
-					borderRadius: "10px",
+					borderRadius: "8px",
 				},
 			},
 		},
