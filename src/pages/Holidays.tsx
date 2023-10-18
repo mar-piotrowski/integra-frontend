@@ -53,13 +53,13 @@ const Holidays = () => {
         <>
             <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={2} justifyContent="flex-end">
-                    <Grid item xs={12} sm={4} md={3} lg={3}>
+                    <Grid item xs={12} sm={4} md={3} lg={2}>
                         <ShowAmount label="Oczekujące" value={100} color="blue"/>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} lg={3}>
+                    <Grid item xs={12} sm={4} md={3} lg={2}>
                         <ShowAmount label="Zaakceptowane" value={100} color="green"/>
                     </Grid>
-                    <Grid item xs={12} sm={4} md={3} lg={3}>
+                    <Grid item xs={12} sm={4} md={3} lg={2}>
                         <ShowAmount label="Odrzucone" value={100} color="red"/>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>

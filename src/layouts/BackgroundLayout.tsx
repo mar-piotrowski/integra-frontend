@@ -1,21 +1,20 @@
-import React from "react";
 import {Box} from "@mui/system";
 import {Outlet} from "react-router-dom";
+import React from "react";
 
-const MiniLayout = () => {
+const BackgroundLayout = () => {
     return (
         <Box
             sx={{
                 backgroundColor: "white",
-                display: "flex",
                 padding: "25px",
-                borderRadius: "10px"
+                borderRadius: "10px",
+                gap: "20px",
             }}
         >
-
             <Outlet/>
         </Box>
-    );
-};
+    )
+}
 
-export default MiniLayout;
+export default BackgroundLayout;

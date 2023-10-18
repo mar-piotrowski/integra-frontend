@@ -29,6 +29,7 @@ const NavItem = ({item, level}: NavItemProps) => {
     const responsive = useMediaQuery(theme.breakpoints.down("lg"));
 
     const Icon = item.icon;
+    // @ts-ignore
     const itemIcon =
         item.icon != null ? (
             <Icon/>

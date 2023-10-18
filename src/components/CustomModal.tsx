@@ -1,11 +1,5 @@
-import {
-	Modal,
-	Backdrop,
-	Fade,
-	Typography,
-	BackdropProps,
-} from "@mui/material";
-import { Box } from "@mui/system";
+import {Backdrop, Fade, Modal,} from "@mui/material";
+import {Box} from "@mui/system";
 import React from "react";
 
 interface CustomModalProps {
@@ -23,7 +17,7 @@ const style = {
 	background: "white",
 	borderRadius: "10px",
 	boxShadow: 24,
-	p: 2,
+	p: 4,
 };
 
 const CustomModal = ({ open, onClose, children }: CustomModalProps) => {

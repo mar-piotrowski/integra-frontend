@@ -4,10 +4,9 @@ import CustomTable from "../components/CustomTable";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import React, {useMemo, useState} from "react";
-import {mockData, Person} from "./Employees";
 import {MRT_ColumnDef} from "material-react-table";
-import ModalAddArticle from "../features/ModalAddArticle";
-import modalAddArticle from "../features/ModalAddArticle";
+import ModalAddArticle from "../features/modals/addArticle/ModalAddArticle";
+import ButtonDropdown, {ButtonDropdownItem} from "../components/ButtonDropdown";
 
 interface Article {
     id: number;
@@ -41,6 +40,28 @@ const mockArticles: Article[] = [
     }
 ]
 
+const issueMenuItems: ButtonDropdownItem[] = [
+    {
+        label: "Wydanie zewnetrzne",
+        to: "/"
+    },
+    {
+        label: "Rozchód wewnętrzny",
+        to: "/"
+    }
+]
+
+const receptionMenuItems: ButtonDropdownItem[] = [
+    {
+        label: "Przyjęcie wewnętrzne",
+        to: "/"
+    },
+    {
+        label: "Przyjęcie zewnętrzne",
+        to: "/"
+    }
+]
+
 const Articles = () => {
     const [articleModal, setArticleModal] = useState<boolean>(false);
     const columns = useMemo<MRT_ColumnDef<Article>[]>(
@@ -67,13 +88,15 @@ const Articles = () => {
 
     const openModalHandler = () => setArticleModal(true);
 
-    const closeModalHandler = () => setArticleModal(false);
+    const closeModalHandler = () => {
+        setArticleModal(false);
+    }
 
     return (
         <>
             <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={6} md={10}>
+                    <Grid item>
                         <Button
                             variant="contained"
                             disableElevation
@@ -82,7 +105,13 @@ const Articles = () => {
                             Dodaj produkt
                         </Button>
                     </Grid>
-                    <Grid item xs={12} md={3} lg={2}>
+                    <Grid item>
+                        <ButtonDropdown label={"Wydanie"} items={issueMenuItems}/>
+                    </Grid>
+                    <Grid item>
+                        <ButtonDropdown label={"Przyjęcie"} items={receptionMenuItems}/>
+                    </Grid>
+                    <Grid item xs={12} md={4} lg={2}>
                         <ShowAmount label="Ilosc produktow" value={100} color="blue"/>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
@@ -107,7 +136,7 @@ const Articles = () => {
                     </Grid>
                 </Grid>
             </Box>
-            {articleModal ? <ModalAddArticle open={articleModal} onClose={closeModalHandler}/> : null}
+            <ModalAddArticle open={articleModal} onClose={closeModalHandler}/>
         </>
     )
 }

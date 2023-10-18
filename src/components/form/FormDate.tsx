@@ -1,31 +1,44 @@
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React from "react";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import {Control, Controller, FieldValues, Path} from "react-hook-form";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import moment from 'moment-timezone';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 interface FormInputTextProps<T extends FieldValues> {
-	name: Path<T>;
-	label: string;
-	control: Control<T>;
+    name: Path<T>;
+    label: string;
+    control: Control<T>;
 }
 
 const FormDate = <T extends FieldValues>({
-	name,
-	label,
-	control,
-}: FormInputTextProps<T>) => {
-	return (
-		<LocalizationProvider dateAdapter={AdapterDayjs}>
-			<Controller
-				name={name}
-				control={control}
-				render={({ field: { onChange, value } }) => (
-					<DatePicker value={value} onChange={onChange} label={label} />
-				)}
-			/>
-		</LocalizationProvider>
-	);
+     name,
+     label,
+     control,
+ }: FormInputTextProps<T>) => {
+    return (
+        <Controller
+            name={name}
+            control={control}
+            render={({field: {onChange, value}, fieldState: {error, }}) => (
+                <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
+                    <DatePicker
+                        slotProps={{
+                            textField: {
+                                error: !!error,
+                                helperText: error?.message,
+                            }
+                        }}
+                        value={moment.utc(value)}
+                        onChange={(date) => onChange(moment.tz(date, "Europe/Warsaw").format())}
+                        label={label}
+                        sx={{
+                            width: "100%"
+                        }}/>
+                </LocalizationProvider>
+            )}
+        />
+    );
 };
 
 export default FormDate;

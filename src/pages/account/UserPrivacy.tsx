@@ -10,16 +10,27 @@ const UserPrivacy = () => {
                 <Grid item xs={12}>
                     <Typography variant="h3">Zabezpieczenia</Typography>
                 </Grid>
-                <Grid container item xs={6} sm={4} md={3} lg={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Hasło</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">***************</Typography>
-                    </Grid>
+                <Grid item xs={12}>
+                    <Box sx={{display: "flex", width: "300px", justifyContent: "space-between"}}>
+                        <Box>
+                            <Typography variant="subtitle1">Hasło</Typography>
+                            <Typography variant="subtitle2">***************</Typography>
+                        </Box>
+                        <Box>
+                            <Button variant={"contained"} disableElevation>Zmień hasło</Button>
+                        </Box>
+                    </Box>
                 </Grid>
-                <Grid item xs={6} sm={8}>
-                    <Button variant={"contained"} disableElevation>Zmień hasło</Button>
+                <Grid item>
+                    <Box sx={{display: "flex", width: "300px", justifyContent: "space-between", flexGrow: 1}}>
+                        <Box>
+                            <Typography variant="subtitle1">Email</Typography>
+                            <Typography variant="subtitle2">email@email.com</Typography>
+                        </Box>
+                        <Box>
+                            <Button variant={"contained"} disableElevation>Zmień Email</Button>
+                        </Box>
+                    </Box>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant={"subtitle1"}>Ostanie logowania</Typography>

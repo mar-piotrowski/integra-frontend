@@ -34,10 +34,10 @@ export const applicationItems = {
                     target: true,
                 },
                 {
-                    id: "courses",
-                    title: "Szkolenia",
+                    id: "contracts",
+                    title: "Umowy",
                     type: "item",
-                    url: "/management-panel/courses",
+                    url: "/management-panel/contracts",
                     target: true,
                 },
             ],
