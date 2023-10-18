@@ -9,3 +9,11 @@ html {
 #root {
 	min-height: 100vh;
 }
+
+::-webkit-scrollbar-track {
+	background: "black";
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: "20px";
+}

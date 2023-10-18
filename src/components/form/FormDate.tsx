@@ -1,0 +1,44 @@
+import React from "react";
+import {Control, Controller, FieldValues, Path} from "react-hook-form";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import moment from 'moment-timezone';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+interface FormInputTextProps<T extends FieldValues> {
+    name: Path<T>;
+    label: string;
+    control: Control<T>;
+}
+
+const FormDate = <T extends FieldValues>({
+     name,
+     label,
+     control,
+ }: FormInputTextProps<T>) => {
+    return (
+        <Controller
+            name={name}
+            control={control}
+            render={({field: {onChange, value}, fieldState: {error, }}) => (
+                <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
+                    <DatePicker
+                        slotProps={{
+                            textField: {
+                                error: !!error,
+                                helperText: error?.message,
+                            }
+                        }}
+                        value={moment.utc(value)}
+                        onChange={(date) => onChange(moment.tz(date, "Europe/Warsaw").format())}
+                        label={label}
+                        sx={{
+                            width: "100%"
+                        }}/>
+                </LocalizationProvider>
+            )}
+        />
+    );
+};
+
+export default FormDate;

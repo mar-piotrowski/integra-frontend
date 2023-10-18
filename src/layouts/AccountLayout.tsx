@@ -1,15 +1,33 @@
 import React from "react";
+import {Box} from "@mui/system";
+import {Outlet} from "react-router-dom";
+import CustomTabs, {CustomTabItem} from "../components/CustomTabs";
+
+const tabs: CustomTabItem[] = [
+    {
+        title: "Profil",
+        link: "/management-panel/account"
+    },
+    {
+        title: "Prywatność",
+        link: "/management-panel/account/privacy"
+    }
+]
 
 const AccountLayout = () => {
-	return (
-		<h1></h1>
-		// <ContentLayout>
-		// 	<SidebarAccount />
-		// 	<div className="px-6 py-2 ">
-		// 		<Outlet />
-		// 	</div>
-		// </ContentLayout>
-	);
+    return (
+        <Box
+            sx={{
+                backgroundColor: "white",
+                padding: "25px",
+                borderRadius: "10px",
+                gap: "20px",
+            }}
+        >
+            <CustomTabs tabs={tabs}/>
+            <Outlet/>
+        </Box>
+    );
 };
 
 export default AccountLayout;

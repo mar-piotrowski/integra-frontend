@@ -20,7 +20,7 @@ interface SidebarProps {
 const Sidebar = ({ toggle, setToggle }: SidebarProps) => {
 	const theme = useTheme();
 	const responsive = useMediaQuery(theme.breakpoints.up("md"));
-	const drawerWidth = 280;
+	const drawerWidth = 300;
 
 	const container =
 		window !== undefined ? () => window.document.body : undefined;
@@ -28,7 +28,7 @@ const Sidebar = ({ toggle, setToggle }: SidebarProps) => {
 	return (
 		<Box component="nav">
 			<Drawer
-				container={container}
+				// container={container}
 				variant={responsive ? "persistent" : "temporary"}
 				anchor="left"
 				open={toggle}
