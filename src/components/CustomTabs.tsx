@@ -17,8 +17,13 @@ const CustomTabs = ({tabs}: CustomTabsProps) => {
 
     const handleChange = (event: SyntheticEvent, newValue: number) => setValue(newValue);
 
-    const renderedTabs = tabs.map(tab =>
-        <Tab component={Link} to={tab.link} label={tab.title}/>
+    const renderedTabs = tabs.map((tab, index) =>
+        <Tab
+            key={index}
+            component={Link}
+            to={tab.link}
+            label={tab.title}
+        />
     );
 
     return (

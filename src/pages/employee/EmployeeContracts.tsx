@@ -5,7 +5,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import React, {useMemo, useState} from "react";
 import {MRT_ColumnDef} from "material-react-table";
 import {UserContract} from "../../constants/models";
-import ModalAddEmployeeContract from "../../features/modals/addEmployeeContract/ModalAddEmployeeContract";
+import ModalAddEmployeeContract, {} from "../../features/modals/addEmployeeContract/ModalAddEmployeeContract";
 
 const userContractMockData: UserContract[] = [
     {
@@ -21,6 +21,9 @@ const userContractMockData: UserContract[] = [
 
 const EmployeeContracts = () => {
     const [addContractModal, setAddContractModal] = useState<boolean>(false);
+    const [editContractModal, setEditContractModal] = useState<boolean>(false);
+    const [contractToEdit, setContractToEdit] = useState<UserContract | null>(null);
+
     const columns = useMemo<MRT_ColumnDef<UserContract>[]>(
         () => [
             {
@@ -47,9 +50,16 @@ const EmployeeContracts = () => {
         []
     );
 
-    const openAddContractModal = () => setAddContractModal(true);
+    const openAddContractModal = (edit: boolean) => {
+        setEditContractModal(edit)
+        setAddContractModal(true)
+    }
 
-    const closeAddContractModal = () => setAddContractModal(false);
+    const closeAddContractModal = () => {
+        setAddContractModal(false)
+        setEditContractModal(false)
+        setContractToEdit(null);
+    }
 
     return (
         <>
@@ -58,7 +68,9 @@ const EmployeeContracts = () => {
                     <Button
                         variant="contained"
                         disableElevation
-                        onClick={openAddContractModal}
+                        onClick={() => {
+                            openAddContractModal(false)
+                        }}
                     >
                         Dodaj umowę
                     </Button>
@@ -67,24 +79,33 @@ const EmployeeContracts = () => {
                     <CustomTable
                         columns={columns}
                         data={userContractMockData}
-                        renderRowActionMenuItems={() => [
-                            <MenuItem key="edit" onClick={() => console.info("Edit")}>
+                        renderRowActionMenuItems={({closeMenu, row}) => [
+                            <MenuItem key="edit" onClick={() => {
+                                openAddContractModal(true)
+                                setContractToEdit(row.original);
+                                closeMenu();
+                            }}>
                                 <ListItemIcon>
                                     <EditOutlinedIcon/>
                                 </ListItemIcon>
-                                <ListItemText>Edytuj</ListItemText>
+                                <ListItemText>Aneks</ListItemText>
                             </MenuItem>,
                             <MenuItem key="delete" onClick={() => console.info("Delete")}>
                                 <ListItemIcon>
                                     <DeleteOutlineOutlinedIcon/>
                                 </ListItemIcon>
                                 <ListItemText>Usuń</ListItemText>
-                            </MenuItem>,
+                            </MenuItem>
                         ]}
                     />
                 </Grid>
             </Grid>
-            <ModalAddEmployeeContract open={addContractModal} onClose={closeAddContractModal}/>
+            <ModalAddEmployeeContract
+                open={addContractModal}
+                onClose={closeAddContractModal}
+                editContract={editContractModal}
+                contract={contractToEdit}
+            />
         </>
     )
 }

@@ -7,8 +7,7 @@ import ModalAddEmployeeBasicInfo from "./components/ModalAddEmployeeBasicInfo";
 import ModalAddEmployeeAddress from "./components/ModalAddEmployeeAddress";
 import ModalAddEmployeeDetails from "./components/ModalAddEmployeeDetails";
 import ModalAddEmployeeBank from "./components/ModalAddEmployeeBank";
-import {Gender} from "../../../constants/models";
-import {Bank, Location} from "../../../interfaces/models";
+import {BankDetails, Gender, Localization} from "../../../constants/models";
 import CustomModal from "../../../components/CustomModal";
 import {z} from "Zod";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -35,8 +34,8 @@ export interface EmployeeForm {
     phoneNo: string;
     citizenship: string;
     nip: string;
-    location: Location;
-    bank: Bank;
+    location: Localization;
+    bank: BankDetails;
 }
 
 const employeeFormDefaultValues: EmployeeForm = {
@@ -71,7 +70,7 @@ const employeeFormDefaultValues: EmployeeForm = {
     },
     bank: {
         name: "",
-        number: 0,
+        number: "",
     },
 };
 
@@ -100,7 +99,7 @@ const ModalAddEmployee = ({open, onClose}: ModalAddEmployeeProps) => {
     const [value, setValue] = React.useState("1");
     const {control, handleSubmit} = useForm<EmployeeForm>({
         defaultValues: employeeFormDefaultValues,
-        // resolver: zodResolver(schema)
+        resolver: zodResolver(schema)
     });
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);

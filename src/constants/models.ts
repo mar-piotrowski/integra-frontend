@@ -89,21 +89,21 @@ export interface UserAddContract {
 }
 
 export interface GoodsReceivedNote {
-   documentNumber: string;
-   issueDate: string;
-   receptionDate: string;
-   paymentDate: string;
-   stockId: number;
-   sellerId: number;
-   currency: string;
-   invoiceId: number;
+    documentNumber: string;
+    issueDate: string;
+    receptionDate: string;
+    paymentDate: string;
+    stockId: number;
+    sellerId: number;
+    currency: string;
+    invoiceId: number;
 }
 
 export interface InternalGoodsTransferNote {
-   documentNumber: string;
-   issueDate: string;
-   issueStockId: number;
-   receiveStockId: number;
+    documentNumber: string;
+    issueDate: string;
+    issueStockId: number;
+    receiveStockId: number;
 }
 
 export interface DocumentArticle {
@@ -115,4 +115,63 @@ export interface DocumentArticle {
     tax: number;
     totalPriceWithoutTax: number;
     totalPriceWithTax: number;
+}
+
+export interface Localization {
+    street: string;
+    houseNo: string;
+    apartmentNo: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    commune: string;
+    district: string;
+    province: string;
+    isPrivate: boolean;
+    isCompany: boolean;
+}
+
+export interface BankDetails {
+    name: string;
+    number: string;
+}
+
+export enum ContractorType {
+    RECEIVER,
+    RECIPIENT,
+}
+
+export interface Contractor {
+    id: number;
+    fullName: string;
+    shortName: string;
+    location: Location;
+    nip: string;
+    phone: string;
+    email: string;
+    type: ContractorType,
+    bankDetails: BankDetails;
+}
+
+export enum InvoiceType {
+    Sell,
+}
+
+export enum PaymentType {
+    Cash,
+    OnlineBanking,
+}
+
+export interface Invoice {
+    number: string;
+    invoiceType: InvoiceType;
+    issueDate: Date
+    sellDate: Date;
+    discount: number;
+    paymentType: PaymentType;
+    paymentDate: Date;
+    contractor: Contractor;
+    stockId: number;
+    bankDetails: BankDetails;
+    paid: boolean;
 }

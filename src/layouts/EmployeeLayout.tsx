@@ -25,8 +25,8 @@ const tabs: CustomTabItem[] = [
         link: "/management-panel/employee/contracts"
     },
     {
-        title: "Rozliczenia",
-        link: "/management-panel/employee/money"
+        title: "Wypłaty",
+        link: "/management-panel/employee/salary"
     },
 ]
 

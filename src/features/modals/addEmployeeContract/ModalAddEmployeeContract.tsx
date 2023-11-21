@@ -1,15 +1,18 @@
 import {Button, Grid, Tab, Typography} from "@mui/material";
 import CustomModal from "../../../components/CustomModal";
 import {ModalBaseProps} from "../../../interfaces/modal";
-import React, {SyntheticEvent, useState} from "react";
+import React, {SyntheticEvent, useEffect, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {Box} from "@mui/system";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import ModalAddEmployeeContractBaseInfo from "./components/ModalAddEmployeeContractBaseInfo";
 import ModalAddEmployeeContractInsurance from "./components/ModalAddEmployeeContractInsurance";
 import ModalAddEmployeeContractTax from "./components/ModalAddEmployeeContractTax";
+import {UserContract} from "../../../constants/models";
 
 interface ModalAddEmployeeContract extends ModalBaseProps {
+    editContract: boolean;
+    contract?: UserContract | null;
 }
 
 export interface AddEmployeeContractForm {
@@ -62,12 +65,16 @@ const addEmployeeContractDefaultValues: AddEmployeeContractForm = {
     salaryInterval: 0
 }
 
-const ModalAddEmployeeContract = ({open, onClose}: ModalAddEmployeeContract) => {
+const ModalAddEmployeeContract = ({open, onClose, editContract, contract}: ModalAddEmployeeContract) => {
     const {control, reset, handleSubmit} = useForm<AddEmployeeContractForm>({
         defaultValues: addEmployeeContractDefaultValues
     });
-
     const [value, setValue] = useState("1");
+
+    useEffect(() => {
+        if(editContract && contract != null)
+            reset(contract)
+    }, [contract]);
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
@@ -77,14 +84,18 @@ const ModalAddEmployeeContract = ({open, onClose}: ModalAddEmployeeContract) => 
 
     const onCloseHandler = () => {
        onClose();
-       reset();
+       reset(addEmployeeContractDefaultValues);
     }
 
     return (
         <CustomModal open={open} onClose={onClose}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography variant="h3">Dodawanie umowy pracownika</Typography>
+                    <Typography variant="h3">{
+                        !editContract
+                            ? "Dodawanie umowy pracownika"
+                            : "Tworzenie aneksu do umowy"
+                    }</Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <form onSubmit={handleSubmit(onSubmitHandler)}>

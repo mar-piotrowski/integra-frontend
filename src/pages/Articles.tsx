@@ -43,22 +43,22 @@ const mockArticles: Article[] = [
 const issueMenuItems: ButtonDropdownItem[] = [
     {
         label: "Wydanie zewnetrzne",
-        to: "/"
+        to: "/management-panel/wz"
     },
     {
         label: "Rozchód wewnętrzny",
-        to: "/"
+        to: "/management-panel/rw"
     }
 ]
 
 const receptionMenuItems: ButtonDropdownItem[] = [
     {
         label: "Przyjęcie wewnętrzne",
-        to: "/"
+        to: "/management-panel/pw"
     },
     {
         label: "Przyjęcie zewnętrzne",
-        to: "/"
+        to: "/management-panel/pz"
     }
 ]
 

@@ -1,22 +1,24 @@
-import { TextField} from "@mui/material";
+import {TextField} from "@mui/material";
 import React, {HTMLInputTypeAttribute} from "react";
 import {Control, Controller, FieldValues, Path} from "react-hook-form";
 
-interface FormInputTextProps<T extends FieldValues>{
+interface FormInputTextProps<T extends FieldValues> {
     name: Path<T>;
     label: string;
     control: Control<T>;
     type?: HTMLInputTypeAttribute;
-    maxLength?: number
+    maxLength?: number;
+    onChangeInput?: (value: string | number) => void;
 }
 
 const FormInput = <T extends FieldValues>({
-  name,
-  label,
-  control,
-  type = "text",
-  maxLength
-}: FormInputTextProps<T>) => {
+                                              name,
+                                              label,
+                                              control,
+                                              type = "text",
+                                              maxLength,
+                                              onChangeInput,
+                                          }: FormInputTextProps<T>) => {
     return (
         <Controller
             name={name}
@@ -28,14 +30,22 @@ const FormInput = <T extends FieldValues>({
                         helperText={error ? error.message : null}
                         error={!!error}
                         value={value}
-                        onChange={onChange}
+                        name={name}
+                        onChange={(inputValue) => {
+                            onChange(
+                                type == "number" && inputValue.target.value != undefined
+                                    ? parseInt(inputValue.target.value)
+                                    : inputValue.target.value
+                            );
+                            if (onChangeInput != undefined)
+                                onChangeInput(inputValue.target.value);
+                        }}
                         fullWidth
                         label={label}
                         inputProps={{
                             maxLength: maxLength
                         }}
                     />
-
                 </>
             )}
         />

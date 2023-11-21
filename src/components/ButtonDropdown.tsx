@@ -10,11 +10,11 @@ const StyledMenu = styled((props: MenuProps) => (
         elevation={0}
         anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'right',
+            horizontal: 'left',
         }}
         transformOrigin={{
             vertical: 'top',
-            horizontal: 'right',
+            horizontal: 'left',
         }}
         {...props}
     />
@@ -48,7 +48,8 @@ const StyledMenu = styled((props: MenuProps) => (
 
 export interface ButtonDropdownItem {
     label: string;
-    to: string;
+    to?: string;
+    onClick?: () => void;
 }
 
 interface ButtonDropdownProps {
@@ -59,6 +60,7 @@ interface ButtonDropdownProps {
 const ButtonDropdown = ({label, items}: ButtonDropdownProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -68,7 +70,11 @@ const ButtonDropdown = ({label, items}: ButtonDropdownProps) => {
     };
 
     const renderMenuItems = items.map(item => (
-        <CustomListItemButton component={Link} to={item.to}>
+        <CustomListItemButton component={Link} to={item.to} onClick={() => {
+            if (item.onClick != undefined)
+                item.onClick();
+            handleClose();
+        }}>
             <ListItemText>{item.label}</ListItemText>
         </CustomListItemButton>
     ));
@@ -93,8 +99,8 @@ const ButtonDropdown = ({label, items}: ButtonDropdownProps) => {
                     'aria-labelledby': 'demo-customized-button',
                 }}
                 anchorEl={anchorEl}
-                open={open}
                 onClose={handleClose}
+                open={open}
             >
                 {renderMenuItems}
             </StyledMenu>

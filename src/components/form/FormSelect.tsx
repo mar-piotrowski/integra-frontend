@@ -38,7 +38,9 @@ const FormSelect = <T extends FieldValues>({
                     <>
                         <Select
                             labelId="demo-select-small-label"
-                            onChange={onChange}
+                            onChange={(value) => {
+                                onChange(value);
+                            }}
                             error={!!error}
                             value={value}
                             label={label}

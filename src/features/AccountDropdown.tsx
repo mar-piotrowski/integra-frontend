@@ -16,6 +16,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import {CustomListItemButton} from "../components/CustomListItemButton";
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import {Link} from "react-router-dom";
 
 const AccountDropdown = () => {
@@ -71,6 +72,12 @@ const AccountDropdown = () => {
                     </ListItemIcon>
                     <ListItemText>Profil</ListItemText>
                 </CustomListItemButton>
+                <ListItemButton onClick={handleClose}>
+                    <ListItemIcon>
+                        <BadgeOutlinedIcon/>
+                    </ListItemIcon>
+                    <ListItemText>Panel pracownika</ListItemText>
+                </ListItemButton>
                 <ListItemButton onClick={handleClose}>
                     <ListItemIcon>
                         <SettingsOutlinedIcon/>

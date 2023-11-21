@@ -1,7 +1,7 @@
-import {Box, Button, Grid, Input, Select, TextField} from "@mui/material";
-import React from "react";
-import {Control, Controller, useFieldArray} from "react-hook-form";
-import {GoodsReceivedNoteForm} from "../pages/GoodsReceiveNote";
+import {Box, Button, Grid, TextField} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Control, Controller, useFieldArray, useWatch} from "react-hook-form";
+import {GoodsReceivedNoteForm} from "../pages/documents/PZ";
 import FormInput from "../components/form/FormInput";
 import FormSelect, {FormSelectOption} from "../components/form/FormSelect";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -22,10 +22,26 @@ const measureUnits: FormSelectOption[] = [
 ]
 
 const ArticleDocument = ({control}: ArticleDocumentProps) => {
+    const [totalPriceWithTax, setTotalPriceWithTax] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     const {fields, append, remove, update} = useFieldArray({
         control,
         name: "articles"
     });
+
+    const watch = useWatch({
+        name: "articles",
+        control
+    })
+
+    useEffect(() => {
+        watch.forEach((article, index) => {
+            // update(index, {
+            //     ...article,
+            //     totalPriceWithoutTax: article.amount * article.priceWithoutTax
+            // })
+        })
+    }, [watch]);
 
     const taxes: FormSelectOption[] = [
         {
@@ -43,7 +59,7 @@ const ArticleDocument = ({control}: ArticleDocumentProps) => {
                             <Controller
                                 control={control}
                                 name={`articles`}
-                                render={({field}) => (
+                                render={() => (
                                     <Grid container spacing={1} alignItems={"center"}>
                                         <Grid item>
                                             <FormInput
@@ -65,6 +81,7 @@ const ArticleDocument = ({control}: ArticleDocumentProps) => {
                                                 name={`articles.${index}.amount`}
                                                 label={"Ilosc"}
                                                 control={control}
+                                                type={"number"}
                                             />
                                         </Grid>
                                         <Grid item xs={1}>
@@ -73,6 +90,11 @@ const ArticleDocument = ({control}: ArticleDocumentProps) => {
                                                 label={"Cena"}
                                                 control={control}
                                                 type={"number"}
+                                                onChangeInput={(price) => {
+                                                    // const article = watch[index];
+                                                    // console.log(article);
+                                                    // setTotalPrice(article.amount * article.totalPriceWithoutTax);
+                                                }}
                                             />
                                         </Grid>
                                         <Grid item xs={1}>
@@ -84,10 +106,10 @@ const ArticleDocument = ({control}: ArticleDocumentProps) => {
                                             />
                                         </Grid>
                                         <Grid item>
-                                            <TextField label={"Wartość netto"} value={123}/>
+                                            <TextField label={"Wartość netto"} value={totalPrice}/>
                                         </Grid>
                                         <Grid item>
-                                            <TextField label={"Wartość brutto"} value={321}/>
+                                            <TextField label={"Wartość brutto"} value={totalPriceWithTax}/>
                                         </Grid>
                                         <Grid item>
                                             <DeleteForeverIcon
@@ -110,13 +132,15 @@ const ArticleDocument = ({control}: ArticleDocumentProps) => {
                 <Button variant={"contained"} onClick={() => append({
                     code: "",
                     measureUnit: "",
-                    amount: 0,
+                    amount: 1,
                     priceWithoutTax: 0,
                     discount: 0,
                     tax: 0,
                     totalPriceWithoutTax: 0,
                     totalPriceWithTax: 0
-                })}>Dodaj produkt</Button>
+                })}>
+                    Dodaj produkt
+                </Button>
             </Grid>
         </Grid>
     )

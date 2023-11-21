@@ -1,12 +1,11 @@
 import {Box, Button, Divider, Grid, Typography} from "@mui/material";
 import React, {useState} from "react";
-import FormDate from "../components/form/FormDate";
+import FormDate from "../../components/form/FormDate";
 import {SubmitHandler, useForm} from "react-hook-form";
-import FormInput from "../components/form/FormInput";
-import ArticleDocument from "../features/ArticleDocument";
-import {DocumentArticle} from "../constants/models";
-import ModalSupplier from "../features/modals/supplier/ModalSupplier";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import FormInput from "../../components/form/FormInput";
+import ArticleDocument from "../../features/ArticleDocument";
+import {DocumentArticle} from "../../constants/models";
+import ModalSupplier from "../../features/modals/supplier/ModalSupplier";
 
 export interface GoodsReceivedNoteForm {
     documentNumber: string;
@@ -48,7 +47,7 @@ const mockContractors = [
     }
 ]
 
-const GoodsReceiveNote = () => {
+const MM = () => {
     const [contractor, setContractor] = useState<number | null>(null);
     const [contractorModal, setContractorModal] = useState(false);
     const {control, handleSubmit} = useForm<GoodsReceivedNoteForm>({
@@ -77,7 +76,8 @@ const GoodsReceiveNote = () => {
                                 <div><span> <b>Nazwa: </b> </span> Marcinex</div>
                                 <div><span> <b>NIP: </b> </span> Marcinex</div>
                                 <div><span> <b>Adres: </b> </span> Marcinex</div>
-                                <Button variant={"contained"} onClick={openContractorModalHandle}>Dodaj dostawcę</Button>
+                                <Button variant={"contained"} onClick={openContractorModalHandle}>Dodaj
+                                    dostawcę</Button>
                             </Box>
                         </Grid>
                     </Grid>
@@ -133,4 +133,4 @@ const GoodsReceiveNote = () => {
     )
 }
 
-export default GoodsReceiveNote;
+export default MM;

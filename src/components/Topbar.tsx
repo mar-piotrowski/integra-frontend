@@ -80,7 +80,6 @@ const Topbar = ({ sidebarToggle, sidebarSetToggle }: TopbarProps) => {
 						</Typography>
 						<Typography variant="caption">Senior Engineer</Typography>
 					</Box>
-
 					<AccountDropdown />
 				</Box>
 			</Toolbar>

@@ -1,26 +1,14 @@
+import {ContractorForm} from "../ModalAddContractor";
 import {Control} from "react-hook-form";
-import {EmployeeForm} from "../ModalAddEmployee";
-import {Grid} from "@mui/material";
 import React from "react";
-import FormCheckBoxes from "../../../../components/form/FormCheckBoxes";
+import {Grid} from "@mui/material";
 import FormInput from "../../../../components/form/FormInput";
 
-interface ModalWorkerAddressProps {
-    control: Control<EmployeeForm>;
+interface ModalAddContractorLocationProps {
+    control: Control<ContractorForm>;
 }
 
-const addressType = [
-    {
-        label: "Adres zameldowania taki sam jak adres zamieszkania",
-        value: "1",
-    },
-    {
-        label: "Adres korespondencyjny taki sam jak adres zamieszkania",
-        value: "2",
-    },
-];
-
-const ModalAddEmployeeAddress = ({control}: ModalWorkerAddressProps) => {
+const ModalAddContractorLocation = ({control}: ModalAddContractorLocationProps) => {
     return (
         <Grid sx={{flexGrow: 1}} container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -66,16 +54,8 @@ const ModalAddEmployeeAddress = ({control}: ModalWorkerAddressProps) => {
             <Grid item xs={12}>
                 <FormInput name="location.country" label="Kraj" control={control}/>
             </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*    <FormCheckBoxes*/}
-            {/*        label=""*/}
-            {/*        name="abc"*/}
-            {/*        control={control}*/}
-            {/*        options={addressType}*/}
-            {/*    />*/}
-            {/*</Grid>*/}
         </Grid>
-    );
-};
+    )
+}
 
-export default ModalAddEmployeeAddress;
+export default ModalAddContractorLocation;

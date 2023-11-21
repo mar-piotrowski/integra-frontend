@@ -1,4 +1,4 @@
-import {Backdrop, Fade, Modal,} from "@mui/material";
+import {Fade, Modal,} from "@mui/material";
 import {Box} from "@mui/system";
 import React from "react";
 
@@ -23,11 +23,12 @@ const style = {
 const CustomModal = ({ open, onClose, children }: CustomModalProps) => {
 	return (
 		<Modal
+			disableEscapeKeyDown
+			disableEnforceFocus
 			open={open}
 			onClose={onClose}
 			keepMounted
 			closeAfterTransition
-			slots={{ backdrop: Backdrop }}
 			slotProps={{
 				backdrop: {
 					timeout: 200,
