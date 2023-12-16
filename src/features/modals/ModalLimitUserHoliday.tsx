@@ -1,84 +1,74 @@
 import CustomModal from "../../components/CustomModal";
-import React from "react";
+import React, {useEffect} from "react";
 import {Button, Grid, TextField, Typography} from "@mui/material";
-import FormSelect, {FormSelectOption} from "../../components/form/FormSelect";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {CreateHolidayLimit} from "../../api/types/documentTypes";
+import FormDate from "../../components/form/FormDate";
+import useCreateHolidayLimit from "../../hooks/holidayLimits/useCreateHolidayLimit";
 
 interface ModalLimitUserHolidayProps {
     open: boolean;
     onClose: () => void;
 }
 
-interface UserLimitHolidayForm {
-    year: number;
-    holidayLimitType: string;
-    description: string;
-}
-
-const userLimitHolidayFormDefaultValues: UserLimitHolidayForm = {
-    year: 0,
-    holidayLimitType: "",
+const defaultValues: CreateHolidayLimit = {
+    userId: 2,
+    current: "",
+    startDate: "",
+    endDate: "",
     description: ""
 }
 
-const holidayTypes: FormSelectOption[] = [
-    {
-        label: "Urlop wypoczynkowy",
-        value: "1"
-    },
-    {
-        label: "Urlop okolicznościowy",
-        value: "2"
-    }
-]
-
-const yearLimit: FormSelectOption[] = [
-    {
-        label: "2020",
-        value: "2020"
-    },
-    {
-        label: "2021",
-        value: "2021"
-    },
-    {
-        label: "2023",
-        value: "2023"
-    }
-]
-
 const ModalLimitUserHoliday = ({open, onClose}: ModalLimitUserHolidayProps) => {
-    const {control, handleSubmit} = useForm<UserLimitHolidayForm>({
-        defaultValues: userLimitHolidayFormDefaultValues,
-    });
+    const {mutate: createHolidayLimitMutation, isSuccess} = useCreateHolidayLimit();
+    const {control, handleSubmit, setValue} = useForm<CreateHolidayLimit>({defaultValues});
 
-    const onSubmitHandler: SubmitHandler<UserLimitHolidayForm> = (data) => {
-        console.log(data);
+    useEffect(() => {
+        setValue("current", new Date(new Date().getFullYear(), 1, 1).toISOString());
+        setValue("startDate", new Date(new Date().getFullYear(), 1, 1).toISOString());
+        setValue("endDate", new Date(new Date().getFullYear(), 11, 32).toISOString());
+    }, [open])
+
+    useEffect(() => {
+        onClose();
+    }, [isSuccess]);
+
+    const onSubmitHandler: SubmitHandler<CreateHolidayLimit> = (data) => {
+        createHolidayLimitMutation(data);
     };
 
     return (
         <CustomModal open={open} onClose={onClose}>
             <Grid container spacing={2}>
-                <Grid item>
+                <Grid item xs={12}>
                     <Typography variant="h3">Dodawanie limity urlopowego</Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12}>
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
-
                         <Grid sx={{flexGrow: 1}} item container spacing={2}>
                             <Grid item xs={12}>
-                                <FormSelect name="year" label="Limit za rok" control={control}
-                                            options={yearLimit}/>
+                                <FormDate
+                                    disabled
+                                    name="current"
+                                    label="Aktualny"
+                                    control={control}
+                                />
                             </Grid>
                             <Grid item xs={12}>
-                                <FormSelect name="holidayLimitType" label="Typ urlopu" control={control}
-                                            options={holidayTypes}/>
+                                <FormDate
+                                    name="startDate"
+                                    label="Licząc od"
+                                    disabled
+                                    control={control}
+                                />
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField value={20} label="Ilość godzin" sx={{width: "100%"}}/>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField value={20} label="Ilość dni" sx={{width: "100%"}}/>
+                            <Grid item xs={12}>
+                                <FormDate
+                                    name="endDate"
+                                    label="Limit za rok"
+                                    disabled
+                                    control={control}
+                                />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -89,24 +79,24 @@ const ModalLimitUserHoliday = ({open, onClose}: ModalLimitUserHolidayProps) => {
                                     sx={{width: "100%"}}
                                 />
                             </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    gap: "10px",
+                                }}
+                            >
+                                <Button variant="contained" color="error" onClick={onClose}>
+                                    Anuluj
+                                </Button>
+                                <Button variant="contained" type="submit">
+                                    Dodaj
+                                </Button>
+                            </Grid>
                         </Grid>
                     </form>
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
-                    sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: "10px",
-                    }}
-                >
-                    <Button variant="contained" color="error" onClick={onClose}>
-                        Anuluj
-                    </Button>
-                    <Button variant="contained" type="submit">
-                        Dodaj
-                    </Button>
                 </Grid>
             </Grid>
         </CustomModal>

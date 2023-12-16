@@ -4,48 +4,44 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import React, {useMemo, useState} from "react";
 import {MRT_ColumnDef} from "material-react-table";
-import {UserContract} from "../../constants/models";
 import ModalAddEmployeeContract, {} from "../../features/modals/addEmployeeContract/ModalAddEmployeeContract";
-
-const userContractMockData: UserContract[] = [
-    {
-        type: "Zlecenie",
-        firstname: "Juzek",
-        lastname: "Wozek",
-        workingTimeType: "Pełen etat",
-        startDate: "2023-01-01",
-        endDate: "2023-01-01",
-        salary: 1234
-    }
-]
+import useGetContracts from "../../hooks/contract/useGetContracts";
+import {Contract, ContractDto} from "../../api/types/documentTypes";
+import {toDateString} from "../../utils/dateHelper";
+import {contractTypeMapper} from "../../constants/mappers";
 
 const EmployeeContracts = () => {
+    const {data: contracts} = useGetContracts(1);
     const [addContractModal, setAddContractModal] = useState<boolean>(false);
     const [editContractModal, setEditContractModal] = useState<boolean>(false);
-    const [contractToEdit, setContractToEdit] = useState<UserContract | null>(null);
+    const [contractToEdit, setContractToEdit] = useState<Contract | null>(null);
 
-    const columns = useMemo<MRT_ColumnDef<UserContract>[]>(
+    const columns = useMemo<MRT_ColumnDef<ContractDto>[]>(
         () => [
             {
-                accessorKey: "type",
-                header: "Typ"
-            },
-            {
-                accessorKey: "workingTimeType",
-                header: "Wymiar"
-            },
-            {
-                accessorKey: "startDate",
-                header: "Od"
-            },
-            {
-                accessorKey: "endDate",
-                header: "Do"
+                accessorKey: "contractType",
+                header: "Typ",
+                Cell: ({row}) => <div>{contractTypeMapper(row.original.contractType)}</div>
             },
             {
                 accessorKey: "salary",
                 header: "Wynagrodzenie"
-            }
+            },
+            {
+                accessorKey: "workingHours1",
+                header: "Wymiar",
+                Cell: ({row}) => <div>{row.original.workingHours1}/{row.original.workingHours2}</div>
+            },
+            {
+                accessorKey: "startDate",
+                header: "Od",
+                Cell: ({row}) => <div>{toDateString(row.original.startDate)}</div>
+            },
+            {
+                accessorKey: "endDate",
+                header: "Do",
+                Cell: ({row}) => <div>{row.original.endDate != null ? toDateString(row.original.endDate) : "brak"}</div>
+            },
         ],
         []
     );
@@ -78,7 +74,8 @@ const EmployeeContracts = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
-                        data={userContractMockData}
+                        enableRowActions
+                        data={contracts?.data.contracts ?? []}
                         renderRowActionMenuItems={({closeMenu, row}) => [
                             <MenuItem key="edit" onClick={() => {
                                 openAddContractModal(true)

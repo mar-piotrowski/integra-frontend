@@ -10,7 +10,7 @@ import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordR
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import {CustomListItemButton} from "../CustomListItemButton";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {RootState} from "../../store/store";
 import {set} from "../../store/sidebarSlice";
 import {add} from "../../store/collapseMenuSlice";
@@ -22,6 +22,7 @@ interface NavItemProps {
 
 const NavItem = ({item, level}: NavItemProps) => {
     const theme = useTheme();
+    const location = useLocation();
     const collapseMenusSelector = useSelector(
         (state: RootState) => state.collepseMenus.collapaseMenus
     );
@@ -29,7 +30,6 @@ const NavItem = ({item, level}: NavItemProps) => {
     const responsive = useMediaQuery(theme.breakpoints.down("lg"));
 
     const Icon = item.icon;
-    // @ts-ignore
     const itemIcon =
         item.icon != null ? (
             <Icon/>
@@ -68,6 +68,7 @@ const NavItem = ({item, level}: NavItemProps) => {
             }}
             selected={
                 collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
+                && location.pathname.includes(item.url)
             }
             onClick={() => listItemHandler(item.id)}
         >

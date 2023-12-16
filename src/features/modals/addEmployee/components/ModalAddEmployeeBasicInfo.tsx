@@ -4,9 +4,10 @@ import { Control } from "react-hook-form";
 import FormInput from "../../../../components/form/FormInput";
 import FormRadio from "../../../../components/form/FormRadio";
 import { EmployeeForm } from "../ModalAddEmployee";
+import {CreateUser} from "../../../../api/types/userTypes";
 
 interface ModalWorkerBasicInfoProps {
-	control: Control<EmployeeForm>;
+	control: Control<CreateUser>;
 }
 
 const radioSexOptions = [
@@ -39,7 +40,7 @@ const ModalAddEmployeeBasicInfo = ({ control }: ModalWorkerBasicInfoProps) => {
 				<FormInput name="email" label="Email" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="phoneNo" label="Numer telefonu" control={control} />
+				<FormInput name="phone" label="Numer telefonu" control={control} />
 			</Grid>
 			<Grid item xs={12}>
 				<FormRadio

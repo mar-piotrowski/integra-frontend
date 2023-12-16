@@ -11,4 +11,4 @@ export const toEuropeDate = (date: string) => {
     return new Date(convertedTime.format());
 }
 
-
+export const toDateString = (date: string) => new Date(date).toLocaleDateString();

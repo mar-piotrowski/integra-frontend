@@ -1,11 +1,11 @@
-import {ContractorForm} from "../ModalAddContractor";
-import {Control} from "react-hook-form";
 import React from "react";
 import {Grid} from "@mui/material";
 import FormInput from "../../../../components/form/FormInput";
+import {CreateContractorRequest} from "../../../../api/types/contractorTypes";
+import {Control} from "react-hook-form";
 
 interface ModalAddContractorLocationProps {
-    control: Control<ContractorForm>;
+    control: Control<CreateContractorRequest>;
 }
 
 const ModalAddContractorLocation = ({control}: ModalAddContractorLocationProps) => {

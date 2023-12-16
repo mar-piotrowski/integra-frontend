@@ -6,6 +6,7 @@ interface FormInputTextProps<T extends FieldValues> {
     name: Path<T>;
     label: string;
     control: Control<T>;
+    disabled?: boolean
     type?: HTMLInputTypeAttribute;
     maxLength?: number;
     onChangeInput?: (value: string | number) => void;
@@ -15,6 +16,7 @@ const FormInput = <T extends FieldValues>({
                                               name,
                                               label,
                                               control,
+                                              disabled,
                                               type = "text",
                                               maxLength,
                                               onChangeInput,
@@ -27,6 +29,7 @@ const FormInput = <T extends FieldValues>({
                 <>
                     <TextField
                         type={type}
+                        disabled={disabled}
                         helperText={error ? error.message : null}
                         error={!!error}
                         value={value}

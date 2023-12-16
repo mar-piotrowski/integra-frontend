@@ -1,24 +1,12 @@
 import {Control} from "react-hook-form";
-import {EmployeeForm} from "../ModalAddEmployee";
 import {Grid} from "@mui/material";
 import React from "react";
-import FormCheckBoxes from "../../../../components/form/FormCheckBoxes";
 import FormInput from "../../../../components/form/FormInput";
+import {CreateUser} from "../../../../api/types/userTypes";
 
 interface ModalWorkerAddressProps {
-    control: Control<EmployeeForm>;
+    control: Control<CreateUser>;
 }
-
-const addressType = [
-    {
-        label: "Adres zameldowania taki sam jak adres zamieszkania",
-        value: "1",
-    },
-    {
-        label: "Adres korespondencyjny taki sam jak adres zamieszkania",
-        value: "2",
-    },
-];
 
 const ModalAddEmployeeAddress = ({control}: ModalWorkerAddressProps) => {
     return (

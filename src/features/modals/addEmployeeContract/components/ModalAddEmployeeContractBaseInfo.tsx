@@ -1,13 +1,13 @@
 import {Control} from "react-hook-form";
 import React, {useState} from "react";
 import {Checkbox, FormControlLabel, FormGroup, Grid, TextField, Typography} from "@mui/material";
-import {AddEmployeeContractForm} from "../ModalAddEmployeeContract";
 import FormSelect, {FormSelectOption} from "../../../../components/form/FormSelect";
 import FormDate from "../../../../components/form/FormDate";
 import FormInput from "../../../../components/form/FormInput";
+import {Contract} from "../../../../api/types/documentTypes";
 
 interface ModalAddEmployeeContractBaseInfoProps {
-    control: Control<AddEmployeeContractForm>
+    control: Control<Contract>
 }
 
 const employmentWorkingTypes: FormSelectOption[] = [
@@ -28,29 +28,11 @@ const employmentWorkingTypes: FormSelectOption[] = [
 const jobPostions: FormSelectOption[] = [
     {
         label: "Programista",
-        value: 0
+        value: 1
     },
     {
         label: "Stolarz",
-        value: 1
-    }
-]
-
-const locations: FormSelectOption[] = [
-    {
-        label: "Jagiellońska 13B/188 Sosnowiec",
-        value: 0
-    }
-]
-
-const interval: FormSelectOption[] = [
-    {
-        label: "Miesięczny",
-        value: 0
-    },
-    {
-        label: "Tygodniowy",
-        value: 1
+        value: 2
     }
 ]
 
@@ -64,14 +46,14 @@ const ModalAddEmployeeContractBaseInfo = ({control}: ModalAddEmployeeContractBas
             </Grid>
             <Grid item xs={12} md={6}>
                 <FormSelect
-                    name={"employmentWorkingType"}
+                    name={"contractType"}
                     label={"Rodzaj umowy"}
                     control={control}
                     options={employmentWorkingTypes}
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormDate name={"signOnDate"} label={"Data podpisania"} control={control}/>
+                <FormDate name={"signedOnDate"} label={"Data podpisania"} control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
                 <FormDate name={"startDate"} label={"Data rozpoczęcia pracy"} control={control}/>
@@ -80,20 +62,17 @@ const ModalAddEmployeeContractBaseInfo = ({control}: ModalAddEmployeeContractBas
                 <FormDate name={"endDate"} label={"Data zwolnienia"} control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormSelect name={"jobPosition"} label={"Stanowisko"} control={control} options={jobPostions}/>
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <FormSelect name={"locationId"} label={"Miejsce pracy"} control={control} options={locations}/>
+                <FormSelect name={"jobPositionId"} label={"Stanowisko"} control={control} options={jobPostions}/>
             </Grid>
             <Grid item container spacing={1}>
                 <Grid item xs={12}>
                     <Typography variant={"subtitle1"}>Wymiar czasu pracy</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <FormInput name={"workingTimeValue1"} label={""} control={control}/>
+                    <FormInput name={"workingHours1"} label={""} control={control}/>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <FormInput name={"workingTimeValue2"} label={""} control={control}/>
+                    <FormInput name={"workingHours2"} label={""} control={control}/>
                 </Grid>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -107,9 +86,6 @@ const ModalAddEmployeeContractBaseInfo = ({control}: ModalAddEmployeeContractBas
                         <FormControlLabel control={<Checkbox onClick={() => setLowestSalary(!lowestSalary)}  />} label="Najniższe wynagrodzenie" />
                     </FormGroup>
                 </Grid>
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <FormSelect name={"salaryInterval"} label={"Interwał wypłat"} control={control} options={interval}/>
             </Grid>
         </Grid>
     )

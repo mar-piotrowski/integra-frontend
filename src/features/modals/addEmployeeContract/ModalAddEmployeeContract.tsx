@@ -8,83 +8,55 @@ import {TabContext, TabList, TabPanel} from "@mui/lab";
 import ModalAddEmployeeContractBaseInfo from "./components/ModalAddEmployeeContractBaseInfo";
 import ModalAddEmployeeContractInsurance from "./components/ModalAddEmployeeContractInsurance";
 import ModalAddEmployeeContractTax from "./components/ModalAddEmployeeContractTax";
-import {UserContract} from "../../../constants/models";
+import {Contract} from "../../../api/types/documentTypes";
+import useCreateContract from "../../../hooks/contract/useCreateContract";
 
 interface ModalAddEmployeeContract extends ModalBaseProps {
+    contract?: Contract | null;
     editContract: boolean;
-    contract?: UserContract | null;
 }
 
-export interface AddEmployeeContractForm {
-    userId: number;
-    salary: number;
-    type: string;
-    workingTimeType: string;
-    startDate: string;
-    endDate: string;
-    signOnDate: string;
-    jobFound: boolean;
-    fgsp: boolean;
-    exemptionPit: boolean;
-    companyId: number;
-    employmentDocumentType: number;
-    employmentWorkingType: number;
-    jobPosition: number;
-    locationId: number;
-    insuranceCode: number;
-    taxReliefId: number;
-    deductibleCostId: number
-    taxThresholdId: number;
-    workingTimeValue1: number;
-    workingTimeValue2: number;
-    salaryInterval: number;
-}
-
-const addEmployeeContractDefaultValues: AddEmployeeContractForm = {
+const defaultValuesForm: Contract = {
     userId: 0,
     salary: 0,
-    type: "",
-    workingTimeType: "",
+    contractType: 0,
+    workingHours1: 0,
+    workingHours2: 0,
     startDate: "",
-    endDate: "",
-    signOnDate: "",
+    endDate: null,
+    signedOnDate: null,
     jobFound: true,
     fgsp: false,
-    exemptionPit: false,
-    companyId: 0,
-    employmentDocumentType: 0,
-    employmentWorkingType: 0,
-    jobPosition: 0,
-    locationId: 0,
-    insuranceCode: 0,
-    taxReliefId: 0,
+    pitExemption: false,
+    taxRelief: false,
+    jobPositionId: 0,
+    insuranceCodeId: 0,
     deductibleCostId: 0,
-    taxThresholdId: 0,
-    workingTimeValue1: 0,
-    workingTimeValue2: 0,
-    salaryInterval: 0
 }
 
 const ModalAddEmployeeContract = ({open, onClose, editContract, contract}: ModalAddEmployeeContract) => {
-    const {control, reset, handleSubmit} = useForm<AddEmployeeContractForm>({
-        defaultValues: addEmployeeContractDefaultValues
+    const {mutate: createContractMutation} = useCreateContract();
+    const {control, reset, handleSubmit} = useForm<Contract>({
+        defaultValues: defaultValuesForm
     });
     const [value, setValue] = useState("1");
 
     useEffect(() => {
-        if(editContract && contract != null)
+        if (editContract && contract != null)
             reset(contract)
-    }, [contract]);
+    }, [contract, open]);
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
-    const onSubmitHandler: SubmitHandler<AddEmployeeContractForm> = (data) => {
+    const onSubmitHandler: SubmitHandler<Contract> = (data) => {
+        data.userId = 2;
+        createContractMutation(data);
         console.log(data);
     };
 
     const onCloseHandler = () => {
-       onClose();
-       reset(addEmployeeContractDefaultValues);
+        onClose();
+        reset(defaultValuesForm);
     }
 
     return (
@@ -114,7 +86,7 @@ const ModalAddEmployeeContract = ({open, onClose, editContract, contract}: Modal
                                 <ModalAddEmployeeContractInsurance control={control}/>
                             </TabPanel>
                             <TabPanel value={"3"}>
-                               <ModalAddEmployeeContractTax control={control} />
+                                <ModalAddEmployeeContractTax control={control}/>
                             </TabPanel>
                         </TabContext>
                         <Grid

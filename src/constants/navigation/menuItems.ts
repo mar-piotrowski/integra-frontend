@@ -1,5 +1,5 @@
 import { SvgIconComponent } from "@mui/icons-material";
-import { applicationItems } from "./applicationItems";
+import { managementNavItems } from "./managementNavItems";
 
 export interface MenuItem {
 	id: string;
@@ -14,5 +14,5 @@ export interface MenuItem {
 }
 
 export const dashboardMenu = {
-	items: [applicationItems],
+	management: [managementNavItems],
 };

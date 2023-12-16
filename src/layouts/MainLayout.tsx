@@ -8,10 +8,12 @@ import {
 } from "@mui/material";
 import React from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
-import Topbar from "../components/Topbar";
+import TopBar from "../components/TopBar";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../store/store";
 import {set} from "../store/sidebarSlice";
+import {employeePanelNavItems} from "../constants/navigation/employeePanelNavItems";
+import {managementNavItems} from "../constants/navigation/managementNavItems";
 
 const drawerWidth = 300;
 
@@ -49,13 +51,25 @@ const Main = styled("main")<MainProps>(({theme, open, mdsize}) => ({
     },
 }));
 
-const MainLayout = () => {
+export type PanelType = "employee" | "management";
+
+interface MainLayoutProps {
+    type: PanelType;
+}
+
+const MainLayout = ({type}: MainLayoutProps) => {
     const theme = useTheme();
     const sidebarSlice = useSelector((state: RootState) => state.sidebar);
     const dispatch = useDispatch();
     const responsive = useMediaQuery(theme.breakpoints.down("md"));
 
     const sidebarHandler = () => dispatch(set(!sidebarSlice.isOpen));
+
+    const chooseMenuItems = () => {
+        if(type == "employee")
+            return employeePanelNavItems;
+        return managementNavItems;
+    }
 
     return (
         <Box
@@ -67,10 +81,12 @@ const MainLayout = () => {
             <Sidebar
                 toggle={responsive ? !sidebarSlice.isOpen : sidebarSlice.isOpen}
                 setToggle={sidebarHandler}
+                items={chooseMenuItems()}
             />
-            <Topbar
+            <TopBar
                 sidebarToggle={sidebarSlice.isOpen}
                 sidebarSetToggle={sidebarHandler}
+                type={type}
             />
             <Main theme={theme} open={sidebarSlice.isOpen} mdsize={responsive}>
                 <Outlet/>

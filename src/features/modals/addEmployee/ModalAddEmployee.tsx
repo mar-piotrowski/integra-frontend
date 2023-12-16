@@ -7,55 +7,36 @@ import ModalAddEmployeeBasicInfo from "./components/ModalAddEmployeeBasicInfo";
 import ModalAddEmployeeAddress from "./components/ModalAddEmployeeAddress";
 import ModalAddEmployeeDetails from "./components/ModalAddEmployeeDetails";
 import ModalAddEmployeeBank from "./components/ModalAddEmployeeBank";
-import {BankDetails, Gender, Localization} from "../../../constants/models";
 import CustomModal from "../../../components/CustomModal";
 import {z} from "Zod";
-import {zodResolver} from "@hookform/resolvers/zod";
+import {CreateUser} from "../../../api/types/userTypes";
+import useCreateEmployee from "../../../hooks/employee/useCreateEmployee";
 
 interface ModalAddEmployeeProps {
     open: boolean;
     onClose: () => void;
 }
 
-export interface EmployeeForm {
-    firstname: string;
-    lastname: string;
-    secondName: string;
-    motherName: string;
-    fatherName: string;
-    motherLastname: string;
-    fatherLastname: string;
-    birthday: string;
-    birthPlace: string;
-    pesel: string;
-    sex: Gender;
-    email: string;
-    idCardNo: string;
-    phoneNo: string;
-    citizenship: string;
-    nip: string;
-    location: Localization;
-    bank: BankDetails;
-}
-
-const employeeFormDefaultValues: EmployeeForm = {
+const employeeFormDefaultValues: CreateUser = {
     firstname: "",
     lastname: "",
     secondName: "",
-    motherName: "",
-    fatherName: "",
+    mothername: "",
+    fathername: "",
     motherLastname: "",
     fatherLastname: "",
-    birthday: "",
-    birthPlace: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
     pesel: "",
-    sex: Gender.None,
+    sex: "",
     email: "",
-    idCardNo: "",
-    phoneNo: "",
+    identityNumber: "",
+    phone: "",
     citizenship: "",
     nip: "",
-    location: {
+    isStudent: false,
+    jobPositionId: 0,
+    locations: [{
         street: "",
         houseNo: "",
         apartmentNo: "",
@@ -67,8 +48,8 @@ const employeeFormDefaultValues: EmployeeForm = {
         province: "",
         isPrivate: true,
         isCompany: false,
-    },
-    bank: {
+    }],
+    bankDetails: {
         name: "",
         number: "",
     },
@@ -96,16 +77,17 @@ const schema = z.object({
 })
 
 const ModalAddEmployee = ({open, onClose}: ModalAddEmployeeProps) => {
+    const {mutate: createEmployeeMutation} = useCreateEmployee();
     const [value, setValue] = React.useState("1");
-    const {control, handleSubmit} = useForm<EmployeeForm>({
-        defaultValues: employeeFormDefaultValues,
-        resolver: zodResolver(schema)
+    const {control, handleSubmit} = useForm<CreateUser>({
+        defaultValues: employeeFormDefaultValues
+        // resolver: zodResolver(schema)
     });
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
-    const onSubmitHandler: SubmitHandler<EmployeeForm> = (data) => {
-        console.log(data);
+    const onSubmitHandler: SubmitHandler<CreateUser> = (data) => {
+        createEmployeeMutation(data);
     };
 
     return (

@@ -11,10 +11,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountDropdown from "../features/AccountDropdown";
 import React from "react";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import {PanelType} from "../layouts/MainLayout";
+import {
+	managementPanelAccountDropdownItems, managementPanelEmployeeRedirectItem
+} from "../constants/dropdown/managementPanelAccountDropdownItems";
+import {
+	employeePanelAccountDropdownItems,
+	employeePanelManagementRedirectItem
+} from "../constants/dropdown/employeePanelAccountDropdownItems";
 
-interface TopbarProps {
+interface TopBarProps {
 	sidebarToggle: boolean;
 	sidebarSetToggle: () => void;
+	type: PanelType
 }
 
 interface AppBarProps extends MuiAppBarProps {
@@ -39,9 +48,23 @@ const AppBar = styled(MuiAppBar, {
 	}),
 }));
 
-const Topbar = ({ sidebarToggle, sidebarSetToggle }: TopbarProps) => {
+const TopBar = ({ sidebarToggle, sidebarSetToggle, type }: TopBarProps) => {
 	const theme = useTheme();
 	const response = useMediaQuery(theme.breakpoints.down("md"));
+
+	const chooseAccountDropdownItems = () => {
+		if(type == "employee"){
+			const employeeItems = managementPanelAccountDropdownItems;
+			if(employeeItems.find(item => item.title == "Panel zarzadzania") == null)
+				employeeItems.push(employeePanelManagementRedirectItem);
+			return employeeItems;
+		}
+		const managementItems = employeePanelAccountDropdownItems;
+		if(managementItems.find(item => item.title == "Panel pracownika") == null)
+			managementItems.push(managementPanelEmployeeRedirectItem);
+		return managementItems;
+	}
+
 	return (
 		<AppBar
 			enableColorOnDark
@@ -80,10 +103,10 @@ const Topbar = ({ sidebarToggle, sidebarSetToggle }: TopbarProps) => {
 						</Typography>
 						<Typography variant="caption">Senior Engineer</Typography>
 					</Box>
-					<AccountDropdown />
+					<AccountDropdown items={chooseAccountDropdownItems()} />
 				</Box>
 			</Toolbar>
 		</AppBar>
 	);
 };
-export default Topbar;
+export default TopBar;

@@ -12,25 +12,47 @@ import {
 } from "@mui/material";
 import {MouseEvent, useState} from "react";
 import React from "react";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import {CustomListItemButton} from "../components/CustomListItemButton";
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {SvgIconComponent} from "@mui/icons-material";
 
-const AccountDropdown = () => {
+export interface AccountDropdownItem {
+    to: string;
+    title: string;
+    icon: SvgIconComponent
+}
+
+interface AccountDropdownProps {
+    items: AccountDropdownItem[]
+}
+
+const AccountDropdown = ({items}: AccountDropdownProps) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const navigate = useNavigate();
 
     const open = Boolean(anchorEl);
 
-    const handleClick = (event: MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const handleClick = (event: MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleClose = () => setAnchorEl(null);
+
+    const handleLogout = () => {
+        handleClose();
+        navigate("/logout")
+    }
+
+    const renderItems = items.map((item, index) => {
+        const Icon = item.icon;
+        return (
+            <CustomListItemButton key={index} component={Link} to={item.to} onClick={handleClose}>
+                <ListItemIcon>
+                    <Icon/>
+                </ListItemIcon>
+                <ListItemText>{item.title}</ListItemText>
+            </CustomListItemButton>
+        );
+    });
 
     return (
         <>
@@ -66,25 +88,8 @@ const AccountDropdown = () => {
                     <Typography variant="caption">Senior Engineer</Typography>
                 </Box>
                 <Divider sx={{my: 1}}/>
-                <CustomListItemButton component={Link} to="/management-panel/account" onClick={handleClose}>
-                    <ListItemIcon>
-                        <PermIdentityOutlinedIcon/>
-                    </ListItemIcon>
-                    <ListItemText>Profil</ListItemText>
-                </CustomListItemButton>
-                <ListItemButton onClick={handleClose}>
-                    <ListItemIcon>
-                        <BadgeOutlinedIcon/>
-                    </ListItemIcon>
-                    <ListItemText>Panel pracownika</ListItemText>
-                </ListItemButton>
-                <ListItemButton onClick={handleClose}>
-                    <ListItemIcon>
-                        <SettingsOutlinedIcon/>
-                    </ListItemIcon>
-                    <ListItemText>Ustawienia</ListItemText>
-                </ListItemButton>
-                <ListItemButton onClick={handleClose}>
+                {renderItems}
+                <ListItemButton onClick={handleLogout}>
                     <ListItemIcon>
                         <LogoutOutlinedIcon/>
                     </ListItemIcon>

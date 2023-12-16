@@ -7,38 +7,7 @@ import React, {useMemo, useState} from "react";
 import {MRT_ColumnDef} from "material-react-table";
 import ModalAddArticle from "../features/modals/addArticle/ModalAddArticle";
 import ButtonDropdown, {ButtonDropdownItem} from "../components/ButtonDropdown";
-
-interface Article {
-    id: number;
-    groupId: number;
-    name: string;
-    code: string;
-    type: number;
-    gtin: string;
-    measure_unit: string;
-    buyPrice: number;
-    buyCurrency: number;
-    vat: number;
-    amount: number;
-    description: string;
-}
-
-const mockArticles: Article[] = [
-    {
-        id: 1,
-        groupId: 1,
-        name: "Kubek",
-        code: "123",
-        type: 1,
-        gtin: "34123",
-        measure_unit: "szt",
-        buyPrice: 12,
-        buyCurrency: 2,
-        amount: 123,
-        vat: 23,
-        description: "szklanka"
-    }
-]
+import {ArticleDto} from "../api/types/articleTypes";
 
 const issueMenuItems: ButtonDropdownItem[] = [
     {
@@ -64,7 +33,7 @@ const receptionMenuItems: ButtonDropdownItem[] = [
 
 const Articles = () => {
     const [articleModal, setArticleModal] = useState<boolean>(false);
-    const columns = useMemo<MRT_ColumnDef<Article>[]>(
+    const columns = useMemo<MRT_ColumnDef<ArticleDto>[]>(
         () => [
             {
                 accessorKey: "id",
@@ -73,10 +42,6 @@ const Articles = () => {
             {
                 accessorKey: "name",
                 header: "Nazwa",
-            },
-            {
-                accessorKey: "groupId",
-                header: "Grupa",
             },
             {
                 accessorKey: "amount",
@@ -117,7 +82,7 @@ const Articles = () => {
                     <Grid item xs={12} sm={12} md={12}>
                         <CustomTable
                             columns={columns}
-                            data={mockArticles}
+                            data={[]}
                             renderRowActionMenuItems={() => [
                                 <MenuItem key="edit" onClick={() => console.info("Edit")}>
                                     <ListItemIcon>

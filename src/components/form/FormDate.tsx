@@ -9,12 +9,14 @@ interface FormDateProps<T extends FieldValues> {
     name: Path<T>;
     label: string;
     control: Control<T>;
+    disabled?: boolean;
 }
 
 const FormDate = <T extends FieldValues>({
                                              name,
                                              label,
                                              control,
+                                             disabled
                                          }: FormDateProps<T>) => {
     return (
         <Controller
@@ -23,6 +25,7 @@ const FormDate = <T extends FieldValues>({
             render={({field: {onChange, value}, fieldState: {error}}) => (
                 <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
                     <DatePicker
+                        disabled={disabled}
                         slotProps={{
                             textField: {
                                 error: !!error,

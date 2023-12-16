@@ -5,7 +5,7 @@ import MaterialReactTable, {
 import {MRT_Localization_PL} from "material-react-table/locales/pl";
 import React from "react";
 
-interface CustomTableProps<T extends Record<string, any> ={}>
+interface CustomTableProps<T extends Record<string, any>>
     extends MaterialReactTableProps<T> {
     data: T[];
     columns: MRT_ColumnDef<T>[];
@@ -27,7 +27,6 @@ const CustomTable = <T extends Record<string, any>>({
             localization={MRT_Localization_PL}
             enableDensityToggle={false}
             enableFullScreenToggle={false}
-            enableRowActions
             positionActionsColumn="last"
             muiSearchTextFieldProps={{
                 sx: {

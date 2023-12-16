@@ -2,17 +2,28 @@ import {Button, Grid, ListItemIcon, ListItemText, MenuItem} from "@mui/material"
 import React, {useMemo, useState} from "react";
 import ShowAmount from "../components/ShowAmount";
 import {MRT_ColumnDef} from "material-react-table";
-import {Contractor} from "../constants/models";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import CustomTable from "../components/CustomTable";
-import ModalAddContractor from "../features/modals/addContractor/ModalAddContractor";
+import ContactorModal from "../features/modals/addContractor/ContactorModal";
+import useGetContractors from "../hooks/contractor/useGetContractors";
+import {ContractorDto, CreateContractorRequest} from "../api/types/contractorTypes";
 
-const mockContractors: Contractor[] = [];
+export type UpdateContractor = {
+    id: number;
+    contractor: CreateContractorRequest;
+}
+
 const Contractors = () => {
+    const {data: contractors} = useGetContractors();
     const [contractorModalOpen, setContractorModalOpen] = useState(false);
-    const columns = useMemo<MRT_ColumnDef<Contractor>[]>(
+    const [contractorToEdit, setContractorToEdit] = useState<UpdateContractor | null>(null);
+    const columns = useMemo<MRT_ColumnDef<ContractorDto>[]>(
         () => [
+            {
+                accessorKey: "id",
+                header: "Id"
+            },
             {
                 accessorKey: "fullName",
                 header: "Nazwa"
@@ -29,7 +40,10 @@ const Contractors = () => {
         []
     );
     const openModalHandler = () => setContractorModalOpen(true);
-    const closeModalHandler = () => setContractorModalOpen(false);
+    const closeModalHandler = () => {
+        setContractorModalOpen(false);
+        setContractorToEdit(null);
+    }
 
     return (
         <>
@@ -49,9 +63,16 @@ const Contractors = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
-                        data={mockContractors}
-                        renderRowActionMenuItems={() => [
-                            <MenuItem key="edit" onClick={() => console.info("Edit")}>
+                        data={contractors?.data.contractors ?? []}
+                        renderRowActionMenuItems={({row, closeMenu}) => [
+                            <MenuItem key="edit" onClick={() => {
+                                openModalHandler();
+                                setContractorToEdit({
+                                    id: row.original.id,
+                                    contractor: row.original
+                                });
+                                closeMenu();
+                            }}>
                                 <ListItemIcon>
                                     <EditOutlinedIcon/>
                                 </ListItemIcon>
@@ -67,7 +88,7 @@ const Contractors = () => {
                     />
                 </Grid>
             </Grid>
-            <ModalAddContractor open={contractorModalOpen} onClose={closeModalHandler}/>
+            <ContactorModal open={contractorModalOpen} onClose={closeModalHandler} contractorUpdate={contractorToEdit}/>
         </>
     );
 }

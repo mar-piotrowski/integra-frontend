@@ -3,10 +3,10 @@ import FormDate from "../../../../components/form/FormDate";
 import FormInput from "../../../../components/form/FormInput";
 import React from "react";
 import { Control } from "react-hook-form";
-import { EmployeeForm } from "../ModalAddEmployee";
+import { CreateUser } from "../../../../api/types/userTypes";
 
 interface ModalWorkerDetailsProps {
-	control: Control<EmployeeForm>;
+	control: Control<CreateUser>;
 }
 
 const ModalAddEmployeeDetails = ({ control }: ModalWorkerDetailsProps) => {
@@ -14,19 +14,19 @@ const ModalAddEmployeeDetails = ({ control }: ModalWorkerDetailsProps) => {
 		<Grid container spacing={2}>
 			<Grid item xs={12} md={6}>
 				<FormInput
-					name="birthPlace"
+					name="placeOfBirth"
 					label="Miejsce urodzenia"
 					control={control}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormDate name="birthday" label="Data urodzenie" control={control} />
+				<FormDate name="dateOfBirth" label="Data urodzenie" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="motherName" label="Imię matki" control={control} />
+				<FormInput name="mothername" label="Imię matki" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="fatherName" label="Imię ojca" control={control} />
+				<FormInput name="fathername" label="Imię ojca" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<FormInput
@@ -46,7 +46,7 @@ const ModalAddEmployeeDetails = ({ control }: ModalWorkerDetailsProps) => {
 				<FormInput name="citizenship" label="Obywatelstwo" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="idCardNo" label="Numer dowodu" control={control} />
+				<FormInput name="identityNumber" label="Numer dowodu" control={control} />
 			</Grid>
 		</Grid>
 	);

@@ -1,15 +1,19 @@
 import {Grid} from "@mui/material"
-import {AddEmployeeContractForm} from "../ModalAddEmployeeContract";
 import {Control} from "react-hook-form";
 import React from "react";
 import FormSelect, {FormSelectOption} from "../../../../components/form/FormSelect";
 import FormCheckBox from "../../../../components/form/FormCheckBox";
+import {Contract} from "../../../../api/types/documentTypes";
 
 interface ModalAddEmployeeContractInsuranceProps {
-    control: Control<AddEmployeeContractForm>;
+    control: Control<Contract>;
 }
 
 const insuranceCodes: FormSelectOption[] = [
+    {
+        label: "Wybierz",
+        value: 0
+    },
     {
         label: "01 10 pracownik podlegający ubezpieczeniu społecznemy i ubezpieczeniu zdrowotnemu",
         value: 1
@@ -21,7 +25,7 @@ const ModalAddEmployeeContractInsurance = ({control}: ModalAddEmployeeContractIn
         <Grid sx={{flexGrow: 1}} item container spacing={1}>
             <Grid item xs={12}>
                 <FormSelect
-                    name={"insuranceCode"}
+                    name={"insuranceCodeId"}
                     label={"Kod tytułu ubezpieczenia"}
                     control={control}
                     options={insuranceCodes}/>

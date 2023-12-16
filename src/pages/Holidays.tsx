@@ -6,44 +6,25 @@ import ShowAmount from "../components/ShowAmount";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 import {MRT_ColumnDef} from "material-react-table";
-import {Person, mockData} from "./Employees";
-
-interface PersonHoliday {
-    firstname: string;
-    lastname: string;
-    email: string;
-    status: string;
-    position: string;
-    workingType: string;
-}
+import {UserDto} from "../api/types/userTypes";
 
 const Holidays = () => {
-    const columns = useMemo<MRT_ColumnDef<Person>[]>(
+    const columns = useMemo<MRT_ColumnDef<UserDto>[]>(
         () => [
             {
-                accessorKey: "name.firstName",
+                accessorKey: "firstname",
                 header: "First Name",
                 size: 150,
             },
             {
-                accessorKey: "name.lastName",
+                accessorKey: "lastname",
                 header: "Last Name",
                 size: 150,
             },
             {
-                accessorKey: "address",
-                header: "Address",
+                accessorKey: "email",
+                header: "Email",
                 size: 200,
-            },
-            {
-                accessorKey: "city",
-                header: "City",
-                size: 150,
-            },
-            {
-                accessorKey: "state",
-                header: "State",
-                size: 150,
             },
         ],
         []
@@ -65,7 +46,7 @@ const Holidays = () => {
                     <Grid item xs={12} sm={12} md={12}>
                         <CustomTable
                             columns={columns}
-                            data={mockData}
+                            data={[]}
                             enableSelectAll
                             renderRowActionMenuItems={() => [
                                 <MenuItem key="edit" onClick={() => console.info("Edit")}>

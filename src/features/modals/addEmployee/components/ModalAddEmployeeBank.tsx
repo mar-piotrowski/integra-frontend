@@ -3,9 +3,10 @@ import { Control } from "react-hook-form";
 import FormInput from "../../../../components/form/FormInput";
 import { EmployeeForm } from "../ModalAddEmployee";
 import React from "react";
+import { CreateUser } from "../../../../api/types/userTypes";
 
 interface ModalWorkerBankProps {
-	control: Control<EmployeeForm>;
+	control: Control<CreateUser>;
 }
 
 const ModalAddEmployeeBank = ({ control }: ModalWorkerBankProps) => {

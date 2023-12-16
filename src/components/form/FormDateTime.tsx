@@ -10,13 +10,16 @@ interface FormDateTimeProps<T extends FieldValues> {
     name: Path<T>;
     label: string;
     control: Control<T>;
+    disabled?: boolean
 }
 
 const FormDateTime = <T extends FieldValues>({
                                                  name,
                                                  label,
-                                                 control
+                                                 control,
+                                                 disabled
                                              }: FormDateTimeProps<T>) => {
+
     return (
         <Controller
             name={name}
@@ -30,6 +33,7 @@ const FormDateTime = <T extends FieldValues>({
                         components={['TimePicker']}
                     >
                         <DateTimePicker
+                            disabled={disabled}
                             sx={{
                                 width: "100%"
                             }}

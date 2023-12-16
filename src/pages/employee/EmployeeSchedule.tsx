@@ -6,7 +6,11 @@ import React, {createRef, useState} from "react";
 import {DateSelectArg, EventClickArg, EventContentArg} from "@fullcalendar/core";
 import CalendarAddEventModal from "../../features/modals/CalendarAddEventModal";
 
-const EmployeeWorkingPlan = () => {
+interface EmployeeScheduleProps {
+    editable: boolean
+}
+
+const EmployeeSchedule = ({editable}: EmployeeScheduleProps) => {
     const [addEventModal, setAddEventModal] = useState(false);
     const [eventInfo, setEventInfo] = useState<DateSelectArg | null>(null);
     const [eventToEdit, setEventToEdit] = useState<EventClickArg | null>(null);
@@ -89,4 +93,4 @@ const EmployeeWorkingPlan = () => {
     )
 }
 
-export default EmployeeWorkingPlan;
+export default EmployeeSchedule;

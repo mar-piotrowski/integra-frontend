@@ -9,21 +9,22 @@ import {
 
 import NavGroup from "./NavGroup";
 import React from "react";
-import { dashboardMenu } from "../../constants/navigation/menuItems";
+import {MenuItem} from "../../constants/navigation/menuItems";
 import Logo from "../../assets/Logo";
 
 interface SidebarProps {
 	toggle: boolean;
 	setToggle: () => void;
+	items: MenuItem;
 }
 
-const Sidebar = ({ toggle, setToggle }: SidebarProps) => {
+const Sidebar = ({ toggle, setToggle, items}: SidebarProps) => {
 	const theme = useTheme();
 	const responsive = useMediaQuery(theme.breakpoints.up("md"));
 	const drawerWidth = 300;
 
-	const container =
-		window !== undefined ? () => window.document.body : undefined;
+	// const container =
+	// 	window !== undefined ? () => window.document.body : undefined;
 
 	return (
 		<Box component="nav">
@@ -63,7 +64,7 @@ const Sidebar = ({ toggle, setToggle }: SidebarProps) => {
 						INTEGRA
 					</Typography>
 				</Toolbar>
-				<NavGroup item={dashboardMenu.items[0]} />
+				<NavGroup item={items} />
 			</Drawer>
 		</Box>
 	);

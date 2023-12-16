@@ -10,21 +10,22 @@ import theme from "./configuration/theme/theme";
 import React from "react";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {ReactQueryDevtools} from "react-query/devtools";
 
-const queryClient = new QueryClient();
-
+export const queryClient = new QueryClient();
 const App = () => {
     return (
         <>
-            <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
-                    <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline/>
                         <RouterProvider router={router}/>
-                    </QueryClientProvider>
-                </ThemeProvider>
-            </StyledEngineProvider>
-            <ToastContainer/>
+                    </ThemeProvider>
+                </StyledEngineProvider>
+                <ToastContainer/>
+                <ReactQueryDevtools initialIsOpen={true}/>
+            </QueryClientProvider>
         </>
     );
 };

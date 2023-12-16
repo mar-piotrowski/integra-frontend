@@ -2,10 +2,10 @@ import {Grid} from "@mui/material";
 import {Control} from "react-hook-form";
 import FormInput from "../../../../components/form/FormInput";
 import React from "react";
-import {ContractorForm} from "../ModalAddContractor";
+import {CreateContractorRequest} from "../../../../api/types/contractorTypes";
 
 interface ModalAddContractorPaymentProps {
-    control: Control<ContractorForm>;
+    control: Control<CreateContractorRequest>;
 }
 
 const ModalAddContractorPayment = ({control}: ModalAddContractorPaymentProps) => {

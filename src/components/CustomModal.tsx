@@ -28,10 +28,9 @@ const CustomModal = ({ open, onClose, children }: CustomModalProps) => {
 			open={open}
 			onClose={onClose}
 			keepMounted
-			closeAfterTransition
 			slotProps={{
 				backdrop: {
-					timeout: 200,
+					timeout: 100,
 				},
 			}}
 			aria-labelledby="transition-modal-title"

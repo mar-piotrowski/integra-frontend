@@ -8,7 +8,10 @@ import {MRT_ColumnDef} from "material-react-table";
 import ModalArrangeUserAbsent from "../../features/modals/ModalArrangeUserAbsent";
 import {UserAbsent, UserAbsentHistory} from "../../constants/models";
 import ModalLimitUserHoliday from "../../features/modals/ModalLimitUserHoliday";
-const mockLimit: UserAbsent[] = [
+import { HolidayLimit } from "../../api/types/documentTypes";
+import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
+
+export const mockLimit: UserAbsent[] = [
     {
         userId: 1,
         year: 2023,
@@ -20,7 +23,7 @@ const mockLimit: UserAbsent[] = [
     }
 ]
 
-const mockArrange: UserAbsentHistory[] = [
+export const mockArrange: UserAbsentHistory[] = [
     {
         userId: 1,
         holidayType: "Wypoczynkowy",
@@ -31,27 +34,28 @@ const mockArrange: UserAbsentHistory[] = [
     }
 ]
 
-
-
 const EmployeeAbsence = () => {
+    const {data: holidayLimits} = useGetHolidayLimits();
     const [limitHolidayModal, setLimitHolidayModal] = useState<boolean>(false);
     const [arrangeAbsentModal, setArrangeAbsentModal] = useState<boolean>(false);
-    const columnsLimitHoliday = useMemo<MRT_ColumnDef<UserAbsent>[]>(
+
+    const columnsLimitHoliday = useMemo<MRT_ColumnDef<HolidayLimit>[]>(
         () => [
             {
-                accessorKey: "year",
+                accessorKey: "current",
                 header: "Rok",
+                Cell: ({row}) => <div>{new Date(row.original.current).getFullYear()}</div>
             },
             {
-                accessorKey: "days",
+                accessorKey: "availableDays",
                 header: "Dostępne",
             },
             {
-                accessorKey: "days_used",
+                accessorKey: "usedDays",
                 header: "Wykorzystane",
             },
             {
-                accessorKey: "days_moved",
+                accessorKey: "mergedDays",
                 header: "Przeniesione",
             },
         ],
@@ -103,7 +107,7 @@ const EmployeeAbsence = () => {
                     <Grid item xs={12}>
                         <CustomTable
                             columns={columnsLimitHoliday}
-                            data={mockLimit}
+                            data={holidayLimits ?? []}
                         />
                     </Grid>
                     <Grid item xs={12}>

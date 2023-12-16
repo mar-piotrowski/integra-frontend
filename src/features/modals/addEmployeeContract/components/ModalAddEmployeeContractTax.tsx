@@ -3,10 +3,10 @@ import React from "react";
 import FormSelect, {FormSelectOption} from "../../../../components/form/FormSelect";
 import FormCheckBox from "../../../../components/form/FormCheckBox";
 import {Control} from "react-hook-form";
-import {AddEmployeeContractForm} from "../ModalAddEmployeeContract";
+import {Contract} from "../../../../api/types/documentTypes";
 
 interface ModalAddEmployeeContractTax {
-    control: Control<AddEmployeeContractForm>;
+    control: Control<Contract>;
 }
 
 const salaryCosts: FormSelectOption[] = [
@@ -27,7 +27,7 @@ const ModalAddEmployeeContractTax = ({control}: ModalAddEmployeeContractTax) => 
                 <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={salaryCosts}/>
             </Grid>
             <Grid item xs={12}>
-               <FormCheckBox name={"exemptionPit"} label={"Zwolnienie podatkowe"} control={control} />
+               <FormCheckBox name={"pitExemption"} label={"Zwolnienie podatkowe"} control={control} />
             </Grid>
         </Grid>
     )

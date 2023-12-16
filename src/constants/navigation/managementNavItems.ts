@@ -1,9 +1,9 @@
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import WarehouseOutlinedIcon from "@mui/icons-material/WarehouseOutlined";
 import TopicOutlinedIcon from '@mui/icons-material/TopicOutlined';
-import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
+import {MenuItem} from "./menuItems";
 
-export const applicationItems = {
+export const managementNavItems: MenuItem= {
     id: "pages",
     title: "Menu",
     type: "group",
@@ -42,13 +42,6 @@ export const applicationItems = {
                     url: "/management-panel/contracts",
                     target: true,
                 },
-                {
-                    id: "paymentList",
-                    title: "Wypłaty",
-                    type: "item",
-                    url: "/management-panel/salaries",
-                    target: true
-                }
             ],
         },
         {
@@ -65,13 +58,6 @@ export const applicationItems = {
                     url: "/management-panel/contractors",
                     target: true
                 },
-                {
-                    id: "invoices",
-                    title: "Faktury",
-                    type: "item",
-                    url: "/management-panel/invoices",
-                    target: true
-                }
             ]
         },
         {
@@ -88,29 +74,7 @@ export const applicationItems = {
                     url: "/management-panel/articles",
                     target: true,
                 },
-                {
-                    id: "stocks",
-                    title: "Zamowienia",
-                    type: "item",
-                    url: "/management-panel/articles",
-                    target: true,
-                },
-                {
-                    id: "stocks",
-                    title: "Magazyny",
-                    type: "item",
-                    url: "/management-panel/articles",
-                    target: true,
-                },
             ],
         },
-        {
-            id: "bank",
-            title: "Bank",
-            type: "collapse",
-            url: "",
-            icon: SavingsOutlinedIcon,
-            children: []
-        }
     ],
 };

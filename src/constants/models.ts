@@ -6,6 +6,13 @@ export const enum Gender {
 
 export const vats = [23, 8, 5, 0];
 
+export interface UserWorkingTime {
+    date: string;
+    start: string;
+    end: string;
+    hours: number;
+}
+
 export interface UserAbsent {
     userId: number;
     year: number;
@@ -117,18 +124,18 @@ export interface DocumentArticle {
     totalPriceWithTax: number;
 }
 
-export interface Localization {
+export interface localization {
     street: string;
-    houseNo: string;
-    apartmentNo: string;
-    postalCode: string;
+    houseno: string;
+    apartmentno: string;
+    postalcode: string;
     city: string;
     country: string;
     commune: string;
     district: string;
     province: string;
-    isPrivate: boolean;
-    isCompany: boolean;
+    isprivate: boolean;
+    iscompany: boolean;
 }
 
 export interface BankDetails {
