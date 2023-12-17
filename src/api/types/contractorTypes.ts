@@ -1,11 +1,11 @@
-import {BankDetails} from "./bankDetailsTypes";
-import {Location} from "./locationTypes";
+import { BankDetails } from "./bankDetailsTypes";
+import { LocationDto as LocationDto } from "./locationTypes";
 
 export type CreateContractorRequest = {
     fullName: string;
     shortName: string;
     representative: string;
-    location: Location;
+    location: LocationDto;
     nip: string;
     phone: string;
     email: string;
@@ -17,7 +17,7 @@ export type ContractorDto = {
     fullName: string;
     shortName: string;
     representative: string;
-    location: Location;
+    location: LocationDto;
     nip: string;
     phone: string;
     email: string;

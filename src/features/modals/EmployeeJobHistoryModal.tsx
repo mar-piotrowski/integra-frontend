@@ -1,13 +1,15 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import CustomModal from "../../components/CustomModal";
-import {Button, Grid, Typography} from "@mui/material";
-import {SubmitHandler, useForm} from "react-hook-form";
+import { Button, Grid, Typography } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
 import FormDate from "../../components/form/FormDate";
 import FormInput from "../../components/form/FormInput";
-import {ModalBaseProps} from "../../interfaces/modal";
-import {JobHistory, JobHistoryDto} from "../../api/types/documentTypes";
+import { ModalBaseProps } from "../../interfaces/modal";
+import { JobHistory, JobHistoryDto } from "../../api/types/documentTypes";
 import useCreateJobHistory from "../../hooks/workHistory/useCreateJobHistory";
 import useUpdateJobHistory from "../../hooks/workHistory/useUpdateJobHistory";
+import { decodeToken } from "../../utils/authUtils";
+import useAuth from "../../hooks/auth/useAuth";
 
 interface EmployeeWorkHistoryModalProps extends ModalBaseProps {
     jobHistory?: JobHistoryDto | null;
@@ -20,10 +22,11 @@ const employeeSchoolHistoryDefaultValues: JobHistory = {
     endDate: ""
 };
 
-const EmployeeJobHistoryModal = ({open, onClose, jobHistory}: EmployeeWorkHistoryModalProps) => {
-    const {mutate: createJobHistoryMutation, isSuccess: createSuccess, reset: createReset} = useCreateJobHistory();
-    const {mutate: updateJobHistoryMutation, isSuccess: updateSuccess, reset: updateReset} = useUpdateJobHistory();
-    const {handleSubmit, reset, control} = useForm<JobHistory>({
+const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHistoryModalProps) => {
+    const { mutate: createJobHistoryMutation, isSuccess: createSuccess, reset: createReset } = useCreateJobHistory();
+    const { mutate: updateJobHistoryMutation, isSuccess: updateSuccess, reset: updateReset } = useUpdateJobHistory();
+    const { auth } = useAuth();
+    const { handleSubmit, reset, control } = useForm<JobHistory>({
         defaultValues: employeeSchoolHistoryDefaultValues
     });
 
@@ -41,12 +44,12 @@ const EmployeeJobHistoryModal = ({open, onClose, jobHistory}: EmployeeWorkHistor
         if (jobHistory != null) {
             updateJobHistoryMutation({
                 jobHistoryId: jobHistory.id,
-                jobHistory: {...data}
+                jobHistory: { ...data }
             });
             return;
         }
         createJobHistoryMutation({
-            userId: 2,
+            userId: auth?.userId!,
             ...data
         });
     }
@@ -69,16 +72,16 @@ const EmployeeJobHistoryModal = ({open, onClose, jobHistory}: EmployeeWorkHistor
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid item container spacing={2}>
                             <Grid item xs={12} md={6}>
-                                <FormInput name={"companyName"} label={"Nazwa firmy"} control={control}/>
+                                <FormInput name={"companyName"} label={"Nazwa firmy"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormInput name={"position"} label={"Stanowisko"} control={control}/>
+                                <FormInput name={"position"} label={"Stanowisko"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"startDate"} label={"Data rozpoczęcia"} control={control}/>
+                                <FormDate name={"startDate"} label={"Data rozpoczęcia"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"endDate"} label={"Data zakończenia"} control={control}/>
+                                <FormDate name={"endDate"} label={"Data zakończenia"} control={control} />
                             </Grid>
                             <Grid
                                 item

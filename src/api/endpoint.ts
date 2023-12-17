@@ -6,6 +6,8 @@ const endpoint = {
     schoolHistory: "school-histories",
     contracts: "contracts",
     holidayLimits: "holiday-limits",
-    articles: "articles"
+    articles: "articles",
+    jobPositions: "job-positions"
 }
+
 export default endpoint;

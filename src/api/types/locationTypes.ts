@@ -1,4 +1,4 @@
-export type Location = {
+export type LocationDto = {
     street: string,
     houseNo: string,
     apartmentNo: string,

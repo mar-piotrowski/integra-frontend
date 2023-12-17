@@ -1,17 +1,19 @@
-import React, {useMemo, useState} from "react";
-import {Button, Grid, ListItemIcon, ListItemText, MenuItem} from "@mui/material";
+import React, { useMemo, useState } from "react";
+import { Button, Grid, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import CustomTable from "../../components/CustomTable";
-import {MRT_ColumnDef} from "material-react-table";
-import {JobHistoryDto} from "../../api/types/documentTypes";
+import { MRT_ColumnDef } from "material-react-table";
+import { JobHistoryDto } from "../../api/types/documentTypes";
 import EmployeeJobHistoryModal from "../../features/modals/EmployeeJobHistoryModal";
-import {toDateString} from "../../utils/dateHelper";
+import { toDateString } from "../../utils/dateHelper";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DeleteJobHistoryDialog from "../../features/dialog/DeleteJobHistoryDialog";
 import useGetJobHistories from "../../hooks/workHistory/useGetJobHistories";
+import useAuth from "../../hooks/auth/useAuth";
 
 const EmployeeJobHistoryTable = () => {
-    const {data: jobHistories} = useGetJobHistories(2);
+    const { auth } = useAuth();
+    const { data: jobHistories } = useGetJobHistories(auth?.userId);
     const [jobHistoryToEdit, setJobHistoryToEdit] = useState<JobHistoryDto | null>(null);
     const [workHistoryModal, setWorkHistoryModal] = useState<boolean>(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -40,12 +42,12 @@ const EmployeeJobHistoryTable = () => {
             {
                 accessorKey: "startDate",
                 header: "Od",
-                Cell: ({row}) => <div>{toDateString(row.original.startDate)}</div>
+                Cell: ({ row }) => <div>{toDateString(row.original.startDate)}</div>
             },
             {
                 accessorKey: "endDate",
                 header: "Do",
-                Cell: ({row}) => <div>{toDateString(row.original.endDate)}</div>
+                Cell: ({ row }) => <div>{toDateString(row.original.endDate)}</div>
             }
         ],
         []
@@ -63,14 +65,14 @@ const EmployeeJobHistoryTable = () => {
                         columns={columns}
                         data={jobHistories?.data ?? []}
                         enableRowActions
-                        renderRowActionMenuItems={({closeMenu, row}) => [
+                        renderRowActionMenuItems={({ closeMenu, row }) => [
                             <MenuItem key="edit" onClick={() => {
                                 setJobHistoryToEdit(row.original);
                                 handleOpenModal();
                                 closeMenu();
                             }}>
                                 <ListItemIcon>
-                                    <EditOutlinedIcon/>
+                                    <EditOutlinedIcon />
                                 </ListItemIcon>
                                 <ListItemText>Edytuj</ListItemText>
                             </MenuItem>,
@@ -80,7 +82,7 @@ const EmployeeJobHistoryTable = () => {
                                 closeMenu();
                             }}>
                                 <ListItemIcon>
-                                    <DeleteOutlineOutlinedIcon/>
+                                    <DeleteOutlineOutlinedIcon />
                                 </ListItemIcon>
                                 <ListItemText>Usuń</ListItemText>
                             </MenuItem>,
