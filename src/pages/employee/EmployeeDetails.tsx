@@ -1,169 +1,71 @@
 import React from "react";
-import {Avatar, Box, Grid, Typography} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
+import useGetEmployee from "../../hooks/employee/useGetEmployee";
+import useAuth from "../../hooks/auth/useAuth";
+import ProfilePresentation from "../../components/ProfilePresentation";
+import TextWithLabel from "../../components/TextWithLabel";
+import { LocationDto } from "../../api/types/locationTypes";
 
 const EmployeeDetails = () => {
+    const { auth } = useAuth();
+    const { data: employee } = useGetEmployee(auth!.userId);
+
+    const userLocations = employee?.locations?.map((location: LocationDto) =>
+        <Box sx={{ display: "flex", margin: "10px 0 0 8px", gap: "20px" }}>
+            <TextWithLabel label="Państwo" text={location.country} />
+            <TextWithLabel label="Miasto" text={location.city} />
+            <TextWithLabel label="Ulica" text={location.street} />
+            <TextWithLabel label="Numer mieszkania" text={location.houseNo} />
+            <TextWithLabel label="Numer mieszkania" text={location.houseNo} />
+        </Box>
+    );
+
     return (
-        <Grid container spacing={4}>
-            <Grid item xs={12}>
-                <Box sx={{display: "flex"}}>
-                    <Avatar sx={{width: 80, height: 80}}/>
-                    <Box sx={{marginLeft: "20px"}}>
-                        <Typography variant="h3">Marcin Piotrowski</Typography>
-                        <Typography variant="subtitle1">Senior engineer</Typography>
-                        <Typography variant="subtitle1">Sosnowiec, Poland</Typography>
-                    </Box>
-                </Box>
-            </Grid>
+        <Grid container spacing={2}>
+            <ProfilePresentation
+                name={`${employee?.firstname} ${employee?.lastname}`}
+                position={`Stanowisko: ${employee?.jobPosition ?? "Nie przypisano"}`}
+            />
             <Grid item container spacing={1}>
                 <Grid item xs={12}>
                     <Typography variant="h4">Informacje Personalne</Typography>
                 </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Imię</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Nazwisko</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Piotrowski</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Email</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin@gmal.com</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Telefon</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">+48 123123123</Typography>
-                    </Grid>
-                </Grid>
+                <Box sx={{ display: "flex", margin: "10px 0 0 8px", gap: "20px" }}>
+                    <TextWithLabel label={"Imię"} text={employee?.firstname} />
+                    <TextWithLabel label={"Drugie imię"} text={
+                        employee?.secondName == null || employee?.secondName == ""
+                            ? "Brak"
+                            : employee?.secondName}
+                    />
+                    <TextWithLabel label={"Nazwisko"} text={employee?.lastname} />
+                </Box>
             </Grid>
             <Grid item container spacing={1}>
                 <Grid item xs={12}>
-                    <Typography variant="h4">Dane osobowe</Typography>
+                    <Typography variant="h4">Dane Kontaktowe</Typography>
                 </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Imię</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Nazwisko</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Piotrowski</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Email</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin@gmal.com</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Telefon</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">+48 123123123</Typography>
-                    </Grid>
-                </Grid>
+                <Box sx={{ display: "flex", margin: "10px 0 0 8px", gap: "20px" }}>
+                    <TextWithLabel label="Email" text={employee?.email} />
+                    <TextWithLabel label={"Telefon"} text={employee?.phone ?? "123"} />
+                </Box>
             </Grid>
             <Grid item container spacing={1}>
                 <Grid item xs={12}>
-                    <Typography variant="h4">Dane szczegołowe</Typography>
+                    <Typography variant="h4">Dane Adresowe</Typography>
                 </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Imię</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Nazwisko</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Piotrowski</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Email</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin@gmal.com</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Telefon</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">+48 123123123</Typography>
-                    </Grid>
-                </Grid>
+                <Box sx={{ display: "flex", margin: "10px 0 0 8px", gap: "20px" }}>
+                    {userLocations?.length == 0 ? "Brak" : userLocations}
+                </Box>
             </Grid>
             <Grid item container spacing={1}>
                 <Grid item xs={12}>
                     <Typography variant="h4">Numery Identyfikacyjne</Typography>
                 </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Imię</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Nazwisko</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Piotrowski</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Email</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">Marcin@gmal.com</Typography>
-                    </Grid>
-                </Grid>
-                <Grid item container xs={10}>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle2">Telefon</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="subtitle1">+48 123123123</Typography>
-                    </Grid>
-                </Grid>
+                <Box sx={{ display: "flex", margin: "10px 0 0 8px", gap: "20px" }}>
+                    <TextWithLabel label="Numer dowodu" text={employee?.identityNumber ?? "Brak"} />
+                </Box>
             </Grid>
         </Grid>
-
     )
 };
 

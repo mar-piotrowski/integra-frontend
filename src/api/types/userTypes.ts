@@ -1,5 +1,5 @@
-import {BankDetails} from "../../constants/models";
-import {Location} from "./locationTypes";
+import { BankDetails } from "../../constants/models";
+import { LocationDto } from "./locationTypes";
 
 export type UserId = {
     userId: number
@@ -24,7 +24,7 @@ export type CreateUser = {
     citizenship: string;
     nip: string;
     isStudent: boolean;
-    locations: Location[];
+    locations: LocationDto[];
     bankDetails: BankDetails;
 };
 
@@ -34,5 +34,5 @@ export type UserDto = {
     lastname: string;
     email: string;
     jobPosition?: string;
-    locations: Location[];
+    locations: LocationDto[];
 }

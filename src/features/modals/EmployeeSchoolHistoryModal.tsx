@@ -1,14 +1,15 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import CustomModal from "../../components/CustomModal";
-import {ModalBaseProps} from "../../interfaces/modal";
-import {Button, Grid, Typography} from "@mui/material";
-import {SubmitHandler, useForm} from "react-hook-form";
+import { ModalBaseProps } from "../../interfaces/modal";
+import { Button, Grid, Typography } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
 import FormInput from "../../components/form/FormInput";
 import FormDate from "../../components/form/FormDate";
-import FormSelect, {FormSelectOption} from "../../components/form/FormSelect";
-import {SchoolHistory, SchoolHistoryDto} from "../../api/types/documentTypes";
+import FormSelect, { FormSelectOption } from "../../components/form/FormSelect";
+import { SchoolHistory, SchoolHistoryDto } from "../../api/types/documentTypes";
 import useCreateSchoolHistory from "../../hooks/schoolHistory/useCreateSchoolHistory";
 import useUpdateSchoolHistory from "../../hooks/schoolHistory/useUpdateSchoolHistory";
+import useAuth from "../../hooks/auth/useAuth";
 
 interface EmployeeSchoolHistoryModalProps extends ModalBaseProps {
     schoolHistory?: SchoolHistoryDto | null;
@@ -42,14 +43,15 @@ const schoolLevelOptions: FormSelectOption[] = [
     }
 ]
 
-const EmployeeSchoolHistoryModal = ({open, onClose, schoolHistory}: EmployeeSchoolHistoryModalProps) => {
-    const {mutate: createSchoolHistoryMutation, isSuccess: createSuccess, reset: createReset} = useCreateSchoolHistory();
-    const {mutate: updateSchoolHistoryMutation, isSuccess: updateSuccess, reset: updateReset} = useUpdateSchoolHistory();
-    const {handleSubmit, reset, control} = useForm<SchoolHistory>({defaultValues: employeeSchoolHistoryDefaultValues});
+const EmployeeSchoolHistoryModal = ({ open, onClose, schoolHistory }: EmployeeSchoolHistoryModalProps) => {
+    const { mutate: createSchoolHistoryMutation, isSuccess: createSuccess, reset: createReset } = useCreateSchoolHistory();
+    const { mutate: updateSchoolHistoryMutation, isSuccess: updateSuccess, reset: updateReset } = useUpdateSchoolHistory();
+    const { handleSubmit, reset, control } = useForm<SchoolHistory>({ defaultValues: employeeSchoolHistoryDefaultValues });
+    const { auth } = useAuth();
 
     useEffect(() => {
         if (schoolHistory != null)
-            reset({...schoolHistory})
+            reset({ ...schoolHistory })
         if (createSuccess || updateSuccess) {
             updateReset();
             createReset();
@@ -62,12 +64,12 @@ const EmployeeSchoolHistoryModal = ({open, onClose, schoolHistory}: EmployeeScho
         if (schoolHistory != null) {
             updateSchoolHistoryMutation({
                 schoolHistoryId: schoolHistory.id,
-                schoolHistory: {...data}
+                schoolHistory: { ...data }
             })
             return;
         }
         createSchoolHistoryMutation({
-            userId: 2,
+            userId: auth?.userId!,
             ...data
         });
     }
@@ -90,7 +92,7 @@ const EmployeeSchoolHistoryModal = ({open, onClose, schoolHistory}: EmployeeScho
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid item container spacing={2}>
                             <Grid item xs={12}>
-                                <FormInput name={"schoolName"} label={"Nazwa szkoły"} control={control}/>
+                                <FormInput name={"schoolName"} label={"Nazwa szkoły"} control={control} />
                             </Grid>
                             <Grid item xs={12}>
                                 <FormSelect
@@ -101,16 +103,16 @@ const EmployeeSchoolHistoryModal = ({open, onClose, schoolHistory}: EmployeeScho
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormInput name={"specialization"} label={"Specjalizacja"} control={control}/>
+                                <FormInput name={"specialization"} label={"Specjalizacja"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormInput name={"title"} label={"Tytuł"} control={control}/>
+                                <FormInput name={"title"} label={"Tytuł"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"startDate"} label={"Data rozpoczęcia"} control={control}/>
+                                <FormDate name={"startDate"} label={"Data rozpoczęcia"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"endDate"} label={"Data zakończenias"} control={control}/>
+                                <FormDate name={"endDate"} label={"Data zakończenias"} control={control} />
                             </Grid>
                             <Grid item xs={12} md={6}>
                             </Grid>

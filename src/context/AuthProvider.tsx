@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, { createContext, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 type AuthProviderProps = {
@@ -15,21 +15,23 @@ export type AuthContextBase = {
 
 type AuthContextUser = {
     accessToken: string;
+    userId: number;
 }
 
 const defaultValues: AuthContextBase = {
     auth: {
-        accessToken: ""
+        accessToken: "",
+        userId: 0,
     },
     setAuth: () => { },
-    clearAuth: () => {},
+    clearAuth: () => { },
     persist: false,
-    setPersist: () => {},
+    setPersist: () => { },
 }
 
 export const AuthContext = createContext<AuthContextBase | null>(defaultValues);
 
-const AuthProvider = ({children}: AuthProviderProps) => {
+const AuthProvider = ({ children }: AuthProviderProps) => {
     const [auth, setAuth] = useState<AuthContextUser | null>(null);
     const [storage, setStorage] = useLocalStorage("persist", "false")
 
@@ -47,7 +49,7 @@ const AuthProvider = ({children}: AuthProviderProps) => {
                 clearAuth: handleCreatAuth,
                 persist: storage,
                 setPersist: handleChangePersist
-        }}>
+            }}>
             {children}
         </AuthContext.Provider>
     )

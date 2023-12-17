@@ -1,15 +1,17 @@
-import {Button, Grid, Tab, Typography} from "@mui/material";
+import { Button, Grid, Tab, Typography } from "@mui/material";
 import CustomModal from "../../../components/CustomModal";
-import {ModalBaseProps} from "../../../interfaces/modal";
-import React, {SyntheticEvent, useEffect, useState} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {Box} from "@mui/system";
-import {TabContext, TabList, TabPanel} from "@mui/lab";
+import { ModalBaseProps } from "../../../interfaces/modal";
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Box } from "@mui/system";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import ModalAddEmployeeContractBaseInfo from "./components/ModalAddEmployeeContractBaseInfo";
 import ModalAddEmployeeContractInsurance from "./components/ModalAddEmployeeContractInsurance";
 import ModalAddEmployeeContractTax from "./components/ModalAddEmployeeContractTax";
-import {Contract} from "../../../api/types/documentTypes";
+import { Contract } from "../../../api/types/documentTypes";
 import useCreateContract from "../../../hooks/contract/useCreateContract";
+import useAuth from "../../../hooks/auth/useAuth";
+import { decodeToken } from "../../../utils/authUtils";
 
 interface ModalAddEmployeeContract extends ModalBaseProps {
     contract?: Contract | null;
@@ -34,9 +36,10 @@ const defaultValuesForm: Contract = {
     deductibleCostId: 0,
 }
 
-const ModalAddEmployeeContract = ({open, onClose, editContract, contract}: ModalAddEmployeeContract) => {
-    const {mutate: createContractMutation} = useCreateContract();
-    const {control, reset, handleSubmit} = useForm<Contract>({
+const ModalAddEmployeeContract = ({ open, onClose, editContract, contract }: ModalAddEmployeeContract) => {
+    const { mutate: createContractMutation } = useCreateContract();
+    const { auth } = useAuth();
+    const { control, reset, handleSubmit } = useForm<Contract>({
         defaultValues: defaultValuesForm
     });
     const [value, setValue] = useState("1");
@@ -49,9 +52,8 @@ const ModalAddEmployeeContract = ({open, onClose, editContract, contract}: Modal
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
     const onSubmitHandler: SubmitHandler<Contract> = (data) => {
-        data.userId = 2;
+        data.userId = decodeToken(auth?.accessToken!)!.userId;
         createContractMutation(data);
-        console.log(data);
     };
 
     const onCloseHandler = () => {
@@ -72,21 +74,21 @@ const ModalAddEmployeeContract = ({open, onClose, editContract, contract}: Modal
                 <Grid item xs={12}>
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <TabContext value={value}>
-                            <Box sx={{borderBottom: 1, borderColor: "divider"}}>
+                            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                                 <TabList onChange={handleChange}>
-                                    <Tab label="Podstawowe informacje" value="1"/>
-                                    <Tab label="Ubezpieczenie" value="2"/>
-                                    <Tab label="Podatki" value="3"/>
+                                    <Tab label="Podstawowe informacje" value="1" />
+                                    <Tab label="Ubezpieczenie" value="2" />
+                                    <Tab label="Podatki" value="3" />
                                 </TabList>
                             </Box>
                             <TabPanel value={"1"}>
-                                <ModalAddEmployeeContractBaseInfo control={control}/>
+                                <ModalAddEmployeeContractBaseInfo control={control} />
                             </TabPanel>
                             <TabPanel value={"2"}>
-                                <ModalAddEmployeeContractInsurance control={control}/>
+                                <ModalAddEmployeeContractInsurance control={control} />
                             </TabPanel>
                             <TabPanel value={"3"}>
-                                <ModalAddEmployeeContractTax control={control}/>
+                                <ModalAddEmployeeContractTax control={control} />
                             </TabPanel>
                         </TabContext>
                         <Grid

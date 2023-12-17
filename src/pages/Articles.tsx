@@ -1,13 +1,13 @@
-import {Box, Button, Grid, ListItemIcon, ListItemText, MenuItem} from "@mui/material";
+import { Box, Button, Grid, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import ShowAmount from "../components/ShowAmount";
 import CustomTable from "../components/CustomTable";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import React, {useMemo, useState} from "react";
-import {MRT_ColumnDef} from "material-react-table";
+import React, { useMemo, useState } from "react";
+import { MRT_ColumnDef } from "material-react-table";
 import ModalAddArticle from "../features/modals/addArticle/ModalAddArticle";
-import ButtonDropdown, {ButtonDropdownItem} from "../components/ButtonDropdown";
-import {ArticleDto} from "../api/types/articleTypes";
+import ButtonDropdown, { ButtonDropdownItem } from "../components/ButtonDropdown";
+import { ArticleDto } from "../api/types/articleTypes";
 
 const issueMenuItems: ButtonDropdownItem[] = [
     {
@@ -44,8 +44,8 @@ const Articles = () => {
                 header: "Nazwa",
             },
             {
-                accessorKey: "amount",
-                header: "Stans",
+                accessorKey: "id",
+                header: "Stan",
             },
         ],
         []
@@ -53,13 +53,11 @@ const Articles = () => {
 
     const openModalHandler = () => setArticleModal(true);
 
-    const closeModalHandler = () => {
-        setArticleModal(false);
-    }
+    const closeModalHandler = () => setArticleModal(false);
 
     return (
         <>
-            <Box sx={{flexGrow: 1}}>
+            <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     <Grid item>
                         <Button
@@ -71,13 +69,13 @@ const Articles = () => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <ButtonDropdown label={"Wydanie"} items={issueMenuItems}/>
+                        <ButtonDropdown label={"Wydanie"} items={issueMenuItems} />
                     </Grid>
                     <Grid item>
-                        <ButtonDropdown label={"Przyjęcie"} items={receptionMenuItems}/>
+                        <ButtonDropdown label={"Przyjęcie"} items={receptionMenuItems} />
                     </Grid>
                     <Grid item xs={12} md={4} lg={2}>
-                        <ShowAmount label="Ilosc produktow" value={100} color="blue"/>
+                        <ShowAmount label="Ilosc produktow" value={100} color="blue" />
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                         <CustomTable
@@ -86,13 +84,13 @@ const Articles = () => {
                             renderRowActionMenuItems={() => [
                                 <MenuItem key="edit" onClick={() => console.info("Edit")}>
                                     <ListItemIcon>
-                                        <EditOutlinedIcon/>
+                                        <EditOutlinedIcon />
                                     </ListItemIcon>
                                     <ListItemText>Edytuj</ListItemText>
                                 </MenuItem>,
                                 <MenuItem key="delete" onClick={() => console.info("Delete")}>
                                     <ListItemIcon>
-                                        <DeleteOutlineOutlinedIcon/>
+                                        <DeleteOutlineOutlinedIcon />
                                     </ListItemIcon>
                                     <ListItemText>Usuń</ListItemText>
                                 </MenuItem>,
@@ -101,7 +99,7 @@ const Articles = () => {
                     </Grid>
                 </Grid>
             </Box>
-            <ModalAddArticle open={articleModal} onClose={closeModalHandler}/>
+            <ModalAddArticle open={articleModal} onClose={closeModalHandler} />
         </>
     )
 }
