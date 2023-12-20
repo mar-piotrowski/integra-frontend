@@ -1,6 +1,6 @@
-import {TextField} from "@mui/material";
-import React, {HTMLInputTypeAttribute} from "react";
-import {Control, Controller, FieldValues, Path} from "react-hook-form";
+import { TextField } from "@mui/material";
+import React, { HTMLInputTypeAttribute } from "react";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 interface FormInputTextProps<T extends FieldValues> {
     name: Path<T>;
@@ -13,19 +13,19 @@ interface FormInputTextProps<T extends FieldValues> {
 }
 
 const FormInput = <T extends FieldValues>({
-                                              name,
-                                              label,
-                                              control,
-                                              disabled,
-                                              type = "text",
-                                              maxLength,
-                                              onChangeInput,
-                                          }: FormInputTextProps<T>) => {
+    name,
+    label,
+    control,
+    disabled,
+    type = "text",
+    maxLength,
+    onChangeInput,
+}: FormInputTextProps<T>) => {
     return (
         <Controller
             name={name}
             control={control}
-            render={({field: {onChange, value}, fieldState: {error}}) => (
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
                 <>
                     <TextField
                         type={type}
@@ -41,7 +41,11 @@ const FormInput = <T extends FieldValues>({
                                     : inputValue.target.value
                             );
                             if (onChangeInput != undefined)
-                                onChangeInput(inputValue.target.value);
+                                onChangeInput(
+                                    type == "number" && inputValue.target.value != undefined
+                                        ? parseInt(inputValue.target.value)
+                                        : inputValue.target.value
+                                );
                         }}
                         fullWidth
                         label={label}

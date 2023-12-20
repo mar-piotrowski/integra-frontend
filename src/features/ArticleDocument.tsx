@@ -1,9 +1,9 @@
-import {Box, Button, Grid, TextField} from "@mui/material";
-import React, {useEffect, useState} from "react";
-import {Control, Controller, useFieldArray, useWatch} from "react-hook-form";
-import {GoodsReceivedNoteForm} from "../pages/documents/PZ";
+import { Box, Button, Grid, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Control, Controller, useFieldArray, useWatch } from "react-hook-form";
+import { GoodsReceivedNoteForm } from "../pages/manegementPanel/documents/PZ";
 import FormInput from "../components/form/FormInput";
-import FormSelect, {FormSelectOption} from "../components/form/FormSelect";
+import FormSelect, { FormSelectOption } from "../components/form/FormSelect";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 interface ArticleDocumentProps {
@@ -21,10 +21,10 @@ const measureUnits: FormSelectOption[] = [
     }
 ]
 
-const ArticleDocument = ({control}: ArticleDocumentProps) => {
+const ArticleDocument = ({ control }: ArticleDocumentProps) => {
     const [totalPriceWithTax, setTotalPriceWithTax] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    const {fields, append, remove, update} = useFieldArray({
+    const { fields, append, remove, update } = useFieldArray({
         control,
         name: "articles"
     });
@@ -106,10 +106,10 @@ const ArticleDocument = ({control}: ArticleDocumentProps) => {
                                             />
                                         </Grid>
                                         <Grid item>
-                                            <TextField label={"Wartość netto"} value={totalPrice}/>
+                                            <TextField label={"Wartość netto"} value={totalPrice} />
                                         </Grid>
                                         <Grid item>
-                                            <TextField label={"Wartość brutto"} value={totalPriceWithTax}/>
+                                            <TextField label={"Wartość brutto"} value={totalPriceWithTax} />
                                         </Grid>
                                         <Grid item>
                                             <DeleteForeverIcon

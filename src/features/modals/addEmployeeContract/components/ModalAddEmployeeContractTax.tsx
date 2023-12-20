@@ -1,9 +1,9 @@
-import {Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 import React from "react";
-import FormSelect, {FormSelectOption} from "../../../../components/form/FormSelect";
+import FormSelect, { FormSelectOption } from "../../../../components/form/FormSelect";
 import FormCheckBox from "../../../../components/form/FormCheckBox";
-import {Control} from "react-hook-form";
-import {Contract} from "../../../../api/types/documentTypes";
+import { Control } from "react-hook-form";
+import { Contract } from "../../../../api/types/documentTypes";
 
 interface ModalAddEmployeeContractTax {
     control: Control<Contract>;
@@ -12,7 +12,7 @@ interface ModalAddEmployeeContractTax {
 const salaryCosts: FormSelectOption[] = [
     {
         label: "Podstawowy",
-        value: 0
+        value: 3
     },
     {
         label: "Rozszerzony",
@@ -20,14 +20,14 @@ const salaryCosts: FormSelectOption[] = [
     }
 ];
 
-const ModalAddEmployeeContractTax = ({control}: ModalAddEmployeeContractTax) => {
+const ModalAddEmployeeContractTax = ({ control }: ModalAddEmployeeContractTax) => {
     return (
-        <Grid sx={{flexGrow: 1}}container spacing={2}>
+        <Grid sx={{ flexGrow: 1 }} container spacing={2}>
             <Grid item xs={12}>
-                <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={salaryCosts}/>
+                <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={[]} />
             </Grid>
             <Grid item xs={12}>
-               <FormCheckBox name={"pitExemption"} label={"Zwolnienie podatkowe"} control={control} />
+                <FormCheckBox name={"pitExemption"} label={"Zwolnienie podatkowe"} control={control} />
             </Grid>
         </Grid>
     )

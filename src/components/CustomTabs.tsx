@@ -1,7 +1,7 @@
-import React, {SyntheticEvent, useState} from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import {Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export interface CustomTabItem {
     title: string;
@@ -12,10 +12,18 @@ interface CustomTabsProps {
     tabs: CustomTabItem[];
 }
 
-const CustomTabs = ({tabs}: CustomTabsProps) => {
+const CustomTabs = ({ tabs }: CustomTabsProps) => {
     const [value, setValue] = useState(0);
+    const location = useLocation();
 
-    const handleChange = (event: SyntheticEvent, newValue: number) => setValue(newValue);
+    useEffect(() => {
+        var index = tabs.findIndex(tab => tab.link == location.pathname);
+        setValue(index);
+    }, [])
+
+    const handleChange = (event: SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+    }
 
     const renderedTabs = tabs.map((tab, index) =>
         <Tab
@@ -27,15 +35,12 @@ const CustomTabs = ({tabs}: CustomTabsProps) => {
     );
 
     return (
-        <Tabs
-            value={value}
+        <Tabs value={value}
             onChange={handleChange}
             variant="scrollable"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
-            sx={{
-                marginBottom: "20px"
-            }}
+            sx={{ marginBottom: "20px" }}
         >
             {renderedTabs}
         </Tabs>

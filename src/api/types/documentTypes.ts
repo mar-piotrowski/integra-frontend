@@ -1,5 +1,13 @@
-import {UserId} from "./userTypes";
+import { UserDto, UserId } from "./userTypes";
 
+export enum ContractStatusType {
+    None,
+    Active,
+    PendingToAccept,
+    Rejected,
+    Canceled,
+    End
+}
 export type Id = {
     id: number;
 }
@@ -39,7 +47,8 @@ export type JobHistoryDto = JobHistory & Id;
 export type SchoolHistoryDto = SchoolHistory & Id;
 
 export type Contract = {
-    salary: number;
+    salaryWithTax: number;
+    salaryWithoutTax: number;
     workingHours1: number;
     workingHours2: number;
     signedOnDate?: string | null;
@@ -50,15 +59,40 @@ export type Contract = {
     pitExemption: boolean;
     taxRelief: boolean;
     contractType: number;
+    voluntaryContribution: boolean;
+    pensionFund: boolean;
+    profitableFund: boolean;
     insuranceCodeId: number;
     userId: number;
     jobPositionId: number;
     deductibleCostId: number
 }
 
-export type CreateContract = Contract;
+export type ContractDto = {
+    id: number;
+    salaryWithTax: number;
+    salaryWithoutTax: number;
+    workingHours1: number;
+    workingHours2: number;
+    signedOnDate?: string | null;
+    startDate: string;
+    endDate?: string | null;
+    jobFound: boolean;
+    fgsp: boolean;
+    pitExemption: boolean;
+    taxRelief: boolean;
+    contractType: number;
+    voluntaryContribution: boolean;
+    pensionFund: boolean;
+    profitableFund: boolean;
+    insuranceCodeId: number;
+    user: UserDto;
+    jobPositionId: number;
+    deductibleCostId: number;
+    status: ContractStatusType;
+}
 
-export type ContractDto = Contract & Id;
+export type CreateContract = Contract;
 
 export type HolidayLimit = {
     id: number;

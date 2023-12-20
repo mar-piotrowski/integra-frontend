@@ -1,6 +1,6 @@
 import axios from "../axios";
 import endpoint from "../endpoint";
-import {CreateContract} from "../types/documentTypes";
+import { CreateContract } from "../types/documentTypes";
 
 export const contractService = {
     getAll: async (userId?: number) => await axios.get(`/${endpoint.contracts}${createGetAllParams(userId)}`),

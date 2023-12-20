@@ -1,14 +1,14 @@
 import React from "react";
-import {Avatar, Grid, Typography} from "@mui/material";
-import {Box} from "@mui/system";
+import { Avatar, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
 const Account = () => {
     return (
         <Grid container spacing={4}>
             <Grid item xs={12}>
-                <Box sx={{display: "flex"}}>
-                    <Avatar sx={{width: 80, height: 80}}/>
-                    <Box sx={{marginLeft: "20px"}}>
+                <Box sx={{ display: "flex" }}>
+                    <Avatar sx={{ width: 80, height: 80 }} />
+                    <Box sx={{ marginLeft: "20px" }}>
                         <Typography variant="h3">Marcin Piotrowski</Typography>
                         <Typography variant="subtitle1">Senior engineer</Typography>
                         <Typography variant="subtitle1">Sosnowiec, Poland</Typography>
