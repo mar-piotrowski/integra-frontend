@@ -61,7 +61,7 @@ const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHist
 
     return (
         <CustomModal
-            open={open}
+            isOpen={open}
             onClose={onCloseModal}
         >
             <Grid container spacing={2}>

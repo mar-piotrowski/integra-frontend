@@ -1,14 +1,15 @@
 import axios from "../axios";
 import endpoint from "../endpoint";
-import { CreateContract } from "../types/documentTypes";
+import { ContractTerminate, CreateContract } from "../types/documentTypes";
 
 export const contractService = {
     getAll: async (userId?: number) => await axios.get(`/${endpoint.contracts}${createGetAllParams(userId)}`),
     get: async (contractId: number) => await axios.get(`/${endpoint.contracts}/${contractId}`),
     create: async (createContract: CreateContract) => await axios.post(`/${endpoint.contracts}`, createContract),
-    // update: async (updateJobHistory: UpdateJobHistory) =>
-    //     await axios.put(`/${endpoint.contracts}/${updateJobHistory.contractId}`, updateJobHistory.jobHistory),
-    delete: async (contractId: number) => await axios.delete(`/${endpoint.contracts}/${contractId}`),
+    active: async (contractId: number) => await axios.post(`/${endpoint.contracts}/${contractId}/active`),
+    reject: async (contractId: number) => await axios.post(`/${endpoint.contracts}/${contractId}/reject`),
+    terminate: async (contractTermiante: ContractTerminate) =>
+        await axios.post(`/${endpoint.contracts}/${contractTermiante.contractId}/terminate`, contractTermiante),
 }
 
 const createGetAllParams = (userId?: number) => {

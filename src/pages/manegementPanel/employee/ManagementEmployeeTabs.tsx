@@ -1,36 +1,46 @@
 import React, { useEffect } from "react";
 import { Box } from "@mui/system";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import CustomTabs, { CustomTabItem } from "../../../components/CustomTabs";
+import useAuth from "../../../hooks/auth/useAuth";
+import ManagementEmployeeDetails from "./ManagementEmployeeDetails";
 
-const tabs: CustomTabItem[] = [
+const tabs = [
     {
         title: "Dane pracownika",
-        link: "/management-panel/employee/details"
+        link: "details"
     },
     {
         title: "Czas pracy",
-        link: "/management-panel/employee/working-time"
+        link: "working-time"
     },
     {
         title: "Nieobecności",
-        link: "/management-panel/employee/absence"
+        link: "absence"
     },
     {
         title: "Dokumenty",
-        link: "/management-panel/employee/documents"
+        link: "documents"
     },
     {
         title: "Umowy",
-        link: "/management-panel/employee/contracts"
+        link: "contracts"
     },
     {
         title: "Wypłaty",
-        link: "/management-panel/employee/salary"
+        link: "salary"
     },
 ]
 
 const ManagementEmployeeTabs = () => {
+    const { auth } = useAuth();
+    const location = useLocation();
+
+    const customTabs: CustomTabItem[] = tabs.map(tab => ({
+        title: tab.title,
+        link: `/management-panel/employee/${auth?.userId}/${tab.link}`
+    }))
+
     return (
         <Box
             sx={{
@@ -40,7 +50,11 @@ const ManagementEmployeeTabs = () => {
                 gap: "20px",
             }}
         >
-            <CustomTabs tabs={tabs} />
+            {
+                location.pathname == `/management-panel/employee/${auth?.userId}`
+                    ? <Navigate to={customTabs[0].link} replace={true} />
+                    : <CustomTabs tabs={customTabs} />
+            }
             <Box sx={{ padding: "10px" }}>
                 <Outlet />
             </Box>

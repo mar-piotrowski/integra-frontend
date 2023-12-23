@@ -7,7 +7,7 @@ interface DeleteJobHistoryDialog extends DialogProps {
     jobHistoryId: number
 }
 
-const DeleteJobHistoryDialog = ({ open, onClose, jobHistoryId }: DeleteJobHistoryDialog) => {
+const DeleteJobHistoryDialog = ({ isOpen: open, onClose, jobHistoryId }: DeleteJobHistoryDialog) => {
     const { mutate, isSuccess } = useDeleteJobHistory(jobHistoryId);
 
     useEffect(() => {

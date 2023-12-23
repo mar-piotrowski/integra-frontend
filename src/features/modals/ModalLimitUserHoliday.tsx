@@ -42,7 +42,7 @@ const ModalLimitUserHoliday = ({ open, onClose }: ModalLimitUserHolidayProps) =>
     };
 
     return (
-        <CustomModal open={open} onClose={onClose}>
+        <CustomModal isOpen={open} onClose={onClose}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Typography variant="h3">Dodawanie limity urlopowego</Typography>

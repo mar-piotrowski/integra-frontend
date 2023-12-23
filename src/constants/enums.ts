@@ -11,3 +11,11 @@ export enum ContractType {
     ForWorkContract,
     ManageContract
 }
+
+export enum ContractTerminateType {
+    ByMutualAgreement,
+    ByTheEmployer,
+    ByTheEmployerWithoutNoticePeriodDueToAEmployeeFault,
+    ByTheEmployerWithoutNoticePeriodDueToNoEmployeeFault,
+    ByTheEmployee
+}

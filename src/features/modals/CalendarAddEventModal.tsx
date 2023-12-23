@@ -1,14 +1,14 @@
-import {ModalBaseProps} from "../../interfaces/modal";
-import {DateSelectArg, EventClickArg} from "@fullcalendar/core";
-import {Button, Grid, Typography} from "@mui/material";
-import React, {RefObject, useEffect} from "react";
+import { ModalBaseProps } from "../../interfaces/modal";
+import { DateSelectArg, EventClickArg } from "@fullcalendar/core";
+import { Button, Grid, Typography } from "@mui/material";
+import React, { RefObject, useEffect } from "react";
 import CustomModal from "../../components/CustomModal";
-import {SubmitHandler, useForm} from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import FormInput from "../../components/form/FormInput";
 import FormDateTime from "../../components/form/FormDateTime";
 import FullCalendar from "@fullcalendar/react";
 import FormCheckBox from "../../components/form/FormCheckBox";
-import {successToast} from "../../utils/toastUtil";
+import { successToast } from "../../utils/toastUtil";
 
 interface CalendarAddEventModalProps extends ModalBaseProps {
     calendarRef: RefObject<FullCalendar>;
@@ -30,8 +30,8 @@ const newCalendarEventDefaultValues: NewCalendarEvent = {
     allDay: false
 }
 
-const CalendarAddEventModal = ({open, onClose, eventInfo, calendarRef, eventToEdit}: CalendarAddEventModalProps) => {
-    const {control, handleSubmit, reset} = useForm<NewCalendarEvent>({
+const CalendarAddEventModal = ({ open, onClose, eventInfo, calendarRef, eventToEdit }: CalendarAddEventModalProps) => {
+    const { control, handleSubmit, reset } = useForm<NewCalendarEvent>({
         defaultValues: newCalendarEventDefaultValues
     })
 
@@ -117,7 +117,7 @@ const CalendarAddEventModal = ({open, onClose, eventInfo, calendarRef, eventToEd
 
     return (
         <CustomModal
-            open={open}
+            isOpen={open}
             onClose={onCloseModal}
         >
             <Grid container spacing={2}>
@@ -128,7 +128,7 @@ const CalendarAddEventModal = ({open, onClose, eventInfo, calendarRef, eventToEd
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <FormInput name={"title"} label={"Nazwa wydarzenia"} control={control}/>
+                                <FormInput name={"title"} label={"Nazwa wydarzenia"} control={control} />
                             </Grid>
                             <Grid item xs={12}>
                                 <FormDateTime
@@ -145,7 +145,7 @@ const CalendarAddEventModal = ({open, onClose, eventInfo, calendarRef, eventToEd
                                 />
                             </Grid>
                             <Grid item>
-                                <FormCheckBox name={"allDay"} label={"Cały dzień"} control={control}/>
+                                <FormCheckBox name={"allDay"} label={"Cały dzień"} control={control} />
                             </Grid>
                             <Grid
                                 item

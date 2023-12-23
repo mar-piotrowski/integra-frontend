@@ -9,7 +9,7 @@ import useCreateContract from "../../hooks/contract/useCreateContract";
 import { Contract } from "../../api/types/documentTypes";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useAuth from "../../hooks/auth/useAuth";
-import CancelContractDialog from "../../features/dialog/CancelContractDialog";
+import CancelCreateContractDialog from "../../features/dialog/CancelCreateContractDialog";
 import { useNavigate } from "react-router-dom";
 
 type Salary = {
@@ -42,6 +42,7 @@ const defaultValues: Contract = {
     jobPositionId: 0,
     insuranceCodeId: 0,
     deductibleCostId: 0,
+    active: false
 }
 
 const CreateContract = () => {
@@ -223,8 +224,8 @@ const CreateContract = () => {
             </Grid >
             {
                 openDialog ?
-                    <CancelContractDialog
-                        open={openDialog}
+                    <CancelCreateContractDialog
+                        isOpen={openDialog}
                         onClose={handleCloseDialog}
                         reset={reset}
                     /> : null

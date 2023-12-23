@@ -15,10 +15,16 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { UserDto } from "../../api/types/userTypes";
 import { useGetEmployees } from "../../hooks/employee/useGetEmployees";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/auth/useAuth";
 
 const Employees = () => {
+    const { auth } = useAuth();
     const [employeeModal, setEmployeeModal] = useState<boolean>(false);
     const { data: employees } = useGetEmployees();
+
+    const navigate = useNavigate();
+
     const columns = useMemo<MRT_ColumnDef<UserDto>[]>(
         () => [
             {
@@ -73,6 +79,10 @@ const Employees = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <CustomTable
+                            muiTableBodyProps={() => ({
+                                onClick: () => navigate(`/management-panel/employee/${auth?.userId}/details`),
+                                sx: { cursor: "pointer" }
+                            })}
                             columns={columns}
                             data={employees ?? []}
                             renderRowActionMenuItems={() => [

@@ -92,7 +92,7 @@ const ManagementEmployeeSchoolHistoryTable = () => {
                 </Grid>
             </Grid>
             <DeleteSchoolHistoryDialog
-                open={openDialogDelete}
+                isOpen={openDialogDelete}
                 onClose={handleCloseDialogDelete}
                 schoolHistoryId={schoolHistoryToEdit != null ? schoolHistoryToEdit.id : -1}
             />

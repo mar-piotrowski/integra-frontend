@@ -48,7 +48,7 @@ const JobPositionModal = ({ isOpen, onClose, jobPositionEdit }: JobPositionModal
 
     return (
         <CustomModal
-            open={isOpen}
+            isOpen={isOpen}
             onClose={onCloseExtended}
         >
             <Box mb={2}>

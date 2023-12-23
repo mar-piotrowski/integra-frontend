@@ -74,7 +74,7 @@ const ContactorModal = ({ open, onClose, contractorUpdate }: ModalAddContractorP
 
     return (
         <CustomModal
-            open={open}
+            isOpen={open}
             onClose={onCloseExtended}
         >
             <Grid container spacing={2}>

@@ -91,7 +91,7 @@ const ManagementEmployeeJobHistoryTable = () => {
                 </Grid>
             </Grid>
             <DeleteJobHistoryDialog
-                open={openDeleteDialog}
+                isOpen={openDeleteDialog}
                 onClose={handleCloseDeleteDialog}
                 jobHistoryId={jobHistoryToEdit != null ? jobHistoryToEdit.id : -1}
             />

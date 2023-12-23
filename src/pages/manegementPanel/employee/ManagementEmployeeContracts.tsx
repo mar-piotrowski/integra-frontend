@@ -2,7 +2,7 @@ import CustomTable from "../../../components/CustomTable";
 import { Box, Button, Grid, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import useGetContracts from "../../../hooks/contract/useGetContracts";
 import { ContractDto } from "../../../api/types/documentTypes";
@@ -12,10 +12,19 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/auth/useAuth";
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import ContractStatus from "../../../components/ContractStatus";
+import TerminateContractModal from "../../../features/modals/TerminateContractModal";
+import CancelContractDialog from "../../../features/dialog/CancelContractDialog";
+import ContractDetailsModal from "../../../features/modals/ContractDetailsModal";
 
 const ManagementEmployeeContracts = () => {
+    const [openTermianteContractModal, setOpenTerminateContractModal] = useState<boolean>(false);
+    const [openCancelContractDialog, setOpenCancelContractDialog] = useState<boolean>(false);
+    const [openDetailsContractModal, setOpenDetailsContractModal] = useState<boolean>(false);
+    const [contract, setContract] = useState<ContractDto | null>(null);
+
     const { auth } = useAuth();
     const { data: contracts } = useGetContracts(auth?.userId);
+
     const navigate = useNavigate();
 
     const columns = useMemo<MRT_ColumnDef<ContractDto>[]>(
@@ -53,6 +62,27 @@ const ManagementEmployeeContracts = () => {
         []
     );
 
+    const handleOpenTerminateContractModal = () => setOpenTerminateContractModal(true);
+
+    const handleCloseTerminateContractModal = () => {
+        setOpenTerminateContractModal(false);
+        setContract(null);
+    }
+
+    const handleOpenCancelContractDialog = () => setOpenCancelContractDialog(true);
+
+    const handleCloseCancelContractDialog = () => {
+        setOpenCancelContractDialog(false);
+        setContract(null);
+    }
+
+    const handleOpenDetailsContractModal = () => setOpenDetailsContractModal(true);
+
+    const handleCloseDetailsContractModal = () => {
+        setOpenDetailsContractModal(false);
+        setContract(null);
+    }
+
     return (
         <>
             <Grid container spacing={2}>
@@ -70,22 +100,38 @@ const ManagementEmployeeContracts = () => {
                         columns={columns}
                         enableRowActions
                         data={contracts ?? []}
+                        muiTableBodyRowProps={({ row }) => ({
+                            onClick: () => {
+                                setContract(row.original);
+                                handleOpenDetailsContractModal();
+                            },
+                            sx: { cursor: "pointer" }
+                        })}
                         renderRowActionMenuItems={({ closeMenu, row }) => [
                             <MenuItem key="edit" onClick={() => {
                                 closeMenu();
+                                setContract(row.original);
                             }}>
                                 <ListItemIcon>
                                     <EditOutlinedIcon />
                                 </ListItemIcon>
                                 <ListItemText>Aneks</ListItemText>
                             </MenuItem>,
-                            <MenuItem key="cancel" onClick={() => console.info("Cancel")}>
+                            <MenuItem key="termiante" onClick={() => {
+                                closeMenu();
+                                setContract(row.original);
+                                handleOpenTerminateContractModal();
+                            }}>
                                 <ListItemIcon>
                                     <BlockOutlinedIcon />
                                 </ListItemIcon>
                                 <ListItemText>Rozwiąż</ListItemText>
                             </MenuItem>,
-                            <MenuItem key="usuń" onClick={() => console.info("Delete")}>
+                            <MenuItem key="cancel" onClick={() => {
+                                closeMenu();
+                                setContract(row.original);
+                                handleOpenCancelContractDialog();
+                            }}>
                                 <ListItemIcon>
                                     <DeleteOutlineOutlinedIcon />
                                 </ListItemIcon>
@@ -95,6 +141,33 @@ const ManagementEmployeeContracts = () => {
                     />
                 </Grid>
             </Grid>
+            {
+                openTermianteContractModal
+                    ? <TerminateContractModal
+                        isOpen={openTermianteContractModal}
+                        onClose={handleCloseTerminateContractModal}
+                        contractId={contract!.id}
+                    />
+                    : null
+            }
+            {
+                openCancelContractDialog
+                    ? <CancelContractDialog
+                        isOpen={openCancelContractDialog}
+                        onClose={handleCloseCancelContractDialog}
+                        contractId={contract!.id}
+                    />
+                    : null
+            }
+            {
+                openDetailsContractModal
+                    ? <ContractDetailsModal
+                        isOpen={openDetailsContractModal}
+                        onClose={handleCloseDetailsContractModal}
+                        contract={contract!}
+                    />
+                    : null
+            }
         </>
     )
 }

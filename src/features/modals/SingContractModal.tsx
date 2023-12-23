@@ -3,17 +3,16 @@ import { ContractDto } from "../../api/types/documentTypes";
 import CustomModal from "../../components/CustomModal";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { toDateString } from "../../utils/dateHelper";
-import FormDate from "../../components/form/FormDate";
 
 interface SignContractModalProps {
     isOpen: boolean;
     onClose: () => void;
-    contract?: ContractDto | null;
+    contract?: ContractDto;
 }
 
 const SignContractModal = ({ isOpen, onClose, contract }: SignContractModalProps) => {
     return (
-        <CustomModal open={isOpen} onClose={onClose}>
+        <CustomModal isOpen={isOpen} onClose={onClose}>
             <Box>
                 <Typography variant={"h4"} my={1} textAlign={"center"}>Podpisywanie umowy</Typography>
                 <Typography variant={"subtitle1"}>Szczegóły umowy</Typography>

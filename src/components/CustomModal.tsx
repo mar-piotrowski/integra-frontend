@@ -1,9 +1,9 @@
-import {Fade, Modal,} from "@mui/material";
-import {Box} from "@mui/system";
+import { Fade, Modal, } from "@mui/material";
+import { Box } from "@mui/system";
 import React from "react";
 
 interface CustomModalProps {
-	open: boolean;
+	isOpen: boolean;
 	onClose: () => void;
 	children: JSX.Element | JSX.Element[];
 }
@@ -20,7 +20,7 @@ const style = {
 	p: 4,
 };
 
-const CustomModal = ({ open, onClose, children }: CustomModalProps) => {
+const CustomModal = ({ isOpen: open, onClose, children }: CustomModalProps) => {
 	return (
 		<Modal
 			disableEscapeKeyDown

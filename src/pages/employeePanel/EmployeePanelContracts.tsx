@@ -12,11 +12,13 @@ import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutl
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ContentPasteOffOutlinedIcon from '@mui/icons-material/ContentPasteOffOutlined';
 import SignContractModal from "../../features/modals/SingContractModal";
+import ContractDetailsModal from "../../features/modals/ContractDetailsModal";
 
 const EmployeePanelContracts = () => {
-    const { auth } = useAuth();
     const [openSignContractModal, setOpenSignContractModal] = useState<boolean>(false);
-    const [contractToSign, setContractToSign] = useState<ContractDto | null>(null);
+    const [openDetailsContractModal, setOpenDetailsContractModal] = useState<boolean>(false);
+    const { auth } = useAuth();
+    const [contract, setContract] = useState<ContractDto | null>(null);
     const { data: contracts } = useGetContracts(auth?.userId);
 
     const columns = useMemo<MRT_ColumnDef<ContractDto>[]>(
@@ -58,6 +60,13 @@ const EmployeePanelContracts = () => {
 
     const handleCloseSignContractModal = () => setOpenSignContractModal(false);
 
+    const handleOpenDetailsContractModal = () => setOpenDetailsContractModal(true);
+
+    const handleCloseDetailsContractModal = () => {
+        setOpenDetailsContractModal(false)
+        setContract(null);
+    };
+
     return (
         <>
             <Grid container spacing={2}>
@@ -66,17 +75,17 @@ const EmployeePanelContracts = () => {
                         columns={columns}
                         enableRowActions
                         data={contracts ?? []}
+                        muiTableBodyRowProps={({ row }) => ({
+                            onClick: () => {
+                                setContract(row.original);
+                                handleOpenDetailsContractModal();
+                            },
+                            sx: { cursor: "pointer" }
+                        })}
                         renderRowActionMenuItems={({ closeMenu, row }) => [
-                            <MenuItem key="edit" onClick={() => {
+                            <MenuItem key="Podpisz" onClick={() => {
                                 closeMenu();
-                            }}>
-                                <ListItemIcon>
-                                    <RemoveRedEyeOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText>Podgląd</ListItemText>
-                            </MenuItem>,
-                            <MenuItem key="cancel" onClick={() => {
-                                setContractToSign(row.original);
+                                setContract(row.original);
                                 handleOpenSignContractModal();
                             }}>
                                 <ListItemIcon>
@@ -84,7 +93,9 @@ const EmployeePanelContracts = () => {
                                 </ListItemIcon>
                                 <ListItemText>Podpisz</ListItemText>
                             </MenuItem>,
-                            <MenuItem key="cancel" onClick={() => console.info("Cancel")}>
+                            <MenuItem key="cancel" onClick={() => {
+                                closeMenu();
+                            }}>
                                 <ListItemIcon>
                                     <ContentPasteOffOutlinedIcon />
                                 </ListItemIcon>
@@ -94,14 +105,23 @@ const EmployeePanelContracts = () => {
                     />
                 </Grid>
             </Grid>
-            {openSignContractModal ?
-                <SignContractModal
-                    isOpen={openSignContractModal}
-                    onClose={handleCloseSignContractModal}
-                    contract={contractToSign} />
-                : null
+            {
+                openSignContractModal
+                    ? <SignContractModal
+                        isOpen={openSignContractModal}
+                        onClose={handleCloseSignContractModal}
+                        contract={contract!} />
+                    : null
             }
-
+            {
+                openDetailsContractModal
+                    ? <ContractDetailsModal
+                        isOpen={openDetailsContractModal}
+                        onClose={handleCloseDetailsContractModal}
+                        contract={contract!}
+                    />
+                    : null
+            }
         </>
     )
 }

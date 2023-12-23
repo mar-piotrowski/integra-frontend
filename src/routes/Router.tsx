@@ -82,9 +82,9 @@ const router = createBrowserRouter(
                             <Route path="account/profile" element={<Profile />} />
                             <Route path="account/privacy" element={<Privacy />} />
                         </Route>
-                        <Route path="employee" element={<ManagementEmployeeTabs />}>
+                        <Route path="employee/:userId" element={<ManagementEmployeeTabs />} >
+                            <Route index path="details" element={<ManagementEmployeeDetails />} />
                             <Route path="working-time" element={<ManagementEmployeeSchedule editable={true} />} />
-                            <Route path="details" element={<ManagementEmployeeDetails />} />
                             <Route path="documents" element={<ManagementEmployeeDocuments />} />
                             <Route path="absence" element={<ManagementEmployeeAbsences />} />
                             <Route path="contracts" element={<ManagementEmployeeContracts />} />

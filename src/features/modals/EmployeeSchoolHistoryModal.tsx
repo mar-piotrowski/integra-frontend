@@ -81,7 +81,7 @@ const EmployeeSchoolHistoryModal = ({ open, onClose, schoolHistory }: EmployeeSc
 
     return (
         <CustomModal
-            open={open}
+            isOpen={open}
             onClose={onCloseModal}
         >
             <Grid container spacing={2}>
