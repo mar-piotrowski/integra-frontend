@@ -1,18 +1,19 @@
 import { Box } from "@mui/system";
-import CustomTabs, { CustomTabItem } from "../../components/CustomTabs";
+import CustomPageTabs, { CustomTabItem } from "../../components/CustomPageTabs";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
 const tabs: CustomTabItem[] = [
     {
-        link: "/employee-panel/documents",
-        title: "Dokumenty"
+        link: "/employee-panel/documents/contracts",
+        title: "Umowy"
     },
     {
-        link: "/employee-panel/contracts",
-        title: "Umowy"
+        link: "/employee-panel/documents/other",
+        title: "Inne"
     }
 ]
+
 const EmployeePanelDocumentTabs = () => {
     return (
         <Box
@@ -23,7 +24,7 @@ const EmployeePanelDocumentTabs = () => {
                 gap: "20px",
             }}
         >
-            <CustomTabs tabs={tabs} />
+            <CustomPageTabs tabs={tabs} />
             <Box sx={{ padding: "10px" }}>
                 <Outlet />
             </Box>

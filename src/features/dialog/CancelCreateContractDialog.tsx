@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material"
 import { DialogProps } from "../../interfaces/dialog"
 import React from "react"
 import { useNavigate } from "react-router-dom"
@@ -18,20 +18,24 @@ const CancelCreateContractDialog = ({ isOpen: open, onClose, reset }: CancelCont
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Czy napewno chcesz wyjść z tworzenia umowy?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button variant={"contained"} onClick={onClose}>Zostań</Button>
-                <Button variant={"contained"} color={"error"} onClick={() => {
-                    onClose();
-                    navigate(-1);
-                    reset();
-                }}>
-                    Wyjdź</Button>
-            </DialogActions>
+            <Box sx={{ padding: 2 }}>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Czy napewno chcesz wyjść z tworzenia umowy?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant={"contained"} color={"error"} onClick={() => {
+                        onClose();
+                        navigate(-1);
+                        reset();
+                    }}>
+                        Wyjdź
+                    </Button>
+                    <Button variant={"contained"} onClick={onClose}>Zostań</Button>
+                </DialogActions>
+
+            </Box>
         </Dialog>
 
 

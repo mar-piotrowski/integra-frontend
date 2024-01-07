@@ -3,10 +3,13 @@ import CustomModal from "../../components/CustomModal";
 import { Button, Grid, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ContractTerminate } from "../../api/types/documentTypes";
-import { ContractTerminateType } from "../../constants/enums";
 import FormSelect, { FormSelectOption } from "../../components/form/FormSelect";
 import FormDate from "../../components/form/FormDate";
 import useTerminateContract from "../../hooks/contract/useTerminateContract";
+import { ContractType } from "../../constants/enums";
+import { z } from "Zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Header from "../../components/CustomModalHeader";
 
 interface TerminateContractModalProps {
     isOpen: boolean;
@@ -16,35 +19,43 @@ interface TerminateContractModalProps {
 
 const defaultValues: ContractTerminate = {
     contractId: 0,
-    terminateType: ContractTerminateType.ByMutualAgreement,
+    terminateType: ContractType.ByMutualAgreement,
     terminateDate: new Date()
 }
+
+const validationSchema = z.object({
+    terminateType: z.number().min(1, "Wybierz rodzaj wypowiedzenia"),
+    termianteDate: z.string().min(1, "Podaj datę wypowiedzenia")
+});
 
 const options: FormSelectOption[] = [
     {
         label: "Porozumienie stron",
-        value: 1
+        value: ContractType.ByMutualAgreement
     },
     {
         label: "Przez pracodawcę",
-        value: 2
-    },
-    {
-        label: "Przez pracodawcę bez zachowaniu okresu wypowiedzenia",
-        value: 3
-    },
-    {
-        label: "Przez pracodawcę z zachowaniem okresu wypowiedzenia",
-        value: 4
+        value: ContractType.ByTheEmployer
     },
     {
         label: "Przez pracownika",
-        value: 5
-    }
+        value: ContractType.ByTheEmployee
+    },
+    {
+        label: "Przez pracodawcę bez zachowaniu okresu wypowiedzenia",
+        value: ContractType.ByTheEmployerWithoutNoticePeriod
+    },
+    {
+        label: "Przez pracodawcę z zachowaniem okresu wypowiedzenia",
+        value: ContractType.ByTheEmployerWithNoticePeriod
+    },
 ];
 
 const TerminateContractModal = ({ isOpen, onClose, contractId }: TerminateContractModalProps) => {
-    const { handleSubmit, control } = useForm<ContractTerminate>({ defaultValues });
+    const { handleSubmit, control } = useForm<ContractTerminate>({
+        defaultValues,
+        resolver: zodResolver(validationSchema)
+    });
     const { mutate: terminateContractMutate, isSuccess } = useTerminateContract();
 
     useEffect(() => {
@@ -60,8 +71,8 @@ const TerminateContractModal = ({ isOpen, onClose, contractId }: TerminateContra
     return (
         <CustomModal isOpen={isOpen} onClose={onClose}>
             <Grid container spacing={2}>
-                <Grid item>
-                    <Typography variant="h3">Rozwiązywanie umowy</Typography>
+                <Grid item xs={12}>
+                    <Header title="Rozwiązywanie umowy" />
                 </Grid>
                 <Grid item xs={12}>
                     <form onSubmit={handleSubmit(onSubmitHandler)}>

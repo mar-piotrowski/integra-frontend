@@ -81,7 +81,6 @@ const ModalAddEmployee = ({ open, onClose }: ModalAddEmployeeProps) => {
     const [value, setValue] = React.useState("1");
     const { control, handleSubmit } = useForm<CreateUser>({
         defaultValues: employeeFormDefaultValues
-        // resolver: zodResolver(schema)
     });
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);

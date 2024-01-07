@@ -1,5 +1,5 @@
-import {LoginForm} from "../../pages/Login";
-import {RegisterForm} from "../../pages/Register";
+import { LoginForm } from "../../pages/main/Login";
+import { RegisterForm } from "../../pages/main/Register";
 import axios from "../axios";
 
 const authenticationService = {

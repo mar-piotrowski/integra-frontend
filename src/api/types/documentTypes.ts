@@ -1,13 +1,11 @@
-import { ContractTerminateType } from "../../constants/enums";
+import { ContractType } from "../../constants/enums";
 import { UserDto, UserId } from "./userTypes";
 
 export enum ContractStatusType {
-    None,
-    Active,
-    PendingToAccept,
-    Rejected,
-    Canceled,
-    End
+    None = 0,
+    Active = 1,
+    Pending = 2,
+    NotActive = 3
 }
 export type Id = {
     id: number;
@@ -67,7 +65,6 @@ export type Contract = {
     userId: number;
     jobPositionId: number;
     deductibleCostId: number;
-    active: boolean;
 }
 
 export type ContractDto = {
@@ -79,7 +76,7 @@ export type ContractDto = {
     signedOnDate?: string | null;
     startDate: string;
     endDate?: string | null;
-    jobFound: boolean;
+    jobFund: boolean;
     fgsp: boolean;
     pitExemption: boolean;
     taxRelief: boolean;
@@ -117,6 +114,6 @@ export type CreateHolidayLimit = {
 
 export type ContractTerminate = {
     contractId: number;
-    terminateType: ContractTerminateType;
+    terminateType: ContractType;
     terminateDate: Date;
 }

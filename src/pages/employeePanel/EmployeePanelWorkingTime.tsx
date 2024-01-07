@@ -1,9 +1,10 @@
-import React, { useMemo } from "react";
+import React, { createRef } from "react";
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction';
 import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { UserWorkingTime } from "../../constants/models";
-import { MRT_ColumnDef } from "material-react-table";
-import CustomTable from "../../components/CustomTable";
+import FullCalendar from "@fullcalendar/react";
+import listPlugin from '@fullcalendar/list';
 
 interface CustomBoxProps {
     children: JSX.Element | JSX.Element[];
@@ -34,6 +35,9 @@ const CustomBox = ({ children }: CustomBoxProps) => {
 }
 
 const EmployeePanelWorkingTime = () => {
+    const calendarRef = createRef<FullCalendar>();
+
+
     // const columnsWorkingTime = useMemo<MRT_ColumnDef<UserWorkingTime>>(() => [
     //     {
     //         accessorKey: "date",
@@ -54,8 +58,8 @@ const EmployeePanelWorkingTime = () => {
     // ], [])
 
     return (
-        <Grid container spacing={2}>
-            <Grid item container spacing={2}>
+        <Grid container>
+            <Grid item container spacing={2} mb={2}>
                 <Grid item xs={12} md={4}>
                     <CustomBox>
                         <Typography variant={"subtitle1"}> Aktualny miesiac</Typography>
@@ -75,11 +79,8 @@ const EmployeePanelWorkingTime = () => {
                     </CustomBox>
                 </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <CustomTable
-                    columns={[]}
-                    data={mockData}
-                />
+            <Grid item xs={12} borderRadius={2} p={3} sx={{ background: "white" }}>
+
             </Grid>
         </Grid>
     )

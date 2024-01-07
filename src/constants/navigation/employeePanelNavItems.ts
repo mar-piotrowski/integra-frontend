@@ -36,7 +36,7 @@ export const employeePanelNavItems: MenuItem = {
             title: "Dokumenty",
             type: "item",
             icon: TopicOutlinedIcon,
-            url: "/employee-panel/documents"
+            url: "/employee-panel/documents/contracts"
         },
         {
             id: "salaries",

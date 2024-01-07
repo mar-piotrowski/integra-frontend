@@ -1,10 +1,10 @@
-import {Button, Grid, Typography} from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import React from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import LogoWithText from "../LogoWithText";
-import FormInput from "../components/form/FormInput";
+import { SubmitHandler, useForm } from "react-hook-form";
+import LogoWithText from "../../LogoWithText";
+import FormInput from "../../components/form/FormInput";
 
-import useRegister from "../hooks/auth/useRegister";
+import useRegister from "../../hooks/auth/useRegister";
 
 export interface RegisterForm {
     firstname: string;
@@ -23,9 +23,9 @@ const registerFormDefaultValues: RegisterForm = {
 }
 
 const Register = () => {
-    const {mutate: registerMutation} = useRegister();
-    const {control, reset, handleSubmit} = useForm<RegisterForm>({
-        efaultValues: registerFormDefaultValues
+    const { mutate: registerMutation } = useRegister();
+    const { control, reset, handleSubmit } = useForm<RegisterForm>({
+        defaultValues: registerFormDefaultValues
     });
 
     const onSubmitHandler: SubmitHandler<RegisterForm> = (data) => {
@@ -44,29 +44,29 @@ const Register = () => {
             gap={2}
             spacing={1}
         >
-            <Grid item xs={12}><LogoWithText/></Grid>
+            <Grid item xs={12}><LogoWithText /></Grid>
             <Grid item xs={12}> <Typography variant={"subtitle1"}>Utwórz konto i zarządzaj firmą!</Typography></Grid>
-            <Grid item xs={12} sx={{width: "350px"}}>
+            <Grid item xs={12} sx={{ width: "350px" }}>
                 <form onSubmit={handleSubmit(onSubmitHandler)}>
                     <Grid item container xs={12} spacing={2}>
                         <Grid item xs={12}>
-                            <FormInput control={control} label={"Imię"} name={"firstname"}/>
+                            <FormInput control={control} label={"Imię"} name={"firstname"} />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInput control={control} label={"Nazwisko"} name={"lastname"}/>
+                            <FormInput control={control} label={"Nazwisko"} name={"lastname"} />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInput control={control} label={"Email"} name={"email"}/>
+                            <FormInput control={control} label={"Email"} name={"email"} />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInput control={control} label={"Hasło"} name={"password"} type={"password"}/>
+                            <FormInput control={control} label={"Hasło"} name={"password"} type={"password"} />
                         </Grid>
                         <Grid item xs={12}>
                             <FormInput control={control} label={"Potwierdź hasło"} name={"confirmPassword"}
-                                       type={"password"}/>
+                                type={"password"} />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type={"submit"} variant={"contained"} sx={{width: "100%"}}>Zarejestruj</Button>
+                            <Button type={"submit"} variant={"contained"} sx={{ width: "100%" }}>Zarejestruj</Button>
                         </Grid>
                     </Grid>
                 </form>

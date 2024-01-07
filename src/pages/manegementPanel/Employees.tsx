@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/auth/useAuth";
 
 const Employees = () => {
-    const { auth } = useAuth();
     const [employeeModal, setEmployeeModal] = useState<boolean>(false);
     const { data: employees } = useGetEmployees();
 
@@ -79,8 +78,11 @@ const Employees = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <CustomTable
-                            muiTableBodyProps={() => ({
-                                onClick: () => navigate(`/management-panel/employee/${auth?.userId}/details`),
+                            muiTableBodyRowProps={({ row }) => ({
+                                onClick: () => {
+                                    var number = row.original.id;
+                                    navigate(`/management-panel/employee/${number}/details`)
+                                },
                                 sx: { cursor: "pointer" }
                             })}
                             columns={columns}

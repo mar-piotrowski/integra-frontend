@@ -1,0 +1,46 @@
+import { MRT_ColumnDef } from "material-react-table";
+import { useMemo } from "react";
+import { toDateString } from "../../utils/dateHelper";
+import { SchoolHistoryDto } from "../../api/types/documentTypes";
+import { schoolDegreeMapper } from "../../constants/mappers";
+import CustomTable from "../../components/CustomTable";
+import React from "react";
+import useAuth from "../../hooks/auth/useAuth";
+import useGetSchoolHistories from "../../hooks/schoolHistory/useGetSchoolHistories";
+
+const EmployeePanelSchoolHistoriesTable = () => {
+    const { auth } = useAuth();
+    const { data: schoolHistories } = useGetSchoolHistories(auth?.userId);
+    const columns = useMemo<MRT_ColumnDef<SchoolHistoryDto>[]>(
+        () => [
+            {
+                accessorKey: "schoolName",
+                header: "Szkoła"
+            },
+            {
+                accessorKey: "degree",
+                header: "Stopień",
+                Cell: ({ row }) => <div>{schoolDegreeMapper(row.original.degree)}</div>
+            },
+            {
+                accessorKey: "startDate",
+                header: "Od",
+                Cell: ({ row }) => <div>{toDateString(row.original.startDate)}</div>
+            },
+            {
+                accessorKey: "endDate",
+                header: "Do",
+                Cell: ({ row }) => <div>{toDateString(row.original.endDate)}</div>
+            },
+        ],
+        []
+    );
+    return (
+        <CustomTable
+            columns={columns}
+            data={schoolHistories ?? []}
+        />
+    );
+}
+
+export default EmployeePanelSchoolHistoriesTable;

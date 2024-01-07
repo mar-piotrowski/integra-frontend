@@ -10,6 +10,7 @@ import { UserAbsent, UserAbsentHistory } from "../../../constants/models";
 import ModalLimitUserHoliday from "../../../features/modals/ModalLimitUserHoliday";
 import { HolidayLimit } from "../../../api/types/documentTypes";
 import useGetHolidayLimits from "../../../hooks/holidayLimits/useGetHolidayLimits";
+import HeaderAction from "../../../components/HeaderAction";
 
 export const mockLimit: UserAbsent[] = [
     {
@@ -90,19 +91,18 @@ const ManagementEmployeeAbsences = () => {
 
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container>
+            <Grid container spacing={4}>
+                <Grid item container xs={12}>
                     <Grid item xs={12}>
-                        <Typography variant="h4">Limity urlopowe</Typography>
-                    </Grid>
-                    <Grid item container justifyContent={"flex-end"}>
-                        <Button
-                            variant="contained"
-                            disableElevation
-                            onClick={openLimitHolidayModal}
-                        >
-                            Dodaj limit
-                        </Button>
+                        <HeaderAction title={"Limity urlopowe"}>
+                            <Button
+                                variant="contained"
+                                disableElevation
+                                onClick={openLimitHolidayModal}
+                            >
+                                Dodaj limit
+                            </Button>
+                        </HeaderAction>
                     </Grid>
                     <Grid item xs={12}>
                         <CustomTable
@@ -110,19 +110,20 @@ const ManagementEmployeeAbsences = () => {
                             data={holidayLimits ?? []}
                         />
                     </Grid>
+                </Grid>
+                <Grid item container xs={12}>
                     <Grid item xs={12}>
-                        <Typography variant="h4">Nieobecności</Typography>
+                        <HeaderAction title={"Nieobecności"}>
+                            <Button
+                                variant="contained"
+                                disableElevation
+                                onClick={openArrangeAbsentModal}
+                            >
+                                Dodaj nieobecność
+                            </Button>
+                        </HeaderAction>
                     </Grid>
-                    <Grid item container justifyContent={"flex-end"}>
-                        <Button
-                            variant="contained"
-                            disableElevation
-                            onClick={openArrangeAbsentModal}
-                        >
-                            Dodaj nieobecność
-                        </Button>
-                    </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                         <CustomTable
                             columns={columnsArrangeAbsent}
                             data={mockArrange}
@@ -143,7 +144,7 @@ const ManagementEmployeeAbsences = () => {
                         />
                     </Grid>
                 </Grid>
-            </Box>
+            </Grid>
             <ModalArrangeUserAbsent open={arrangeAbsentModal} onClose={closeArrangeAbsentModal} />
             <ModalLimitUserHoliday open={limitHolidayModal} onClose={closeLimitHolidayModal} />
         </>

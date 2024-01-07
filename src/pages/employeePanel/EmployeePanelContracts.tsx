@@ -5,21 +5,17 @@ import { ContractDto } from "../../api/types/documentTypes";
 import ContractStatus from "../../components/ContractStatus";
 import CustomTable from "../../components/CustomTable";
 import { contractTypeMapper } from "../../constants/mappers";
-import useAuth from "../../hooks/auth/useAuth";
 import useGetContracts from "../../hooks/contract/useGetContracts";
 import { toDateString } from "../../utils/dateHelper";
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import ContentPasteOffOutlinedIcon from '@mui/icons-material/ContentPasteOffOutlined';
-import SignContractModal from "../../features/modals/SingContractModal";
-import ContractDetailsModal from "../../features/modals/ContractDetailsModal";
+import ContractDetailsModal from "../../features/modals/contractDetails/ContractDetailsModal";
+import { useParams } from "react-router-dom";
 
 const EmployeePanelContracts = () => {
-    const [openSignContractModal, setOpenSignContractModal] = useState<boolean>(false);
     const [openDetailsContractModal, setOpenDetailsContractModal] = useState<boolean>(false);
-    const { auth } = useAuth();
     const [contract, setContract] = useState<ContractDto | null>(null);
-    const { data: contracts } = useGetContracts(auth?.userId);
+    const { userId } = useParams();
+    const { data: contracts } = useGetContracts(parseInt(userId!));
 
     const columns = useMemo<MRT_ColumnDef<ContractDto>[]>(
         () => [
@@ -56,10 +52,6 @@ const EmployeePanelContracts = () => {
         []
     );
 
-    const handleOpenSignContractModal = () => setOpenSignContractModal(true);
-
-    const handleCloseSignContractModal = () => setOpenSignContractModal(false);
-
     const handleOpenDetailsContractModal = () => setOpenDetailsContractModal(true);
 
     const handleCloseDetailsContractModal = () => {
@@ -83,16 +75,6 @@ const EmployeePanelContracts = () => {
                             sx: { cursor: "pointer" }
                         })}
                         renderRowActionMenuItems={({ closeMenu, row }) => [
-                            <MenuItem key="Podpisz" onClick={() => {
-                                closeMenu();
-                                setContract(row.original);
-                                handleOpenSignContractModal();
-                            }}>
-                                <ListItemIcon>
-                                    <ModeEditOutlineOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText>Podpisz</ListItemText>
-                            </MenuItem>,
                             <MenuItem key="cancel" onClick={() => {
                                 closeMenu();
                             }}>
@@ -105,14 +87,6 @@ const EmployeePanelContracts = () => {
                     />
                 </Grid>
             </Grid>
-            {
-                openSignContractModal
-                    ? <SignContractModal
-                        isOpen={openSignContractModal}
-                        onClose={handleCloseSignContractModal}
-                        contract={contract!} />
-                    : null
-            }
             {
                 openDetailsContractModal
                     ? <ContractDetailsModal

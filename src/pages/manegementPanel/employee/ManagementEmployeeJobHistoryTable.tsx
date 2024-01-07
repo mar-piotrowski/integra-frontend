@@ -9,11 +9,12 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DeleteJobHistoryDialog from "../../../features/dialog/DeleteJobHistoryDialog";
 import useGetJobHistories from "../../../hooks/workHistory/useGetJobHistories";
-import useAuth from "../../../hooks/auth/useAuth";
+import HeaderAction from "../../../components/HeaderAction";
+import { useParams } from "react-router-dom";
 
 const ManagementEmployeeJobHistoryTable = () => {
-    const { auth } = useAuth();
-    const { data: jobHistories } = useGetJobHistories(auth?.userId);
+    const { userId } = useParams();
+    const { data: jobHistories } = useGetJobHistories(parseInt(userId!));
     const [jobHistoryToEdit, setJobHistoryToEdit] = useState<JobHistoryDto | null>(null);
     const [workHistoryModal, setWorkHistoryModal] = useState<boolean>(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -57,8 +58,14 @@ const ManagementEmployeeJobHistoryTable = () => {
         <>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Button variant={"contained"} onClick={handleOpenModal}>Dodaj historię
-                        zatrudnienia</Button>
+                    <HeaderAction title="Historia zatrudnienia">
+                        <Button
+                            disableElevation
+                            variant={"contained"}
+                            onClick={handleOpenModal}>
+                            Dodaj historię zatrudnienia
+                        </Button>
+                    </HeaderAction>
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTable

@@ -11,6 +11,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DeleteSchoolHistoryDialog from "../../../features/dialog/DeleteSchoolHistoryDialog";
 import useAuth from "../../../hooks/auth/useAuth";
+import HeaderAction from "../../../components/HeaderAction";
 
 const ManagementEmployeeSchoolHistoryTable = () => {
     const { auth } = useAuth();
@@ -59,7 +60,14 @@ const ManagementEmployeeSchoolHistoryTable = () => {
         <>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Button variant={"contained"} onClick={handleOpenModal}>Dodaj wykształcenie</Button>
+                    <HeaderAction title="Historia wyksztacenia">
+                        <Button
+                            disableElevation
+                            variant={"contained"}
+                            onClick={handleOpenModal}>
+                            Dodaj wykształcenie
+                        </Button>
+                    </HeaderAction>
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTable

@@ -1,18 +1,15 @@
 import CustomTable from "../../components/CustomTable";
-import { Box, Button, Grid, ListItemIcon, ListItemText, MenuItem, Typography } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useMemo } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import { UserAbsentHistory } from "../../constants/models";
-import { mockLimit } from "../manegementPanel/employee/ManagementEmployeeAbsences";
 import { HolidayLimit } from "../../api/types/documentTypes";
 import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
-import useAuth from "../../hooks/auth/useAuth";
+import { useParams } from "react-router-dom";
 
 const EmployeePanelAbsences = () => {
-    const { auth } = useAuth();
-    const { data: holidayLimits } = useGetHolidayLimits(auth?.userId);
+    const { userId } = useParams();
+    const { data: holidayLimits } = useGetHolidayLimits(parseInt(userId!));
 
     const columnsLimitHoliday = useMemo<MRT_ColumnDef<HolidayLimit>[]>(
         () => [

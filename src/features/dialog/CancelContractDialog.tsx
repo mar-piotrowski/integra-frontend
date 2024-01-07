@@ -29,8 +29,6 @@ const CancelContractDialog = ({ isOpen: open, onClose, contractId }: CancelContr
                 </Button>
             </DialogActions>
         </Dialog>
-
-
     )
 }
 

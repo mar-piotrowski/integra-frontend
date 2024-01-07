@@ -5,16 +5,14 @@ import ManagementEmployeeJobHistoryTable from "./ManagementEmployeeJobHistoryTab
 
 const ManagementEmployeeDocuments = () => {
     return (
-        <>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <ManagementEmployeeJobHistoryTable />
-                </Grid>
-                <Grid item xs={12}>
-                    <ManagementEmployeeSchoolHistoryTable />
-                </Grid>
+        <Grid container spacing={4}>
+            <Grid item xs={12}>
+                <ManagementEmployeeJobHistoryTable />
             </Grid>
-        </>
+            <Grid item xs={12}>
+                <ManagementEmployeeSchoolHistoryTable />
+            </Grid>
+        </Grid>
     )
 }
 

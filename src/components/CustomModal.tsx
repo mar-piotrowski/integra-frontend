@@ -1,4 +1,4 @@
-import { Fade, Modal, } from "@mui/material";
+import { Divider, Fade, Modal, Typography, } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 

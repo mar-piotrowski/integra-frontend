@@ -3,13 +3,12 @@ import React, { useMemo, useState } from "react";
 import CustomTable from "../../components/CustomTable";
 import { MenuItem, ListItemIcon, ListItemText, Button, Grid } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import JobPositionModal from "../../features/modals/JobPositionModal";
 import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ShowAmount from "../../components/ShowAmount";
 
 const JobPositions = () => {
-
     const [jobPositionEdit, setJobPositionEdit] = useState<JobPosition | null>(null);
     const [openModal, setOpenModal] = useState(false);
     const { data: jobPositions } = useGetJobPositions();
@@ -76,7 +75,7 @@ const JobPositions = () => {
                     />
                 </Grid>
             </Grid>
-            {openModal ? <JobPositionModal isOpen={openModal} onClose={handleCloseModal} jobPositionEdit={jobPositionEdit} /> : null}
+            {openModal ? <JobPositionModal isOpen={openModal} onClose={handleCloseModal} jobPositionEdit={jobPositionEdit!} /> : null}
         </>
     );
 };

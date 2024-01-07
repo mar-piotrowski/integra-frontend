@@ -1,6 +1,7 @@
 import { CloudDoneRounded } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import React, { cloneElement } from "react";
+import { NavLink } from "react-router-dom";
 
 interface SettingProps {
     children: JSX.Element[];
@@ -9,10 +10,11 @@ interface SettingProps {
 
 const Root = ({ children, onClick }: SettingProps) => {
     return (
-        <Grid item xs={2}
+        <Grid item
             onClick={onClick}
             sx={{
                 p: 1,
+                width: "200px",
                 background: "#FFFFFF",
                 borderRadius: "10px",
                 display: "flex",

@@ -59,7 +59,7 @@ const Contracts = () => {
             <Grid sx={{ flexGrow: 1 }} container spacing={2}>
                 <Grid item container>
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         disableElevation
                         onClick={() => navigate("/management-panel/create-contract")}
                     >

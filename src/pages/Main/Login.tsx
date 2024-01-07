@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
-import {Button, Checkbox, FormControlLabel, FormGroup, Grid, Typography} from "@mui/material";
-import LogoWithText from "../LogoWithText";
-import {SubmitHandler, useForm} from "react-hook-form";
-import FormInput from "../components/form/FormInput";
-import useLogin from "../hooks/auth/useLogin";
-import useAuth from "../hooks/auth/useAuth";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Typography } from "@mui/material";
+import LogoWithText from "../../LogoWithText";
+import { SubmitHandler, useForm } from "react-hook-form";
+import FormInput from "../../components/form/FormInput";
+import useLogin from "../../hooks/auth/useLogin";
+import useAuth from "../../hooks/auth/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export interface LoginForm {
     email: string;
@@ -23,11 +23,11 @@ interface LoginProps {
     type: LoginType;
 }
 
-const Login = ({type}: LoginProps) => {
-    const {mutate: loginMutation} = useLogin();
-    const {auth, persist, setPersist} = useAuth();
+const Login = ({ type }: LoginProps) => {
+    const { mutate: loginMutation } = useLogin();
+    const { auth, persist, setPersist } = useAuth();
     const navigate = useNavigate();
-    const {control, handleSubmit} = useForm<LoginForm>({
+    const { control, handleSubmit } = useForm<LoginForm>({
         defaultValues: loginFormDefaultValues
     });
 
@@ -54,7 +54,7 @@ const Login = ({type}: LoginProps) => {
             gap={2}
             spacing={1}
         >
-            <Grid item xs={12}><LogoWithText/></Grid>
+            <Grid item xs={12}><LogoWithText /></Grid>
             <Grid item xs={12}>
                 <Typography
                     variant={"subtitle1"}>
@@ -62,17 +62,17 @@ const Login = ({type}: LoginProps) => {
                     {type == "employee" ? " do panelu pracownika" : " do panelu zarządzania"}
                 </Typography>
             </Grid>
-            <Grid item xs={12} sx={{width: "350px"}}>
+            <Grid item xs={12} sx={{ width: "350px" }}>
                 <form onSubmit={handleSubmit(onSubmitHandler)}>
                     <Grid item container xs={12} spacing={2}>
                         <Grid item xs={12}>
-                            <FormInput control={control} label={"Email"} name={"email"}/>
+                            <FormInput control={control} label={"Email"} name={"email"} />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInput control={control} label={"Hasło"} name={"password"} type={"password"}/>
+                            <FormInput control={control} label={"Hasło"} name={"password"} type={"password"} />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type={"submit"} variant={"contained"} sx={{width: "100%"}}>Zaloguj</Button>
+                            <Button type={"submit"} variant={"contained"} sx={{ width: "100%" }}>Zaloguj</Button>
                         </Grid>
                     </Grid>
                 </form>
@@ -84,7 +84,7 @@ const Login = ({type}: LoginProps) => {
                                 checked={persist}
                             />
                         }
-                        label="Zapamiętaj mnie"/>
+                        label="Zapamiętaj mnie" />
                 </FormGroup>
             </Grid>
         </Grid>

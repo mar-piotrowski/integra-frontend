@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import React from "react";
 import Logo from "./assets/Logo";
-import {Typography, useTheme} from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 
 const LogoWithText = () => {
     const theme = useTheme();
@@ -14,7 +14,7 @@ const LogoWithText = () => {
                 gap: "10px",
             }}
         >
-            <Logo width={40} height={40}/>
+            <Logo width={40} height={40} />
             <Typography
                 variant="h3"
                 fontSize={24}

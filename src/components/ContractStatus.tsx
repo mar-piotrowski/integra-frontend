@@ -12,7 +12,6 @@ const ContractStatus = ({ status }: ContractStatusProps) => {
             case 1: return "#27ae60";
             case 2: return "#f1c40f"
             case 3: return "#c0392b";
-            case 4: return "#c0392b";
             default: return "#7f8c8d";
         };
     }
@@ -21,8 +20,7 @@ const ContractStatus = ({ status }: ContractStatusProps) => {
         switch (status) {
             case 1: return "Aktywny";
             case 2: return "Oczkuje";
-            case 3: return "Anulowany";
-            case 4: return "Zakończony";
+            case 3: return "Zakończony";
             default: return "Nieznany";
         }
     }

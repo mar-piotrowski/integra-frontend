@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box } from "@mui/system";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import CustomTabs, { CustomTabItem } from "../../../components/CustomTabs";
-import useAuth from "../../../hooks/auth/useAuth";
-import ManagementEmployeeDetails from "./ManagementEmployeeDetails";
+import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
+import CustomPageTabs, { CustomTabItem } from "../../../components/CustomPageTabs";
+import useGetEmployee from "../../../hooks/employee/useGetEmployee";
+import ManagementEmployeeNotFound from "./ManagementEmployeeNotFound";
 
 const tabs = [
     {
@@ -33,12 +33,13 @@ const tabs = [
 ]
 
 const ManagementEmployeeTabs = () => {
-    const { auth } = useAuth();
+    const { userId } = useParams();
     const location = useLocation();
+    const { data: user } = useGetEmployee(parseInt(userId!));
 
     const customTabs: CustomTabItem[] = tabs.map(tab => ({
         title: tab.title,
-        link: `/management-panel/employee/${auth?.userId}/${tab.link}`
+        link: `/management-panel/employee/${userId}/${tab.link}`
     }))
 
     return (
@@ -51,12 +52,16 @@ const ManagementEmployeeTabs = () => {
             }}
         >
             {
-                location.pathname == `/management-panel/employee/${auth?.userId}`
+                location.pathname == `/management-panel/employee/${userId}`
                     ? <Navigate to={customTabs[0].link} replace={true} />
-                    : <CustomTabs tabs={customTabs} />
+                    : <CustomPageTabs tabs={customTabs} />
             }
             <Box sx={{ padding: "10px" }}>
-                <Outlet />
+                {
+                    user != undefined
+                        ? <Outlet />
+                        : <ManagementEmployeeNotFound />
+                }
             </Box>
         </Box>
     );

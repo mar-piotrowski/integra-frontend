@@ -6,16 +6,15 @@ export enum Degree {
 }
 
 export enum ContractType {
+    None,
     EmploymentContract,
     MandateContract,
     ForWorkContract,
-    ManageContract
-}
-
-export enum ContractTerminateType {
+    ManageContract,
+    ChangeContract,
     ByMutualAgreement,
     ByTheEmployer,
-    ByTheEmployerWithoutNoticePeriodDueToAEmployeeFault,
-    ByTheEmployerWithoutNoticePeriodDueToNoEmployeeFault,
-    ByTheEmployee
+    ByTheEmployee,
+    ByTheEmployerWithNoticePeriod,
+    ByTheEmployerWithoutNoticePeriod,
 }

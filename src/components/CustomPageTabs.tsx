@@ -12,7 +12,7 @@ interface CustomTabsProps {
     tabs: CustomTabItem[];
 }
 
-const CustomTabs = ({ tabs }: CustomTabsProps) => {
+const CustomPageTabs = ({ tabs }: CustomTabsProps) => {
     const [value, setValue] = useState(0);
     const location = useLocation();
 
@@ -47,4 +47,4 @@ const CustomTabs = ({ tabs }: CustomTabsProps) => {
     )
 }
 
-export default CustomTabs;
+export default CustomPageTabs;

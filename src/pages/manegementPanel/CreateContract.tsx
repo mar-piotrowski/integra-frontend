@@ -1,16 +1,20 @@
-import { Grid, TextField, Typography, FormGroup, FormControlLabel, Checkbox, Box, Button, keyframes } from "@mui/material";
+import { Grid, TextField, FormGroup, FormControlLabel, Checkbox, Box, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import FormCheckBox from "../../components/form/FormCheckBox";
 import FormDate from "../../components/form/FormDate";
 import FormInput from "../../components/form/FormInput";
-import FormSelect from "../../components/form/FormSelect";
+import FormSelect, { FormSelectOption } from "../../components/form/FormSelect";
 import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
 import useCreateContract from "../../hooks/contract/useCreateContract";
 import { Contract } from "../../api/types/documentTypes";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useAuth from "../../hooks/auth/useAuth";
 import CancelCreateContractDialog from "../../features/dialog/CancelCreateContractDialog";
-import { useNavigate } from "react-router-dom";
+import EmployeeCostCalculator from "../../features/employee/EmployeeCostCalculator";
+import Header from "../../components/CustomModalHeader";
+import { z } from "Zod";
+import { ContractType } from "../../constants/enums";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Salary = {
     withTax: number;
@@ -27,8 +31,8 @@ const defaultValues: Contract = {
     salaryWithTax: 0,
     salaryWithoutTax: 0,
     contractType: 0,
-    workingHours1: 0,
-    workingHours2: 0,
+    workingHours1: 1,
+    workingHours2: 1,
     startDate: "",
     endDate: null,
     signedOnDate: null,
@@ -42,8 +46,35 @@ const defaultValues: Contract = {
     jobPositionId: 0,
     insuranceCodeId: 0,
     deductibleCostId: 0,
-    active: false
 }
+
+const contractTypes: FormSelectOption[] = [
+    {
+        label: "Umowa o pracę",
+        value: ContractType.EmploymentContract
+    },
+    {
+        label: "Umowa zlecenie",
+        value: ContractType.MandateContract
+    },
+    {
+        label: "Umowa o dzieło",
+        value: ContractType.ForWorkContract
+    }
+];
+
+const validationSchema = z.object({
+    salaryWithTax: z.number().min(1, "Wartość musi być większa od 0"),
+    salaryWithoutTax: z.number().min(1, "Wartość musi być większa od 0"),
+    contractType: z.number().min(1, "Wybierz rodzaj umowy"),
+    startDate: z.string({ required_error: "Podaj datę rozpoczęcia umowy" })
+        .min(1, "Podaj datę rozpoczęcia umowy"),
+    jobPositionId: z.number().min(1, "Wybierz stanowisko"),
+    workingHours1: z.number().min(1, "Nie podano wymiaru etatu"),
+    workingHours2: z.number().min(1, "Nie podano wymiaru etatu"),
+    insuranceCodeId: z.number().min(1, "Wybierz tytuł ubezpieczenia"),
+    deductibleCostId: z.number().min(1, "Wybierz koszt przychodu")
+});
 
 const CreateContract = () => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -53,9 +84,9 @@ const CreateContract = () => {
     const { data: jobPositions } = useGetJobPositions();
     const { mutate: createContractMutation } = useCreateContract();
     const { control, reset, handleSubmit, setValue: setValueForm } = useForm<Contract>({
-        defaultValues
+        defaultValues,
+        resolver: zodResolver(validationSchema)
     });
-    const navigate = useNavigate();
 
     useEffect(() => {
         changeSalary();
@@ -109,8 +140,10 @@ const CreateContract = () => {
 
     return (
         <>
-            <Grid container spacing={2} >
-                <Grid item container xs={12} md={6} >
+            <Header title="Tworzenie umowy" />
+            <Grid container spacing={8}>
+                <Grid item container xs={12} md={6}>
+
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid item container xs={12} spacing={2}>
                             <Grid item xs={12}>
@@ -121,7 +154,7 @@ const CreateContract = () => {
                                     name={"contractType"}
                                     label={"Rodzaj umowy"}
                                     control={control}
-                                    options={[]}
+                                    options={contractTypes}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -206,20 +239,18 @@ const CreateContract = () => {
                         </Grid>
                         <Grid item container spacing={2} justifyContent={"flex-end"} >
                             <Grid item>
-                                <Button type="button" color="error" variant="contained" onClick={handleOpenDialog}>Anuluj</Button>
+                                <Button disableElevation type="button" color="error" variant="contained" onClick={handleOpenDialog}>Anuluj</Button>
                             </Grid>
                             <Grid item>
-                                <Button type="submit" variant="contained">
+                                <Button disableElevation type="submit" variant="contained">
                                     Dodaj
                                 </Button>
                             </Grid>
                         </Grid>
                     </form>
                 </Grid>
-                <Grid item container xs={12} md={6}>
-                    <Grid item>
-                        <Typography variant="h3">Kalkulacja kosztów pracownika</Typography>
-                    </Grid>
+                <Grid item xs={12} md={6}>
+                    <EmployeeCostCalculator />
                 </Grid>
             </Grid >
             {
