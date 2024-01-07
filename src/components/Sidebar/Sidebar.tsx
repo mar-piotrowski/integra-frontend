@@ -9,7 +9,7 @@ import {
 
 import NavGroup from "./NavGroup";
 import React from "react";
-import {MenuItem} from "../../constants/navigation/menuItems";
+import { MenuItem } from "../../constants/navigation/menuItems";
 import Logo from "../../assets/Logo";
 
 interface SidebarProps {
@@ -18,13 +18,11 @@ interface SidebarProps {
 	items: MenuItem;
 }
 
-const Sidebar = ({ toggle, setToggle, items}: SidebarProps) => {
+const Sidebar = ({ toggle, setToggle, items }: SidebarProps) => {
 	const theme = useTheme();
 	const responsive = useMediaQuery(theme.breakpoints.up("md"));
 	const drawerWidth = 300;
 
-	// const container =
-	// 	window !== undefined ? () => window.document.body : undefined;
 
 	return (
 		<Box component="nav">

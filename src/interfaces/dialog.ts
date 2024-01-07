@@ -1,4 +1,4 @@
 export interface DialogProps {
-    open: boolean;
+    isOpen: boolean;
     onClose: () => void;
 }

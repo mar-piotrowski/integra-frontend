@@ -1,7 +1,7 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import CustomModal from "../../../components/CustomModal";
-import {ModalBaseProps} from "../../../interfaces/modal";
-import {Button, Grid, TextField, Typography} from "@mui/material";
+import { ModalBaseProps } from "../../../interfaces/modal";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import ModalContractorListItem from "./components/ModalContractorListItem";
 
 interface ModalSupplierProps extends ModalBaseProps {
@@ -9,7 +9,7 @@ interface ModalSupplierProps extends ModalBaseProps {
     setContractor: Dispatch<SetStateAction<number | null>>;
 }
 
-const ModalSupplier = ({open, onClose, contractors, setContractor}: ModalSupplierProps) => {
+const ModalSupplier = ({ open, onClose, contractors, setContractor }: ModalSupplierProps) => {
     const onSelectContractorHandler = (id: number) => {
         setContractor(id);
         onClose();
@@ -25,13 +25,13 @@ const ModalSupplier = ({open, onClose, contractors, setContractor}: ModalSupplie
     )
 
     return (
-        <CustomModal open={open} onClose={onClose}>
+        <CustomModal isOpen={open} onClose={onClose}>
             <Grid container>
                 <Grid item xs={12}>
                     <Typography variant={"h3"} mb={2}>Lista kontrahentów</Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField label={"Wyszukaj kontrahenta"} fullWidth/>
+                    <TextField label={"Wyszukaj kontrahenta"} fullWidth />
                 </Grid>
                 <Grid item xs={12} height={"400px"}>
                     {renderContractors}

@@ -1,3 +1,4 @@
+import { ContractTerminateType } from "../../constants/enums";
 import { BankDetails } from "./bankDetailsTypes";
 import { LocationDto as LocationDto } from "./locationTypes";
 
@@ -22,4 +23,10 @@ export type ContractorDto = {
     phone: string;
     email: string;
     bankDetails: BankDetails;
+}
+
+export type ContractTerminate = {
+    contractId: number;
+    terminateType: ContractTerminateType;
+    date: Date;
 }

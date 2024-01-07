@@ -1,9 +1,8 @@
-import {useQuery} from "react-query";
-import {schoolHistoryService} from "../../api/services/schoolHistoryService";
+import { useQuery } from "react-query";
+import { schoolHistoryService } from "../../api/services/schoolHistoryService";
 
-const useGetSchoolHistories = (userId: number = -1) => useQuery(
-    "schoolHistory",
-    () => schoolHistoryService.getAll(userId),
-    {cacheTime: 0}
-);
+const useGetSchoolHistories = (userId: number = -1) => useQuery({
+    queryKey: ["schoolHistories"],
+    queryFn: async () => (await schoolHistoryService.getAll(userId)).data
+});
 export default useGetSchoolHistories;

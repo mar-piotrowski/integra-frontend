@@ -7,13 +7,14 @@ import {
 	useTheme,
 } from "@mui/material";
 import { MenuItem } from "../../constants/navigation/menuItems";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
 import NavItem from "./NavItem";
 import React from "react";
 import { CustomListItemButton } from "../CustomListItemButton";
+import { useLocation } from "react-router-dom";
 
 interface NavCollapseProps {
 	menu: MenuItem;
@@ -24,6 +25,12 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState<string | null>(null);
+	const location = useLocation();
+
+	useEffect(() => {
+		if (menu.children?.find(item => item.url == location.pathname))
+			collapseHanlder();
+	}, [])
 
 	const collapseHanlder = () => {
 		setOpen(!open);

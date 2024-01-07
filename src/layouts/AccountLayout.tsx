@@ -1,7 +1,7 @@
 import React from "react";
-import {Box} from "@mui/system";
-import {Outlet} from "react-router-dom";
-import CustomTabs, {CustomTabItem} from "../components/CustomTabs";
+import { Box } from "@mui/system";
+import { Outlet } from "react-router-dom";
+import CustomPageTabs, { CustomTabItem } from "../components/CustomPageTabs";
 
 const tabs: CustomTabItem[] = [
     {
@@ -24,8 +24,8 @@ const AccountLayout = () => {
                 gap: "20px",
             }}
         >
-            <CustomTabs tabs={tabs}/>
-            <Outlet/>
+            <CustomPageTabs tabs={tabs} />
+            <Outlet />
         </Box>
     );
 };

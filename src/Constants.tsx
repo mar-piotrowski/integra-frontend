@@ -17,31 +17,3 @@ export interface NavLinkItem {
 	name: string;
 	to: string;
 }
-
-// export const SidebarUserNavigation: SidebarNavigation[] = [
-// 	{
-// 		categoryName: "Menu",
-// 		items: [
-// 			{
-// 				name: "Panel",
-// 				to: "/dashboard",
-// 			},
-// 			{
-// 				name: "Projekty",
-// 				to: "/projects",
-// 			},
-// 			{
-// 				name: "Grafik",
-// 				to: "/schedule",
-// 			},
-// 			{
-// 				name: "Urlopy",
-// 				to: "/holidays",
-// 			},
-// 			{
-// 				name: "Szkolenia",
-// 				to: "/courses",
-// 			},
-// 		],
-// 	},
-// ];

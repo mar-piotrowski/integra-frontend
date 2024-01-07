@@ -1,6 +1,6 @@
-import {FormControl, FormHelperText, InputLabel, MenuItem, Select} from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
-import {Control, Controller, FieldValues, Path} from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 export interface FormSelectOption {
     label: string;
@@ -16,15 +16,15 @@ interface FormSelectProps<T extends FieldValues> {
 }
 
 const FormSelect = <T extends FieldValues>({
-                                               name,
-                                               label,
-                                               control,
-                                               options,
-                                           }: FormSelectProps<T>) => {
+    name,
+    label,
+    control,
+    options,
+}: FormSelectProps<T>) => {
     const generateSingleOptions = () => {
-        return options.map((option: FormSelectOption) => {
+        return options.map((option: FormSelectOption, index) => {
             return (
-                <MenuItem key={option.value} value={option.value} onClick={option.onClick}>
+                <MenuItem key={option.value} value={option.value} onClick={option.onClick} selected={index == 0}>
                     {option.label}
                 </MenuItem>
             );
@@ -34,22 +34,20 @@ const FormSelect = <T extends FieldValues>({
         <FormControl fullWidth>
             <InputLabel id="demo-select-small-label">{label}</InputLabel>
             <Controller
-                render={({field: {onChange, value}, fieldState: {error}}) => (
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <>
                         <Select
                             labelId="demo-select-small-label"
-                            onChange={(value) => {
-                                onChange(value);
-                            }}
+                            onChange={(value) => onChange(value)}
                             error={!!error}
-                            value={value}
+                            value={value == 0 ? "" : value}
                             label={label}
                         >
                             {generateSingleOptions()}
                         </Select>
                         {
                             error
-                                ? <FormHelperText sx={{color: "red"}}>{error.message}</FormHelperText>
+                                ? <FormHelperText sx={{ color: "red" }}>{error.message}</FormHelperText>
                                 : null
                         }
                     </>

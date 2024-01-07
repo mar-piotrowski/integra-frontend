@@ -5,22 +5,22 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import {MenuItem} from "../../constants/navigation/menuItems";
+import { MenuItem } from "../../constants/navigation/menuItems";
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
-import {useDispatch, useSelector} from "react-redux";
-import React from "react";
-import {CustomListItemButton} from "../CustomListItemButton";
-import {Link, useLocation} from "react-router-dom";
-import {RootState} from "../../store/store";
-import {set} from "../../store/sidebarSlice";
-import {add} from "../../store/collapseMenuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { CustomListItemButton } from "../CustomListItemButton";
+import { Link, useLocation } from "react-router-dom";
+import { RootState } from "../../store/store";
+import { set } from "../../store/sidebarSlice";
+import { add } from "../../store/collapseMenuSlice";
 
 interface NavItemProps {
     item: MenuItem;
     level: number;
 }
 
-const NavItem = ({item, level}: NavItemProps) => {
+const NavItem = ({ item, level }: NavItemProps) => {
     const theme = useTheme();
     const location = useLocation();
     const collapseMenusSelector = useSelector(
@@ -29,10 +29,15 @@ const NavItem = ({item, level}: NavItemProps) => {
     const dispatch = useDispatch();
     const responsive = useMediaQuery(theme.breakpoints.down("lg"));
 
+    useEffect(() => {
+        if (location.pathname == item?.url)
+            listItemHandler(item.id)
+    }, [])
+
     const Icon = item.icon;
     const itemIcon =
         item.icon != null ? (
-            <Icon/>
+            <Icon />
         ) : (
             <FiberManualRecordRoundedIcon
                 sx={{
@@ -68,11 +73,13 @@ const NavItem = ({item, level}: NavItemProps) => {
             }}
             selected={
                 collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
-                && location.pathname.includes(item.url)
+                && location.pathname.includes(item?.url ?? "")
             }
-            onClick={() => listItemHandler(item.id)}
+            onClick={() => {
+                listItemHandler(item.id);
+            }}
         >
-            <ListItemIcon sx={{my: "auto", minWidth: !item?.icon ? 18 : 36}}>
+            <ListItemIcon sx={{ my: "auto", minWidth: !item?.icon ? 18 : 36 }}>
                 {itemIcon}
             </ListItemIcon>
             <ListItemText
@@ -80,11 +87,11 @@ const NavItem = ({item, level}: NavItemProps) => {
                     <Typography
                         variant={
                             collapseMenusSelector.findIndex((id: string) => id === item.id) >
-                            -1
+                                -1
                                 ? "h5"
                                 : "body1"
                         }
-                        sx={{my: "auto"}}
+                        sx={{ my: "auto" }}
                         color="inherit"
                     >
                         {item.title}

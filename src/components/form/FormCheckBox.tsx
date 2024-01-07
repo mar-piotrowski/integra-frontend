@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {Checkbox, FormControl, FormControlLabel} from "@mui/material";
-import {Control, Controller, FieldValues, Path} from "react-hook-form";
+import React, { useState } from "react";
+import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 interface FormCheckBoxProps<T extends FieldValues> {
     name: Path<T>;
@@ -9,10 +9,10 @@ interface FormCheckBoxProps<T extends FieldValues> {
 }
 
 const FormCheckBox = <T extends FieldValues>({
-                                                 label,
-                                                 name,
-                                                 control,
-                                             }: FormCheckBoxProps<T>) => {
+    label,
+    name,
+    control,
+}: FormCheckBoxProps<T>) => {
     const [selected, setSelected] = useState<boolean>(false)
 
     const selectedHandler = () => setSelected(prev => !prev);
@@ -23,7 +23,7 @@ const FormCheckBox = <T extends FieldValues>({
                 control={
                     <Controller
                         name={name}
-                        render={({field: {onChange, value}, fieldState: {error}}) => {
+                        render={({ field: { onChange, value } }) => {
                             return (
                                 <Checkbox
                                     checked={value}

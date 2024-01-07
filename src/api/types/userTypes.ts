@@ -32,7 +32,10 @@ export type UserDto = {
     id: number;
     firstname: string;
     lastname: string;
+    secondName: string;
     email: string;
+    phone: string;
+    identityNumber: string;
     jobPosition?: string;
     locations: LocationDto[];
 }
