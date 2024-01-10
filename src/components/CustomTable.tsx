@@ -2,7 +2,7 @@ import MaterialReactTable, {
     MRT_ColumnDef,
     MaterialReactTableProps,
 } from "material-react-table";
-import {MRT_Localization_PL} from "material-react-table/locales/pl";
+import { MRT_Localization_PL } from "material-react-table/locales/pl";
 import React from "react";
 
 interface CustomTableProps<T extends Record<string, any>>
@@ -12,17 +12,17 @@ interface CustomTableProps<T extends Record<string, any>>
 }
 
 const CustomTable = <T extends Record<string, any>>({
-                                                        ...props
-                                                    }: CustomTableProps<T>) => {
+    ...props
+}: CustomTableProps<T>) => {
     return (
         <MaterialReactTable
             {...props}
             enableGlobalFilterModes
-            initialState={{
-                showGlobalFilter: true,
-            }}
+            // initialState={{
+            //     showGlobalFilter: true,
+            // }}
             enableClickToCopy
-            positionGlobalFilter="left"
+            // positionGlobalFilter="left"
             enableStickyHeader
             localization={MRT_Localization_PL}
             enableDensityToggle={false}

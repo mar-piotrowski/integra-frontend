@@ -23,26 +23,6 @@ const ModalAddEmployeeDetails = ({ control }: ModalWorkerDetailsProps) => {
 				<FormDate name="dateOfBirth" label="Data urodzenie" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="mothername" label="Imię matki" control={control} />
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<FormInput name="fathername" label="Imię ojca" control={control} />
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<FormInput
-					name="motherLastname"
-					label="Nazwisko rodowe matki"
-					control={control}
-				/>
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<FormInput
-					name="fatherLastname"
-					label="Nazwisko rodowe ojca"
-					control={control}
-				/>
-			</Grid>
-			<Grid item xs={12} md={6}>
 				<FormInput name="citizenship" label="Obywatelstwo" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>

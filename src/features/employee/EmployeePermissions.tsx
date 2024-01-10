@@ -1,37 +1,97 @@
-import { Grid, Button, Typography } from "@mui/material";
-import React from "react";
-import HeaderAction from "../../components/HeaderAction";
+import { Grid, Button, Typography, useTheme, Box } from "@mui/material";
+import React, { useMemo, useState } from "react";
+import ModalAddPermission from "../modals/addPermission/ModalAddPermission";
+import { Permission } from "../../api/types/permissionTypes";
 import CustomTable from "../../components/CustomTable";
-import { errorToast } from "../../utils/toastUtil";
+import { MRT_ColumnDef } from "material-react-table";
+import useRemovePermissions from "../../hooks/permissions/useRemovePermissions";
+import { useParams } from "react-router-dom";
 
 interface EmployeePermissions {
-    permissions: number[];
+    permissions: Permission[];
     manage: boolean;
 }
 
 const EmployeePermissions = ({ permissions, manage }: EmployeePermissions) => {
+    const { userId } = useParams();
+    const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+    const { mutate: removePermissionsMutate } = useRemovePermissions();
 
-    const handleAddPermission = () => {
-        errorToast("Nie masz oprawnień!")
+    const columns = useMemo<MRT_ColumnDef<Permission>[]>(() => [
+        {
+            accessorKey: "name",
+            header: "Nazwa",
+        },
+        {
+            accessorKey: "type",
+            header: "Typ",
+        },
+        {
+            accessorKey: "asignmentDate",
+            header: "Data nadania"
+        },
+    ], []);
+
+    const handleOpenModal = () => setIsOpenModal(true);
+
+    const handleCloseModal = () => setIsOpenModal(false);
+
+    const handleRemovePermissions = (permissions: number[]) => {
+        removePermissionsMutate({
+            userId: parseInt(userId!),
+            payload: { permissions }
+        });
     }
 
     return (
-        <Grid container xs={12}>
-            {
-                manage ?
-                    <Grid item xs={12}>
-                        <HeaderAction title="Uprawnienia">
-                            <Button variant="contained" size="small" onClick={handleAddPermission}>Dodaj</Button>
-                        </HeaderAction>
-                    </Grid>
-                    : <Grid item>
-                        <Typography variant="h4">Uprawnieni</Typography>
-                    </Grid>
-            }
-            <Grid item xs={12}>
-                <CustomTable data={[]} columns={[]} />
+        <>
+            <Grid container spacing={2}>
+                <Grid item>
+                    <Typography variant="h4">Uprawnienia</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <CustomTable
+                        enableRowSelection
+                        columns={columns}
+                        data={permissions ?? []}
+                        renderTopToolbarCustomActions={({ table }) => (
+                            <Box sx={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                                <Button
+                                    disableElevation
+                                    variant="contained"
+                                    onClick={handleOpenModal}
+                                >
+                                    Dodaj
+                                </Button>
+                                <Button
+                                    disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
+                                    disableElevation
+                                    variant="contained"
+                                    color="error"
+                                    onClick={() => {
+                                        var permissions = table.getSelectedRowModel().rows.map(row => row.original.code);
+                                        handleRemovePermissions(permissions);
+                                        table.toggleAllRowsSelected(false);
+                                    }}
+                                >
+                                    Usun
+                                </Button>
+                            </Box>
+                        )}
+                    />
+                </Grid>
             </Grid>
-        </Grid>
+            {
+                isOpenModal
+                    ? <ModalAddPermission
+                        isOpen={isOpenModal}
+                        onClose={handleCloseModal}
+                        userPermissions={permissions}
+                    />
+                    : null
+            }
+        </>
+
     )
 };
 

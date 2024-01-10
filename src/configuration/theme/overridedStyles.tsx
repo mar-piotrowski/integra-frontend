@@ -80,32 +80,32 @@ export const componentStyleOverrides = (theme: ThemeOption) => {
 				},
 			},
 		},
-		MuiInputBase: {
-			// styleOverrides: {
-			// 	input: {
-			// 		padding: "8px",
-			// 		color: theme.textDark,
-			// 		"&::placeholder": {
-			// 			color: theme.darkTextSecondary,
-			// 			fontSize: "0.875rem",
-			// 		},
-			// 	},
-			// 	root: {
-			// 		borderRadius: "10px",
-			// 		padding: "5px",
-			// 		border: "none",
-			// 		background: theme.background,
-			// 		"&.MuiInput-underline": {
-			// 			"&:after": {
-			// 				border: "none !important",
-			// 			},
-			// 			"&:before": {
-			// 				border: "none !important",
-			// 			},
-			// 		},
-			// 	},
-			// },
-		},
+		// MuiInputBase: {
+		// styleOverrides: {
+		// 	input: {
+		// 		padding: "8px",
+		// 		color: theme.textDark,
+		// 		"&::placeholder": {
+		// 			color: theme.darkTextSecondary,
+		// 			fontSize: "0.875rem",
+		// 		},
+		// 	},
+		// 	root: {
+		// 		borderRadius: "10px",
+		// 		padding: "5px",
+		// 		border: "none",
+		// 		background: theme.background,
+		// 		"&.MuiInput-underline": {
+		// 			"&:after": {
+		// 				border: "none !important",
+		// 			},
+		// 			"&:before": {
+		// 				border: "none !important",
+		// 			},
+		// 		},
+		// 	},
+		// },
+		// },
 		MuiOutlinedInput: {
 			styleOverrides: {
 				root: {

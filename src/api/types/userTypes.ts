@@ -1,5 +1,6 @@
 import { BankDetails } from "../../constants/models";
 import { LocationDto } from "./locationTypes";
+import { Permission } from "./permissionTypes";
 
 export type UserId = {
     userId: number
@@ -9,15 +10,11 @@ export type CreateUser = {
     firstname: string;
     lastname: string;
     secondName: string;
-    mothername: string;
-    fathername: string;
-    motherLastname: string;
-    fatherLastname: string;
     dateOfBirth: string;
     placeOfBirth: string;
     pesel: string;
     jobPositionId: number;
-    sex: string;
+    sex: number;
     email: string;
     identityNumber: string;
     phone: string;
@@ -38,4 +35,5 @@ export type UserDto = {
     identityNumber: string;
     jobPosition?: string;
     locations: LocationDto[];
+    permissions: Permission[];
 }
