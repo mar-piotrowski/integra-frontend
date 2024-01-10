@@ -11,6 +11,7 @@ import CustomModal from "../../../components/CustomModal";
 import { z } from "Zod";
 import { CreateUser } from "../../../api/types/userTypes";
 import useCreateEmployee from "../../../hooks/employee/useCreateEmployee";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface ModalAddEmployeeProps {
     open: boolean;
@@ -21,14 +22,10 @@ const employeeFormDefaultValues: CreateUser = {
     firstname: "",
     lastname: "",
     secondName: "",
-    mothername: "",
-    fathername: "",
-    motherLastname: "",
-    fatherLastname: "",
     dateOfBirth: "",
     placeOfBirth: "",
     pesel: "",
-    sex: "",
+    sex: 0,
     email: "",
     identityNumber: "",
     phone: "",
@@ -55,7 +52,7 @@ const employeeFormDefaultValues: CreateUser = {
     },
 };
 
-const schema = z.object({
+const validationSchema = z.object({
     firstname: z.string().min(1, "Pole jest wymagane"),
     lastname: z.string().min(1, "Pole jest wymagane"),
     pesel: z.string()
@@ -63,10 +60,10 @@ const schema = z.object({
         .regex(/^[0-9]/, "Podano błędny pesel"),
     email: z.string().email("Podano błędy adres email"),
     phone: z.string().min(1, "Pole jest wymagane"),
-    birthPlace: z.string().min(1, "Pole jest wymagane"),
-    birthday: z.string().min(1, "Pole jest wymagane"),
+    placeOfBirth: z.string().min(1, "Pole jest wymagane"),
+    dateOfBirth: z.string().min(1, "Pole jest wymagane"),
     citizenship: z.string().min(1, "Pole jest wymagane"),
-    gender: z.number().min(1, "Wymagane jest wybranie płci"),
+    sex: z.number().min(1, "Wymagane jest wybranie płci"),
     location: z.object({
         city: z.string().min(1, "Pole jest wymagane"),
         street: z.string().min(1, "Pole jest wymagane"),
@@ -80,14 +77,15 @@ const ModalAddEmployee = ({ open, onClose }: ModalAddEmployeeProps) => {
     const { mutate: createEmployeeMutation } = useCreateEmployee();
     const [value, setValue] = React.useState("1");
     const { control, handleSubmit } = useForm<CreateUser>({
-        defaultValues: employeeFormDefaultValues
+        defaultValues: employeeFormDefaultValues,
+        resolver: zodResolver(validationSchema)
     });
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
     const onSubmitHandler: SubmitHandler<CreateUser> = (data) => {
         createEmployeeMutation(data);
-    };
+    }
 
     return (
         <CustomModal isOpen={open} onClose={onClose}>
@@ -114,16 +112,8 @@ const ModalAddEmployee = ({ open, onClose }: ModalAddEmployeeProps) => {
                         <ModalAddEmployeeBank control={control} />
                     </TabPanel>
                 </TabContext>
-                <Grid
-                    item
-                    xs={12}
-                    sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: "10px",
-                    }}
-                >
-                    <Button variant="contained" color="error" onClick={onClose}>
+                <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+                    <Button variant="contained" color="error" type="button" onClick={onClose}>
                         Anuluj
                     </Button>
                     <Button variant="contained" type="submit">

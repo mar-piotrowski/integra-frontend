@@ -3,8 +3,7 @@ import React from "react";
 import { Control } from "react-hook-form";
 import FormInput from "../../../../components/form/FormInput";
 import FormRadio from "../../../../components/form/FormRadio";
-import { EmployeeForm } from "../ModalAddEmployee";
-import {CreateUser} from "../../../../api/types/userTypes";
+import { CreateUser } from "../../../../api/types/userTypes";
 
 interface ModalWorkerBasicInfoProps {
 	control: Control<CreateUser>;
@@ -31,10 +30,10 @@ const ModalAddEmployeeBasicInfo = ({ control }: ModalWorkerBasicInfoProps) => {
 				<FormInput name="lastname" label="Nazwisko" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="pesel" label="PESEL" control={control} maxLength={11}/>
+				<FormInput name="pesel" label="PESEL" control={control} maxLength={11} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="nip" label="NIP" control={control}/>
+				<FormInput name="nip" label="NIP" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<FormInput name="email" label="Email" control={control} />

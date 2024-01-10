@@ -105,9 +105,7 @@ const Employees = () => {
                     </Grid>
                 </Grid>
             </Box>
-            {employeeModal ? (
-                <ModalAddEmployee open={employeeModal} onClose={closeModalHandler} />
-            ) : null}
+            {employeeModal ? (<ModalAddEmployee open={employeeModal} onClose={closeModalHandler} />) : null}
         </>
     );
 };

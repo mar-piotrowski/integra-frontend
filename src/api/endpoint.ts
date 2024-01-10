@@ -7,7 +7,8 @@ const endpoint = {
     contracts: "contracts",
     holidayLimits: "holiday-limits",
     articles: "articles",
-    jobPositions: "job-positions"
+    jobPositions: "job-positions",
+    permissions: "permissions"
 }
 
 export default endpoint;

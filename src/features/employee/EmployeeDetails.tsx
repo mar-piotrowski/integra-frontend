@@ -1,6 +1,6 @@
 import { LocationDto } from "../../api/types/locationTypes";
 import React from "react";
-import { Grid, Typography, Divider } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import ProfilePresentation from "../../components/ProfilePresentation";
 import TextWithLabel from "../../components/TextWithLabel";
@@ -40,10 +40,9 @@ const EmployeeDetails = ({ employee }: EmployeeDetailsProps) => {
                     name={`${employee?.firstname} ${employee?.lastname}`}
                     position={`Stanowisko: ${employee?.jobPosition ?? "Nie przypisano"}`}
                 />
-                <Grid item container xs={12} spacing={1}>
+                <Grid item container xs={12} sm={6} spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h4" mb={1}>Informacje Personalne</Typography>
-                        <Divider />
                     </Grid>
                     <Grid item>
                         <TextWithLabel label={"Imię"} text={employee?.firstname} />
@@ -55,10 +54,9 @@ const EmployeeDetails = ({ employee }: EmployeeDetailsProps) => {
                         <TextWithLabel label={"Nazwisko"} text={employee?.lastname} />
                     </Grid>
                 </Grid>
-                <Grid item container xs={12} spacing={1}>
+                <Grid item container xs={12} sm={6} spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h4" mb={1}>Dane Kontaktowe</Typography>
-                        <Divider />
                     </Grid>
                     <Grid item>
                         <TextWithLabel label="Email" text={employee?.email} />
@@ -68,10 +66,9 @@ const EmployeeDetails = ({ employee }: EmployeeDetailsProps) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid item container xs={12} spacing={1}>
+                <Grid item container xs={12} sm={6} spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h4" mb={1}>Dane Adresowe</Typography>
-                        <Divider />
                     </Grid>
                     {
                         userLocations?.length == 0
@@ -79,10 +76,9 @@ const EmployeeDetails = ({ employee }: EmployeeDetailsProps) => {
                             : userLocations
                     }
                 </Grid>
-                <Grid item container spacing={1}>
+                <Grid item container xs={12} sm={6} spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h4" mb={1}>Numery Identyfikacyjne</Typography>
-                        <Divider />
                     </Grid>
                     <Box sx={{ display: "flex", margin: "10px 0 0 8px", gap: "20px" }}>
                         <TextWithLabel label="Numer dowodu" text={defaultWhenEmpty("Brak", employee?.identityNumber)} />
