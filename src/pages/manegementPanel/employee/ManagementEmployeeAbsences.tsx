@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Button, Grid, ListItemIcon, ListItemText, MenuItem, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Button, Grid, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import CustomTable from "../../../components/CustomTable";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -11,18 +10,7 @@ import ModalLimitUserHoliday from "../../../features/modals/ModalLimitUserHolida
 import { HolidayLimit } from "../../../api/types/documentTypes";
 import useGetHolidayLimits from "../../../hooks/holidayLimits/useGetHolidayLimits";
 import HeaderAction from "../../../components/HeaderAction";
-
-export const mockLimit: UserAbsent[] = [
-    {
-        userId: 1,
-        year: 2023,
-        typ: "Wypoczynkowy",
-        days: 20,
-        days_used: 2,
-        days_moved: 3,
-        description: "abc"
-    }
-]
+import { useParams } from "react-router-dom";
 
 export const mockArrange: UserAbsentHistory[] = [
     {
@@ -36,7 +24,8 @@ export const mockArrange: UserAbsentHistory[] = [
 ]
 
 const ManagementEmployeeAbsences = () => {
-    const { data: holidayLimits } = useGetHolidayLimits();
+    const { userId } = useParams();
+    const { data: holidayLimits } = useGetHolidayLimits(parseInt(userId!));
     const [limitHolidayModal, setLimitHolidayModal] = useState<boolean>(false);
     const [arrangeAbsentModal, setArrangeAbsentModal] = useState<boolean>(false);
 

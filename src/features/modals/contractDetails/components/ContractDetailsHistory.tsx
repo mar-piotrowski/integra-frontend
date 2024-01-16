@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { useMemo } from "react";
 import { ContractDto } from "../../../../api/types/documentTypes";
 import { MRT_ColumnDef } from "material-react-table";
@@ -22,27 +22,23 @@ const ContractDetailsHistory = ({ contract }: ContractDetailsHistoryProps) => {
             size: 50
         },
         {
-            header: "Typ",
-            accessorKey: "contractType",
-            size: 300,
-            Cell: ({ row }) => <div>{contractTypeMapper(row.original.contractType)}</div>
+            accessorKey: "workingHours1",
+            header: "Wymiar",
+            Cell: ({ row }) => <div>{row.original.workingHours1}/{row.original.workingHours2}</div>
+        },
+        {
+            accessorKey: "salaryWithTax",
+            header: "Wynagrodzenie brutto"
+        },
+        {
+            accessorKey: "salaryWithoutTax",
+            header: "Wynagrodzenie netto"
         },
         {
             header: "Data podpisania",
             accessorKey: "signedOnDate",
             Cell: ({ row }) => <div>{row.original.signedOnDate != null ? toDateString(row.original.signedOnDate) : "brak"}</div>
         },
-        {
-            header: "Data rozpoczęcia",
-            accessorKey: "startDate",
-            Cell: ({ row }) => <div>{row.original.startDate != null ? toDateString(row.original.startDate) : "brak"}</div>
-
-        },
-        {
-            header: "Data zakończenia",
-            accessorKey: "endDate",
-            Cell: ({ row }) => <div>{row.original.endDate != null ? toDateString(row.original.endDate) : "brak"}</div>
-        }
     ], [])
 
     return (

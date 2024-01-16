@@ -8,18 +8,23 @@ interface DeleteJobHistoryDialog extends DialogProps {
 }
 
 const DeleteJobHistoryDialog = ({ isOpen: open, onClose, jobHistoryId }: DeleteJobHistoryDialog) => {
-    const { mutate, isSuccess } = useDeleteJobHistory(jobHistoryId);
+    const { mutate, isSuccess, reset } = useDeleteJobHistory(jobHistoryId);
 
     useEffect(() => {
-        if (isSuccess) {
-            onClose();
-        }
+        console.log(isSuccess)
+        if (isSuccess)
+            handleExtendedOnClose();
     }, [isSuccess]);
+
+    const handleExtendedOnClose = () => {
+        reset();
+        onClose();
+    }
 
     return (
         <Dialog
             open={open}
-            onClose={onClose}
+            onClose={handleExtendedOnClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -30,7 +35,7 @@ const DeleteJobHistoryDialog = ({ isOpen: open, onClose, jobHistoryId }: DeleteJ
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button variant={"contained"} onClick={onClose}>Anuluj</Button>
+                <Button variant={"contained"} onClick={handleExtendedOnClose}>Anuluj</Button>
                 <Button variant={"contained"} color={"error"} onClick={() => mutate()}>Usuń</Button>
             </DialogActions>
         </Dialog>

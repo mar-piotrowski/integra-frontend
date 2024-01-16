@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { contractService } from "../../api/services/contractsService";
 
 const useGetContract = (contractId: number) => useQuery({
-    queryKey: ["contract"],
+    queryKey: ["employeeContract"],
     queryFn: async () => (await contractService.get(contractId)).data,
     cacheTime: 0,
     refetchOnWindowFocus: false,

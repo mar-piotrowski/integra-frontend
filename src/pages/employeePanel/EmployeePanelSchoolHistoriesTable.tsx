@@ -5,12 +5,13 @@ import { SchoolHistoryDto } from "../../api/types/documentTypes";
 import { schoolDegreeMapper } from "../../constants/mappers";
 import CustomTable from "../../components/CustomTable";
 import React from "react";
-import useAuth from "../../hooks/auth/useAuth";
 import useGetSchoolHistories from "../../hooks/schoolHistory/useGetSchoolHistories";
+import { useParams } from "react-router-dom";
 
 const EmployeePanelSchoolHistoriesTable = () => {
-    const { auth } = useAuth();
-    const { data: schoolHistories } = useGetSchoolHistories(auth?.userId);
+    const { userId } = useParams();
+    const { data: schoolHistories } = useGetSchoolHistories(parseInt(userId!));
+
     const columns = useMemo<MRT_ColumnDef<SchoolHistoryDto>[]>(
         () => [
             {

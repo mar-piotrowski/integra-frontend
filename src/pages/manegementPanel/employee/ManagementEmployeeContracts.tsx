@@ -120,7 +120,6 @@ const ManagementEmployeeContracts = () => {
                             </MenuItem>,
                             <MenuItem key="termiante" onClick={() => {
                                 closeMenu();
-                                console.log(contract?.status)
                                 if (row.original.status == ContractStatusType.NotActive) {
                                     errorToast("Podana umowa została zakończona!")
                                     return;

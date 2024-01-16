@@ -7,6 +7,8 @@ import FormDate from "../../components/form/FormDate";
 import useCreateHolidayLimit from "../../hooks/holidayLimits/useCreateHolidayLimit";
 import useAuth from "../../hooks/auth/useAuth";
 import { dA } from "@fullcalendar/core/internal-common";
+import { useParams } from "react-router-dom";
+import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
 
 interface ModalLimitUserHolidayProps {
     open: boolean;
@@ -22,7 +24,8 @@ const defaultValues: CreateHolidayLimit = {
 }
 
 const ModalLimitUserHoliday = ({ open, onClose }: ModalLimitUserHolidayProps) => {
-    const { auth } = useAuth();
+    const { userId } = useParams();
+    const { refetch } = useGetHolidayLimits(parseInt(userId!));
     const { mutate: createHolidayLimitMutation, isSuccess } = useCreateHolidayLimit();
     const { control, handleSubmit, setValue } = useForm<CreateHolidayLimit>({ defaultValues });
 
@@ -33,11 +36,14 @@ const ModalLimitUserHoliday = ({ open, onClose }: ModalLimitUserHolidayProps) =>
     }, [open])
 
     useEffect(() => {
+        if (!isSuccess)
+            return;
+        refetch();
         onClose();
     }, [isSuccess]);
 
     const onSubmitHandler: SubmitHandler<CreateHolidayLimit> = (data) => {
-        data.userId = auth!.userId;
+        data.userId = parseInt(userId!);
         createHolidayLimitMutation(data);
     };
 

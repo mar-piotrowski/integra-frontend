@@ -28,7 +28,7 @@ import Salaries from "../pages/Salaries";
 import EmployeePanelAbsences from "../pages/employeePanel/EmployeePanelAbsences";
 import EmployeePanelLayout from "../layouts/EmployeePanelLayout";
 import EmployeePanelWorkingTime from "../pages/employeePanel/EmployeePanelWorkingTime";
-import Register from "../pages/main/Register";
+import Register from "../pages/main/register/Register";
 import Login from "../pages/main/Login";
 import ProtectedRoute, { Protect } from "./ProtectedRoute";
 import { Roles } from "../constants/roles";

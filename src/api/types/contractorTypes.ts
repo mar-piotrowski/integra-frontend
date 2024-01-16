@@ -1,5 +1,4 @@
-import { ContractTerminateType } from "../../constants/enums";
-import { BankDetails } from "./bankDetailsTypes";
+import { BankDetails as BankAccount } from "./bankDetailsTypes";
 import { LocationDto as LocationDto } from "./locationTypes";
 
 export type CreateContractorRequest = {
@@ -10,7 +9,7 @@ export type CreateContractorRequest = {
     nip: string;
     phone: string;
     email: string;
-    bankDetails: BankDetails;
+    bankAccount: BankAccount;
 }
 
 export type ContractorDto = {
@@ -22,11 +21,5 @@ export type ContractorDto = {
     nip: string;
     phone: string;
     email: string;
-    bankDetails: BankDetails;
-}
-
-export type ContractTerminate = {
-    contractId: number;
-    terminateType: ContractTerminateType;
-    date: Date;
+    bankAccount: BankAccount;
 }

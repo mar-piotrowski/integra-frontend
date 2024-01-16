@@ -8,8 +8,10 @@ import { ModalBaseProps } from "../../interfaces/modal";
 import { JobHistory, JobHistoryDto } from "../../api/types/documentTypes";
 import useCreateJobHistory from "../../hooks/workHistory/useCreateJobHistory";
 import useUpdateJobHistory from "../../hooks/workHistory/useUpdateJobHistory";
-import { decodeToken } from "../../utils/authUtils";
 import useAuth from "../../hooks/auth/useAuth";
+import { z } from "Zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams } from "react-router-dom";
 
 interface EmployeeWorkHistoryModalProps extends ModalBaseProps {
     jobHistory?: JobHistoryDto | null;
@@ -22,12 +24,20 @@ const employeeSchoolHistoryDefaultValues: JobHistory = {
     endDate: ""
 };
 
+const validationSchema = z.object({
+    companyName: z.string().min(1, "Podaj nazwe firmy"),
+    position: z.string().min(1, "Podaj nazwe stanowiska"),
+    startDate: z.string().min(1, "Podaj data rozpoczecia pracy"),
+    endDate: z.string().min(1, "Podaj date rozwiazania umowy")
+})
+
 const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHistoryModalProps) => {
+    const { userId } = useParams();
     const { mutate: createJobHistoryMutation, isSuccess: createSuccess, reset: createReset } = useCreateJobHistory();
     const { mutate: updateJobHistoryMutation, isSuccess: updateSuccess, reset: updateReset } = useUpdateJobHistory();
-    const { auth } = useAuth();
     const { handleSubmit, reset, control } = useForm<JobHistory>({
-        defaultValues: employeeSchoolHistoryDefaultValues
+        defaultValues: employeeSchoolHistoryDefaultValues,
+        resolver: zodResolver(validationSchema)
     });
 
     useEffect(() => {
@@ -49,13 +59,15 @@ const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHist
             return;
         }
         createJobHistoryMutation({
-            userId: auth?.userId!,
+            userId: parseInt(userId!),
             ...data
         });
     }
 
     const onCloseModal = () => {
         onClose();
+        updateReset();
+        createReset();
         reset(employeeSchoolHistoryDefaultValues);
     }
 

@@ -1,5 +1,7 @@
+import { C } from "@fullcalendar/core/internal-common";
 import { ContractType } from "../../constants/enums";
 import { UserDto, UserId } from "./userTypes";
+import { MutationRequest } from "./apiTypes";
 
 export enum ContractStatusType {
     None = 0,
@@ -50,8 +52,8 @@ export type Contract = {
     salaryWithoutTax: number;
     workingHours1: number;
     workingHours2: number;
-    signedOnDate?: string | null;
-    startDate: string;
+    signedOnDate: string | null;
+    startDate?: string;
     endDate?: string | null;
     jobFound: boolean;
     fgsp: boolean;
@@ -63,7 +65,7 @@ export type Contract = {
     profitableFund: boolean;
     insuranceCodeId: number;
     userId: number;
-    jobPositionId: number;
+    jobPosition: string;
     deductibleCostId: number;
 }
 
@@ -117,3 +119,8 @@ export type ContractTerminate = {
     terminateType: ContractType;
     terminateDate: Date;
 }
+
+export type ContractChange = Omit<Contract, "startDate" | "endDate">
+
+
+export type CreateContractChangeRequest = { contractId: number } & MutationRequest<ContractChange>;

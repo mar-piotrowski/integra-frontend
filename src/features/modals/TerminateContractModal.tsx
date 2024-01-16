@@ -23,10 +23,6 @@ const defaultValues: ContractTerminate = {
     terminateDate: new Date()
 }
 
-const validationSchema = z.object({
-    terminateType: z.number().min(1, "Wybierz rodzaj wypowiedzenia"),
-    termianteDate: z.string().min(1, "Podaj datę wypowiedzenia")
-});
 
 const options: FormSelectOption[] = [
     {
@@ -53,8 +49,7 @@ const options: FormSelectOption[] = [
 
 const TerminateContractModal = ({ isOpen, onClose, contractId }: TerminateContractModalProps) => {
     const { handleSubmit, control } = useForm<ContractTerminate>({
-        defaultValues,
-        resolver: zodResolver(validationSchema)
+        defaultValues
     });
     const { mutate: terminateContractMutate, isSuccess } = useTerminateContract();
 

@@ -1,8 +1,8 @@
-import {holidayLimitService} from "../../api/services/holidayLimitService";
-import {useQuery} from "react-query";
+import { holidayLimitService } from "../../api/services/holidayLimitService";
+import { useQuery } from "react-query";
 
 const useGetHolidayLimits = (userId?: number) => useQuery({
-    queryKey: ["holidayLimits"],
+    queryKey: [`holidayLimits_user_${userId}`],
     queryFn: async () => {
         const response = await holidayLimitService.getAll(userId);
         return response.data.holidayLimits;

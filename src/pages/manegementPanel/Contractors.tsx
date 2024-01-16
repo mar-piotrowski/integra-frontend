@@ -7,17 +7,24 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import CustomTable from "../../components/CustomTable";
 import ContactorModal from "../../features/modals/addContractor/ContactorModal";
 import useGetContractors from "../../hooks/contractor/useGetContractors";
-import { ContractorDto, CreateContractorRequest } from "../../api/types/contractorTypes";
-
-export type UpdateContractor = {
-    id: number;
-    contractor: CreateContractorRequest;
-}
+import { ContractorDto } from "../../api/types/contractorTypes";
+import { useBoolean } from "../../hooks/useBoolean";
+import ContractorDetailsModal from "../../features/ContractorDetailsModal";
 
 const Contractors = () => {
     const { data: contractors } = useGetContractors();
-    const [contractorModalOpen, setContractorModalOpen] = useState(false);
-    const [contractorToEdit, setContractorToEdit] = useState<UpdateContractor | null>(null);
+    const [contractorDetails, setContractorDetails] = useState<ContractorDto | null>(null);
+    const {
+        value: detailsModal,
+        setFalse: handleCloseDetailsModal,
+        setTrue: handleOpenDetailsModal
+    } = useBoolean(false);
+    const {
+        value: createModal,
+        setFalse: handleCloseCreateModal,
+        setTrue: handleOpenCreateModal
+    } = useBoolean();
+
     const columns = useMemo<MRT_ColumnDef<ContractorDto>[]>(
         () => [
             {
@@ -39,10 +46,10 @@ const Contractors = () => {
         ],
         []
     );
-    const openModalHandler = () => setContractorModalOpen(true);
-    const closeModalHandler = () => {
-        setContractorModalOpen(false);
-        setContractorToEdit(null);
+
+    const handleExtendCloseCreateModal = () => {
+        handleCloseCreateModal();
+        setContractorDetails(null);
     }
 
     return (
@@ -52,7 +59,7 @@ const Contractors = () => {
                     <Button
                         variant="contained"
                         disableElevation
-                        onClick={openModalHandler}
+                        onClick={handleOpenCreateModal}
                     >
                         Dodaj kontrahenta
                     </Button>
@@ -63,14 +70,19 @@ const Contractors = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
+                        enableRowActions
                         data={contractors?.data.contractors ?? []}
+                        muiTableBodyRowProps={({ row }) => ({
+                            onClick: () => {
+                                setContractorDetails(row.original);
+                                handleOpenDetailsModal();
+                            },
+                            sx: { cursor: "pointer" }
+                        })}
                         renderRowActionMenuItems={({ row, closeMenu }) => [
                             <MenuItem key="edit" onClick={() => {
-                                openModalHandler();
-                                setContractorToEdit({
-                                    id: row.original.id,
-                                    contractor: row.original
-                                });
+                                handleOpenCreateModal();
+                                setContractorDetails(row.original);
                                 closeMenu();
                             }}>
                                 <ListItemIcon>
@@ -88,7 +100,16 @@ const Contractors = () => {
                     />
                 </Grid>
             </Grid>
-            <ContactorModal open={contractorModalOpen} onClose={closeModalHandler} contractorUpdate={contractorToEdit} />
+            {
+                detailsModal
+                    ? <ContractorDetailsModal isOpen={detailsModal} onClose={handleCloseDetailsModal} contractor={contractorDetails!} />
+                    : null
+            }
+            {
+                createModal
+                    ? <ContactorModal open={createModal} onClose={handleExtendCloseCreateModal} contractorUpdate={contractorDetails} />
+                    : null
+            }
         </>
     );
 }

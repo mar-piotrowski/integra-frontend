@@ -4,7 +4,7 @@ import Description from "../../components/Description";
 
 const EmployeeCostCalculator = () => {
     return (
-        <Grid container xs={12}>
+        <Grid container>
             <Grid item xs={12} mb={2}>
                 <Typography variant="h3">Kalkulacja kosztów pracownika</Typography>
             </Grid>
