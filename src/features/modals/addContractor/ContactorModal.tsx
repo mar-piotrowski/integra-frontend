@@ -9,21 +9,22 @@ import ModalAddContractorLocation from "./components/ModalAddContractorLocation"
 import ModalAddContractorPayment from "./components/ModalAddContractorPayment";
 import useCreateContractor from "../../../hooks/contractor/useCreateContractor";
 import useUpdateContractor from "../../../hooks/contractor/useUpdateContractor";
-import { CreateContractorRequest } from "../../../api/types/contractorTypes";
-import { UpdateContractor } from "../../../pages/manegementPanel/Contractors";
+import { ContractorDto, CreateContractorRequest } from "../../../api/types/contractorTypes";
+import { z } from "Zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface ModalAddContractorProps extends ModalBaseProps {
-    contractorUpdate?: UpdateContractor | null;
+    contractorUpdate?: ContractorDto | null;
 }
 
 const defaultValues: CreateContractorRequest = {
     fullName: "",
     shortName: "",
+    email: "",
+    phone: "",
     nip: "",
     representative: "",
-    phone: "",
-    email: "",
-    bankDetails: {
+    bankAccount: {
         name: "",
         number: ""
     },
@@ -42,20 +43,48 @@ const defaultValues: CreateContractorRequest = {
     },
 }
 
+const validationSchema = z.object({
+    fullName: z.string().min(1, "Pole wymagane"),
+    shortName: z.string().optional(),
+    email: z.string().email("Podano błędny adres email"),
+    phone: z.string().min(9, "Podano błedy numer telefonu"),
+    nip: z.string().min(10, "Podano błedny nip"),
+    representative: z.string().min(1, "Podaj reprezentanta firmy"),
+    bankAccount: z.object({
+        name: z.string().min(1, "Pole wymagane"),
+        number: z.string().min(10, "Podano błedny numer konta"),
+    }),
+    location: z.object({
+        city: z.string().min(1, "Pole jest wymagane"),
+        street: z.string().min(1, "Pole jest wymagane"),
+        houseNo: z.string().min(1, "Pole jest wymagane"),
+        postalCode: z.string().min(1, "Pole jest wymagane"),
+        commune: z.string().min(1, "Pole jest wymagane"),
+        district: z.string().min(1, "Pole jest wymagane"),
+        province: z.string().min(1, "Pole jest wymagane"),
+        apartmentNo: z.string().min(1, "Pole jest wymagane"),
+        country: z.string().min(1, "Pole jest wymagane")
+    })
+})
+
 const ContactorModal = ({ open, onClose, contractorUpdate }: ModalAddContractorProps) => {
     const [value, setValue] = useState("1");
-    const { control, handleSubmit, reset } = useForm<CreateContractorRequest>({ defaultValues })
-    const { mutate: createContractorMutate, isSuccess } = useCreateContractor();
-    const { mutate: contractorUpdateMutation } = useUpdateContractor();
+    const { control, handleSubmit, reset } = useForm<CreateContractorRequest>({
+        defaultValues,
+        resolver: zodResolver(validationSchema)
+    })
+    const { mutate: createContractorMutate, isSuccess: isSuccessCreate, reset: createReset } = useCreateContractor();
+    const { mutate: contractorUpdateMutation, isSuccess: isSuccessUpdate, reset: updateReset } = useUpdateContractor();
 
     useEffect(() => {
-        console.log(contractorUpdate)
+        if (isSuccessUpdate || isSuccessCreate)
+            onCloseExtended();
+    }, [isSuccessCreate, isSuccessUpdate])
+
+    useEffect(() => {
         if (contractorUpdate != null)
-            reset(contractorUpdate.contractor);
-        if (!isSuccess) return;
-        onClose();
-        reset();
-    }, [reset, contractorUpdate, isSuccess, onClose]);
+            reset(contractorUpdate);
+    }, [contractorUpdate]);
 
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
@@ -68,8 +97,10 @@ const ContactorModal = ({ open, onClose, contractorUpdate }: ModalAddContractorP
 
     const onCloseExtended = () => {
         onClose();
-        reset();
+        reset(defaultValues);
         setValue("1");
+        createReset();
+        updateReset()
     }
 
     return (
@@ -92,7 +123,7 @@ const ContactorModal = ({ open, onClose, contractorUpdate }: ModalAddContractorP
                                 </TabList>
                             </Box>
                             <TabPanel value="1">
-                                <ModalAddContractorBaseInfo control={control} />
+                                <ModalAddContractorBaseInfo control={control} edit={contractorUpdate != null} />
                             </TabPanel>
                             <TabPanel value="2">
                                 <ModalAddContractorLocation control={control} />

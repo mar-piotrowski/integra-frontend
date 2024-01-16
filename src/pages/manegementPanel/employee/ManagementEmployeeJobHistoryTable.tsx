@@ -19,15 +19,22 @@ const ManagementEmployeeJobHistoryTable = () => {
     const [workHistoryModal, setWorkHistoryModal] = useState<boolean>(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-    const handleOpenModal = () => setWorkHistoryModal(true);
-    const handleCloseModal = () => {
-        setWorkHistoryModal(false);
+    const handleOpenEditModal = () => setWorkHistoryModal(true);
+
+    const handleOpenModal = () => {
         setJobHistoryToEdit(null);
+        setWorkHistoryModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setJobHistoryToEdit(null);
+        setWorkHistoryModal(false);
     }
     const handleOpenDeleteDialog = () => setOpenDeleteDialog(true);
+
     const handleCloseDeleteDialog = () => {
-        setOpenDeleteDialog(false);
         setJobHistoryToEdit(null);
+        setOpenDeleteDialog(false);
     }
 
     const columns = useMemo<MRT_ColumnDef<JobHistoryDto>[]>(
@@ -70,12 +77,12 @@ const ManagementEmployeeJobHistoryTable = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
-                        data={jobHistories?.data ?? []}
+                        data={jobHistories ?? []}
                         enableRowActions
                         renderRowActionMenuItems={({ closeMenu, row }) => [
                             <MenuItem key="edit" onClick={() => {
                                 setJobHistoryToEdit(row.original);
-                                handleOpenModal();
+                                handleOpenEditModal();
                                 closeMenu();
                             }}>
                                 <ListItemIcon>

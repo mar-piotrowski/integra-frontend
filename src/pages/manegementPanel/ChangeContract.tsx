@@ -3,28 +3,29 @@ import { Box } from "@mui/system";
 import FormCheckBox from "../../components/form/FormCheckBox";
 import FormDate from "../../components/form/FormDate";
 import FormInput from "../../components/form/FormInput";
-import FormSelect from "../../components/form/FormSelect";
+import FormSelect, { FormSelectOption } from "../../components/form/FormSelect";
 import CancelCreateContractDialog from "../../features/dialog/CancelCreateContractDialog";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
-import { Contract } from "../../api/types/documentTypes";
-import { useParams } from "react-router-dom";
+import { ContractChange } from "../../api/types/documentTypes";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetContract from "../../hooks/contract/useGetContract";
 import Header from "../../components/CustomModalHeader";
 import { z } from "Zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useBoolean } from "../../hooks/useBoolean";
+import JobPositionModal from "../../features/modals/JobPositionModal";
+import useCreateContractChange from "../../hooks/contract/useCreateContractChange";
 
-const defaultValues: Contract = {
+const defaultValues: ContractChange = {
     userId: 0,
     salaryWithTax: 0,
     salaryWithoutTax: 0,
     contractType: 0,
     workingHours1: 1,
     workingHours2: 1,
-    startDate: "",
-    endDate: null,
-    signedOnDate: null,
+    signedOnDate: "",
     jobFound: true,
     pensionFund: false,
     voluntaryContribution: false,
@@ -32,7 +33,7 @@ const defaultValues: Contract = {
     fgsp: false,
     pitExemption: false,
     taxRelief: false,
-    jobPositionId: 0,
+    jobPosition: "",
     insuranceCodeId: 0,
     deductibleCostId: 0,
 };
@@ -41,31 +42,59 @@ const validationSchema = z.object({
     salaryWithTax: z.number().min(1, "Wartość musi być większa od 0"),
     salaryWithoutTax: z.number().min(1, "Wartość musi być większa od 0"),
     contractType: z.number().min(1, "Wybierz rodzaj umowy"),
-    startDate: z.string({ required_error: "Podaj datę rozpoczęcia umowy" })
+    signedOnDate: z.string({ required_error: "Podaj datę rozpoczęcia umowy" })
         .min(1, "Podaj datę rozpoczęcia umowy"),
-    jobPositionId: z.number().min(1, "Wybierz stanowisko"),
+    jobPosition: z.string().min(1, "Wybierz stanowisko"),
     workingHours1: z.number().min(1, "Nie podano wymiaru etatu"),
     workingHours2: z.number().min(1, "Nie podano wymiaru etatu"),
-    insuranceCodeId: z.number().min(1, "Wybierz tytuł ubezpieczenia"),
     deductibleCostId: z.number().min(1, "Wybierz koszt przychodu")
 });
 
+const deductibleCosts: FormSelectOption[] = [
+    {
+        label: "Podstawowy",
+        value: 1
+    },
+    {
+        label: "Rozszerzony",
+        value: 2
+    }
+]
+
 const ChangeContract = () => {
     const { contractId } = useParams();
+    const navigate = useNavigate();
+    const {
+        value: jobPositionModal,
+        setFalse: handleCloseJobPositionModal,
+        setTrue: handleOpenJobPositionModal
+    } = useBoolean(false);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
-    const { control, reset, handleSubmit } = useForm<Contract>({
+    const { control, reset, handleSubmit } = useForm<ContractChange>({
         defaultValues,
         resolver: zodResolver(validationSchema)
     });
     const { data: jobPositions } = useGetJobPositions();
-    const { data: contract, isSuccess: contractSuccess } = useGetContract(parseInt(contractId!));
+    const { data: contract } = useGetContract(parseInt(contractId!));
+    const { mutate: createContractChange, reset: createContractChangeReset, isSuccess: createContractChangeSuccess } = useCreateContractChange();
 
     useEffect(() => {
-        if (contractSuccess)
-            reset(contract);
-    }, [contractSuccess])
+        reset(contract);
+        if (createContractChangeSuccess) {
+            createContractChangeReset()
+            navigate(-1);
+        }
+    }, [createContractChangeSuccess, contract])
 
-    const onSubmitHandler: SubmitHandler<Contract> = (data) => { };
+    const onSubmitHandler: SubmitHandler<ContractChange> = (data) => {
+        createContractChange({
+            contractId: contract.id,
+            payload: {
+                ...data,
+                userId: contract.user.id
+            }
+        })
+    };
 
     const handleOpenDialog = () => setOpenDialog(true);
 
@@ -73,7 +102,7 @@ const ChangeContract = () => {
 
     const selectJobPositions = jobPositions?.map((jobPosition: JobPosition) => ({
         label: jobPosition.title,
-        value: jobPosition.id
+        value: jobPosition.title
     }))
 
     return (
@@ -90,13 +119,13 @@ const ChangeContract = () => {
                                 <FormDate name={"signedOnDate"} label={"Data podpisania"} control={control} />
                             </Grid>
                             <Grid item xs={12}>
-                                <FormDate name={"startDate"} label={"Data rozpoczęcia pracy"} control={control} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormDate name={"endDate"} label={"Data zwolnienia"} control={control} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormSelect name={"jobPositionId"} label={"Stanowisko"} control={control} options={selectJobPositions ?? []} />
+                                <FormSelect
+                                    name={"jobPosition"}
+                                    label={"Stanowisko"}
+                                    control={control}
+                                    options={selectJobPositions ?? []}
+                                    buttons={[{ label: "Dodaj stanowisko", onClick: handleOpenJobPositionModal }]}
+                                />
                             </Grid>
                             <Grid item container spacing={2}>
                                 <Grid item container xs={6} spacing={2}>
@@ -151,12 +180,9 @@ const ChangeContract = () => {
                                         <FormControlLabel control={<Checkbox />} label="Najniższe wynagrodzenie" />
                                     </FormGroup>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <FormSelect name={"insuranceCodeId"} label={"Kod tytułu ubezpieczenia"} control={control} options={[]} />
-                                </Grid>
                                 <Grid item container spacing={2}>
                                     <Grid item xs={12}>
-                                        <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={[]} />
+                                        <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={deductibleCosts} />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormCheckBox name={"pitExemption"} label={"Zwolnienie podatkowe"} control={control} />
@@ -182,14 +208,8 @@ const ChangeContract = () => {
                     </Grid>
                 </Grid>
             </Grid >
-            {
-                openDialog ?
-                    <CancelCreateContractDialog
-                        isOpen={openDialog}
-                        onClose={handleCloseDialog}
-                        reset={reset}
-                    /> : null
-            }
+            <CancelCreateContractDialog isOpen={openDialog} onClose={handleCloseDialog} reset={reset} />
+            <JobPositionModal isOpen={jobPositionModal} onClose={handleCloseJobPositionModal} />
         </>
     );
 };

@@ -1,11 +1,15 @@
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, useTheme } from "@mui/material";
 import React from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 export interface FormSelectOption {
     label: string;
     value: string | number;
-    onClick?: () => void;
+}
+
+export interface FormSelectOptionButton {
+    label: string;
+    onClick: () => void;
 }
 
 interface FormSelectProps<T extends FieldValues> {
@@ -13,6 +17,7 @@ interface FormSelectProps<T extends FieldValues> {
     label: string;
     control: Control<T>;
     options: FormSelectOption[];
+    buttons?: FormSelectOptionButton[];
 }
 
 const FormSelect = <T extends FieldValues>({
@@ -20,16 +25,30 @@ const FormSelect = <T extends FieldValues>({
     label,
     control,
     options,
+    buttons
 }: FormSelectProps<T>) => {
-    const generateSingleOptions = () => {
-        return options.map((option: FormSelectOption, index) => {
-            return (
-                <MenuItem key={option.value} value={option.value} onClick={option.onClick} selected={index == 0}>
-                    {option.label}
-                </MenuItem>
-            );
-        });
-    };
+    const theme = useTheme();
+    const renderedMenuItems = options.map((option: FormSelectOption, index) => (
+        <MenuItem key={option.value} value={option.value} selected={index == 0}>
+            {option.label}
+        </MenuItem>
+    ));
+
+    const renderedMenuButtons = buttons?.map(button => (
+        <MenuItem
+            key={button.label}
+            onClick={button.onClick}
+            sx={{
+                backgroundColor: theme.palette.primary.light,
+                '&:hover': {
+                    backgroundColor: theme.palette.primary.light,
+                }
+            }}
+        >
+            {button.label}
+        </MenuItem>
+    ));
+
     return (
         <FormControl fullWidth>
             <InputLabel id="demo-select-small-label">{label}</InputLabel>
@@ -43,7 +62,8 @@ const FormSelect = <T extends FieldValues>({
                             value={value == 0 ? "" : value}
                             label={label}
                         >
-                            {generateSingleOptions()}
+                            {renderedMenuItems}
+                            {renderedMenuButtons}
                         </Select>
                         {
                             error

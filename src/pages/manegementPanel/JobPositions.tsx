@@ -43,7 +43,7 @@ const JobPositions = () => {
                         disableElevation
                         onClick={handleOpenModal}
                     >
-                        Dodaj staniwisko
+                        Dodaj stanowisko
                     </Button>
                 </Grid>
                 <Grid item xs={12} sm={12} md={4} lg={3}>
@@ -75,7 +75,7 @@ const JobPositions = () => {
                     />
                 </Grid>
             </Grid>
-            {openModal ? <JobPositionModal isOpen={openModal} onClose={handleCloseModal} jobPositionEdit={jobPositionEdit!} /> : null}
+            <JobPositionModal isOpen={openModal} onClose={handleCloseModal} jobPositionEdit={jobPositionEdit!} />
         </>
     );
 };

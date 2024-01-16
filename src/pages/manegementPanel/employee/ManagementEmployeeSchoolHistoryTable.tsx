@@ -10,12 +10,12 @@ import { schoolDegreeMapper } from "../../../constants/mappers";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DeleteSchoolHistoryDialog from "../../../features/dialog/DeleteSchoolHistoryDialog";
-import useAuth from "../../../hooks/auth/useAuth";
 import HeaderAction from "../../../components/HeaderAction";
+import { useParams } from "react-router-dom";
 
 const ManagementEmployeeSchoolHistoryTable = () => {
-    const { auth } = useAuth();
-    const { data: schoolHistories } = useGetSchoolHistories(auth?.userId);
+    const { userId } = useParams();
+    const { data: schoolHistories } = useGetSchoolHistories(parseInt(userId!));
     const [schoolHistoryModal, setSchoolHistoryModal] = useState<boolean>(false);
     const [schoolHistoryToEdit, setSchoolHistoryToEdit] = useState<SchoolHistoryDto | null>(null);
     const [openDialogDelete, setOpenDialogDelete] = useState(false);
@@ -36,6 +36,16 @@ const ManagementEmployeeSchoolHistoryTable = () => {
             {
                 accessorKey: "schoolName",
                 header: "Szkoła"
+            },
+            {
+                accessorKey: "specialization",
+                header: "Specjalizacja",
+                Cell: ({ row }) => <div>{row.original.specialization == null ? "Brak" : row.original.specialization}</div>
+            },
+            {
+                accessorKey: "title",
+                header: "Tytuł",
+                Cell: ({ row }) => <div>{row.original.title == null ? "Brak" : row.original.title}</div>
             },
             {
                 accessorKey: "degree",
@@ -72,7 +82,7 @@ const ManagementEmployeeSchoolHistoryTable = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
-                        data={schoolHistories?.data ?? []}
+                        data={schoolHistories ?? []}
                         enableRowActions
                         renderRowActionMenuItems={({ closeMenu, row }) => [
                             <MenuItem key="edit" onClick={() => {

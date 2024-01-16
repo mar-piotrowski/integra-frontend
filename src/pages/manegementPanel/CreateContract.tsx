@@ -15,6 +15,9 @@ import Header from "../../components/CustomModalHeader";
 import { z } from "Zod";
 import { ContractType } from "../../constants/enums";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useBoolean } from "../../hooks/useBoolean";
+import JobPositionModal from "../../features/modals/JobPositionModal";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Salary = {
     withTax: number;
@@ -35,7 +38,7 @@ const defaultValues: Contract = {
     workingHours2: 1,
     startDate: "",
     endDate: null,
-    signedOnDate: null,
+    signedOnDate: "",
     jobFound: true,
     pensionFund: false,
     voluntaryContribution: false,
@@ -43,7 +46,7 @@ const defaultValues: Contract = {
     fgsp: false,
     pitExemption: false,
     taxRelief: false,
-    jobPositionId: 0,
+    jobPosition: "",
     insuranceCodeId: 0,
     deductibleCostId: 0,
 }
@@ -51,17 +54,28 @@ const defaultValues: Contract = {
 const contractTypes: FormSelectOption[] = [
     {
         label: "Umowa o pracę",
-        value: ContractType.EmploymentContract
+        value: 1
     },
     {
         label: "Umowa zlecenie",
-        value: ContractType.MandateContract
+        value: 2
     },
     {
         label: "Umowa o dzieło",
-        value: ContractType.ForWorkContract
+        value: 3
     }
 ];
+
+const deductibleCosts: FormSelectOption[] = [
+    {
+        label: "Podstawowy",
+        value: 1
+    },
+    {
+        label: "Rozszerzony",
+        value: 2
+    }
+]
 
 const validationSchema = z.object({
     salaryWithTax: z.number().min(1, "Wartość musi być większa od 0"),
@@ -69,24 +83,36 @@ const validationSchema = z.object({
     contractType: z.number().min(1, "Wybierz rodzaj umowy"),
     startDate: z.string({ required_error: "Podaj datę rozpoczęcia umowy" })
         .min(1, "Podaj datę rozpoczęcia umowy"),
-    jobPositionId: z.number().min(1, "Wybierz stanowisko"),
+    signedOnDate: z.string({ required_error: "Podaj datę podpisania umowy" })
+        .min(1, "Podaj datę podpisania umowy"),
+    jobPosition: z.string().min(1, "Wybierz stanowisko"),
     workingHours1: z.number().min(1, "Nie podano wymiaru etatu"),
     workingHours2: z.number().min(1, "Nie podano wymiaru etatu"),
-    insuranceCodeId: z.number().min(1, "Wybierz tytuł ubezpieczenia"),
     deductibleCostId: z.number().min(1, "Wybierz koszt przychodu")
 });
 
 const CreateContract = () => {
+    const { userId } = useParams();
+    const navigate = useNavigate();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [lowestSalary, setLowestSalary] = useState<boolean>(false);
+    const {
+        value: jobPositionModal,
+        setFalse: handleCloseJobPositionModal,
+        setTrue: handleOpenJobPositionModal
+    } = useBoolean(false);
     const [salary, setSalary] = useState<Salary>(defaultValuesSalary);
-    const { auth } = useAuth();
     const { data: jobPositions } = useGetJobPositions();
-    const { mutate: createContractMutation } = useCreateContract();
+    const { mutate: createContractMutation, isSuccess: createContractSuccess } = useCreateContract();
     const { control, reset, handleSubmit, setValue: setValueForm } = useForm<Contract>({
         defaultValues,
         resolver: zodResolver(validationSchema)
     });
+
+    useEffect(() => {
+        if (createContractSuccess)
+            navigate(-1);
+    }, [createContractSuccess]);
 
     useEffect(() => {
         changeSalary();
@@ -109,7 +135,7 @@ const CreateContract = () => {
     }
 
     const onSubmitHandler: SubmitHandler<Contract> = (data) => {
-        data.userId = auth!.userId;
+        data.userId = parseInt(userId!);
         createContractMutation(data);
     };
 
@@ -135,7 +161,7 @@ const CreateContract = () => {
 
     const selectJobPositions = jobPositions?.map((jobPosition: JobPosition) => ({
         label: jobPosition.title,
-        value: jobPosition.id
+        value: jobPosition.title
     }))
 
     return (
@@ -143,7 +169,6 @@ const CreateContract = () => {
             <Header title="Tworzenie umowy" />
             <Grid container spacing={8}>
                 <Grid item container xs={12} md={6}>
-
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid item container xs={12} spacing={2}>
                             <Grid item xs={12}>
@@ -167,12 +192,18 @@ const CreateContract = () => {
                                 <FormDate name={"endDate"} label={"Data zwolnienia"} control={control} />
                             </Grid>
                             <Grid item xs={12}>
-                                <FormSelect name={"jobPositionId"} label={"Stanowisko"} control={control} options={selectJobPositions ?? []} />
+                                <FormSelect
+                                    name={"jobPosition"}
+                                    label={"Stanowisko"}
+                                    control={control}
+                                    options={selectJobPositions ?? []}
+                                    buttons={[{ label: "Dodaj stanowisko", onClick: handleOpenJobPositionModal }]}
+                                />
                             </Grid>
                             <Grid item container spacing={2}>
                                 <Grid item container xs={6} spacing={2}>
                                     <Grid item xs={12} md={6}>
-                                        <FormInput name={"workingHours1"} label={""} type={"number"} control={control} />
+                                        <FormInput name={"workingHours1"} label={"Wymaiar etatu"} type={"number"} control={control} />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <FormInput name={"workingHours2"} label={""} type={"number"} control={control} />
@@ -224,12 +255,9 @@ const CreateContract = () => {
                                         <FormControlLabel control={<Checkbox onClick={handleLowestSalary} />} label="Najniższe wynagrodzenie" />
                                     </FormGroup>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <FormSelect name={"insuranceCodeId"} label={"Kod tytułu ubezpieczenia"} control={control} options={[]} />
-                                </Grid>
                                 <Grid item container spacing={2}>
                                     <Grid item xs={12}>
-                                        <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={[]} />
+                                        <FormSelect name={"deductibleCostId"} label={"Koszty uzyskania przychodu"} control={control} options={deductibleCosts} />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormCheckBox name={"pitExemption"} label={"Zwolnienie podatkowe"} control={control} />
@@ -253,14 +281,8 @@ const CreateContract = () => {
                     <EmployeeCostCalculator />
                 </Grid>
             </Grid >
-            {
-                openDialog ?
-                    <CancelCreateContractDialog
-                        isOpen={openDialog}
-                        onClose={handleCloseDialog}
-                        reset={reset}
-                    /> : null
-            }
+            <CancelCreateContractDialog isOpen={openDialog} onClose={handleCloseDialog} reset={reset} />
+            <JobPositionModal isOpen={jobPositionModal} onClose={handleCloseJobPositionModal} />
         </>
     );
 }

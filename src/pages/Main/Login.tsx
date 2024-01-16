@@ -6,6 +6,8 @@ import FormInput from "../../components/form/FormInput";
 import useLogin from "../../hooks/auth/useLogin";
 import useAuth from "../../hooks/auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import { z } from "Zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export interface LoginForm {
     email: string;
@@ -23,12 +25,18 @@ interface LoginProps {
     type: LoginType;
 }
 
+const validationSchema = z.object({
+    email: z.string().email("Podano błędny adres email"),
+    password: z.string().min(1, "Podaj hasło")
+})
+
 const Login = ({ type }: LoginProps) => {
     const { mutate: loginMutation } = useLogin();
     const { auth, persist, setPersist } = useAuth();
     const navigate = useNavigate();
     const { control, handleSubmit } = useForm<LoginForm>({
-        defaultValues: loginFormDefaultValues
+        defaultValues: loginFormDefaultValues,
+        resolver: zodResolver(validationSchema)
     });
 
     const onSubmitHandler: SubmitHandler<LoginForm> = (data) => loginMutation(data);

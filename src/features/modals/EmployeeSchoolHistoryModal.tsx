@@ -10,6 +10,9 @@ import { SchoolHistory, SchoolHistoryDto } from "../../api/types/documentTypes";
 import useCreateSchoolHistory from "../../hooks/schoolHistory/useCreateSchoolHistory";
 import useUpdateSchoolHistory from "../../hooks/schoolHistory/useUpdateSchoolHistory";
 import useAuth from "../../hooks/auth/useAuth";
+import { z } from "Zod";
+import { useParams } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface EmployeeSchoolHistoryModalProps extends ModalBaseProps {
     schoolHistory?: SchoolHistoryDto | null;
@@ -27,27 +30,39 @@ const employeeSchoolHistoryDefaultValues: SchoolHistory = {
 const schoolLevelOptions: FormSelectOption[] = [
     {
         label: "podstawowe",
-        value: 0
-    },
-    {
-        label: "zadowowe",
         value: 1
     },
     {
-        label: "policealne",
+        label: "zadowowe",
         value: 2
     },
     {
-        label: "wyższe",
+        label: "policealne",
         value: 3
+    },
+    {
+        label: "wyższe",
+        value: 4
     }
 ]
 
+const validationSchema = z.object({
+    schoolName: z.string().min(1, "Podaj nazwę szkoły"),
+    startDate: z.string().min(1, "Podaj datę rozpoczęcia"),
+    endDate: z.string().min(1, "Podaj datę rozpoczęcia"),
+    specialization: z.string().optional(),
+    title: z.string().optional(),
+    degree: z.number().min(1, "Podaj rodzaj wykształcenia")
+})
+
 const EmployeeSchoolHistoryModal = ({ open, onClose, schoolHistory }: EmployeeSchoolHistoryModalProps) => {
+    const { userId } = useParams();
     const { mutate: createSchoolHistoryMutation, isSuccess: createSuccess, reset: createReset } = useCreateSchoolHistory();
     const { mutate: updateSchoolHistoryMutation, isSuccess: updateSuccess, reset: updateReset } = useUpdateSchoolHistory();
-    const { handleSubmit, reset, control } = useForm<SchoolHistory>({ defaultValues: employeeSchoolHistoryDefaultValues });
-    const { auth } = useAuth();
+    const { handleSubmit, reset, control } = useForm<SchoolHistory>({
+        defaultValues: employeeSchoolHistoryDefaultValues,
+        resolver: zodResolver(validationSchema)
+    });
 
     useEffect(() => {
         if (schoolHistory != null)
@@ -62,6 +77,7 @@ const EmployeeSchoolHistoryModal = ({ open, onClose, schoolHistory }: EmployeeSc
 
     const onSubmitHandler: SubmitHandler<SchoolHistory> = (data: SchoolHistory) => {
         if (schoolHistory != null) {
+            console.log(data);
             updateSchoolHistoryMutation({
                 schoolHistoryId: schoolHistory.id,
                 schoolHistory: { ...data }
@@ -69,7 +85,7 @@ const EmployeeSchoolHistoryModal = ({ open, onClose, schoolHistory }: EmployeeSc
             return;
         }
         createSchoolHistoryMutation({
-            userId: auth?.userId!,
+            userId: parseInt(userId!),
             ...data
         });
     }
