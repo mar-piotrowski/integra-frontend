@@ -8,12 +8,13 @@ import {
 import { MenuItem } from "../../constants/navigation/menuItems";
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CustomListItemButton } from "../CustomListItemButton";
 import { Link, useLocation } from "react-router-dom";
 import { RootState } from "../../store/store";
 import { set } from "../../store/sidebarSlice";
 import { add } from "../../store/collapseMenuSlice";
+import useAuth from "../../hooks/auth/useAuth";
 
 interface NavItemProps {
     item: MenuItem;
@@ -28,6 +29,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
     );
     const dispatch = useDispatch();
     const responsive = useMediaQuery(theme.breakpoints.down("lg"));
+    const { auth } = useAuth();
 
     useEffect(() => {
         if (location.pathname == item?.url)
@@ -41,14 +43,8 @@ const NavItem = ({ item, level }: NavItemProps) => {
         ) : (
             <FiberManualRecordRoundedIcon
                 sx={{
-                    width:
-                        collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
-                            ? 8
-                            : 6,
-                    height:
-                        collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
-                            ? 8
-                            : 6,
+                    width: 6,
+                    height: 6,
                 }}
                 fontSize={"inherit"}
             />
@@ -60,52 +56,58 @@ const NavItem = ({ item, level }: NavItemProps) => {
     };
 
     return (
-        <CustomListItemButton
-            component={Link}
-            to={item.url}
-            disabled={item.disabled}
-            sx={{
-                mb: 0.5,
-                alignItems: "flex-start",
-                backgroundColor: level > 1 ? "transparent !important" : "inherit",
-                py: level > 1 ? 1 : 1.25,
-                pl: `${level * 24}px`,
-            }}
-            selected={
-                collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
-                && location.pathname.includes(item?.url ?? "")
+        <>
+            {
+                item.permissions.some(permission => auth!.permissions.includes(permission)) || item.id == "pages" ?
+                    <>
+                        <CustomListItemButton
+                            component={Link}
+                            to={item.url}
+                            disabled={item.disabled}
+                            sx={{
+                                mb: 0.5,
+                                alignItems: "flex-start",
+                                backgroundColor: level > 1 ? "transparent !important" : "inherit",
+                                py: level > 1 ? 1 : 1.25,
+                                pl: `${level * 24}px`,
+                            }}
+                            selected={
+                                collapseMenusSelector.findIndex((id: string) => id === item.id) > -1
+                                && location.pathname.includes(item?.url ?? "")
+                            }
+                            onClick={() => {
+                                listItemHandler(item.id);
+                            }}
+                        >
+                            <ListItemIcon sx={{ my: "auto", minWidth: !item?.icon ? 18 : 36 }}>
+                                {itemIcon}
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={
+                                    <Typography
+                                        variant={
+                                            "body1"
+                                        }
+                                        sx={{ my: "auto" }}
+                                        color="inherit"
+                                    >
+                                        {item.title}
+                                    </Typography>
+                                }
+                                secondary={
+                                    item.caption && (
+                                        <Typography variant="caption" display="block" gutterBottom>
+                                            {item.caption}
+                                        </Typography>
+                                    )
+                                }
+                            ></ListItemText>
+                        </CustomListItemButton>
+                    </>
+                    : null
             }
-            onClick={() => {
-                listItemHandler(item.id);
-            }}
-        >
-            <ListItemIcon sx={{ my: "auto", minWidth: !item?.icon ? 18 : 36 }}>
-                {itemIcon}
-            </ListItemIcon>
-            <ListItemText
-                primary={
-                    <Typography
-                        variant={
-                            collapseMenusSelector.findIndex((id: string) => id === item.id) >
-                                -1
-                                ? "h5"
-                                : "body1"
-                        }
-                        sx={{ my: "auto" }}
-                        color="inherit"
-                    >
-                        {item.title}
-                    </Typography>
-                }
-                secondary={
-                    item.caption && (
-                        <Typography variant="caption" display="block" gutterBottom>
-                            {item.caption}
-                        </Typography>
-                    )
-                }
-            ></ListItemText>
-        </CustomListItemButton>
+
+        </>
     );
 };
 

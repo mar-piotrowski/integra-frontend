@@ -13,7 +13,8 @@ const useLogin = () => {
     return useMutation({
         mutationFn: async (login: Login) => (await authenticationService.login(login)).data.accessToken,
         onSuccess: (data) => {
-            setAuth({ accessToken: data, userId: decodeToken(data)?.userId! });
+            setAuth({ accessToken: data, userId: decodeToken(data)?.userId!, permissions: decodeToken(data)?.permissions! });
+            console.log(decodeToken(data));
             successToast("Zalogowano!");
             navigate("/employee-panel");
         },

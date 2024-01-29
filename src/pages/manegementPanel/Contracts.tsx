@@ -18,6 +18,7 @@ const Contracts = () => {
             {
                 accesorKey: "id",
                 header: "Id",
+                size: 50,
                 Cell: ({ row }) => <div>{row.original.id}</div>
             },
             {
@@ -59,7 +60,7 @@ const Contracts = () => {
             <Grid sx={{ flexGrow: 1 }} container spacing={2}>
                 <Grid item container>
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         disableElevation
                         onClick={() => navigate("/management-panel/create-contract")}
                     >

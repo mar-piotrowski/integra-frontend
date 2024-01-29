@@ -18,3 +18,14 @@ export enum ContractType {
     ByTheEmployerWithNoticePeriod,
     ByTheEmployerWithoutNoticePeriod,
 }
+
+export enum Day {
+    Unknown,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
+}

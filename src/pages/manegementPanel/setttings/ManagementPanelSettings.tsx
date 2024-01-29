@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import ManagementPanelJobPositionSetting from "./components/ManagementPanelJobPositionSettings";
-import ManagementPanelPermissionSettings from "./components/ManagementPanelPermissionSettings";
+import ManagementPanelScheduleSettings from "./components/ManagementPanelScheduleSettings";
 
 const ManagementPanelSettings = () => {
     return (
@@ -10,7 +10,7 @@ const ManagementPanelSettings = () => {
                 <ManagementPanelJobPositionSetting />
             </Grid>
             <Grid item>
-                <ManagementPanelPermissionSettings />
+                <ManagementPanelScheduleSettings />
             </Grid>
         </Grid>
     );

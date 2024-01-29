@@ -11,8 +11,8 @@ const tabs = [
         link: "details"
     },
     {
-        title: "Czas pracy",
-        link: "working-time"
+        title: "Grafik",
+        link: "schedule"
     },
     {
         title: "Nieobecności",
