@@ -10,6 +10,7 @@ export interface MenuItem {
 	icon?: SvgIconComponent;
 	target?: true;
 	disabled?: boolean;
+	permissions: number[];
 	children?: MenuItem[];
 }
 

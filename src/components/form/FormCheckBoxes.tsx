@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
-interface FormCheckBoxOption<T extends  FieldValues> {
+interface FormCheckBoxOption<T extends FieldValues> {
 	label: string;
 	value: string;
 	name: Path<T>;

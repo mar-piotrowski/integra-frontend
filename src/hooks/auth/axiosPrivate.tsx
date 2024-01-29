@@ -1,11 +1,11 @@
 import axios from "../../api/axios";
 import useAuth from "./useAuth";
 import useRefreshToken from "./useRefreshToken";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 const AxiosPrivate = () => {
     const [fetch, setFetch] = useState(false);
-    const {token} = useRefreshToken(fetch);
+    const { token } = useRefreshToken(fetch);
     const { auth } = useAuth();
 
     useEffect(() => {

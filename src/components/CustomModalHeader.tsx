@@ -14,7 +14,7 @@ const Header = ({ title }: CustomModalHeaderProps) => {
             gap: 2,
             marginBottom: 2
         }}>
-            <Typography variant="h2">{title}</Typography>
+            <Typography variant="h3">{title}</Typography>
             <Divider />
         </Box>
     );

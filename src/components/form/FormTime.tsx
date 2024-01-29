@@ -1,9 +1,9 @@
 import React from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from 'moment-timezone';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from "@mui/x-date-pickers";
 
 interface FormDateProps<T extends FieldValues> {
     name: Path<T>;
@@ -12,7 +12,7 @@ interface FormDateProps<T extends FieldValues> {
     disabled?: boolean;
 }
 
-const FormDate = <T extends FieldValues>({
+const FormTime = <T extends FieldValues>({
     name,
     label,
     control,
@@ -24,7 +24,8 @@ const FormDate = <T extends FieldValues>({
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
                 <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
-                    <DatePicker
+                    <TimePicker
+                        ampm={false}
                         disabled={disabled}
                         slotProps={{
                             textField: {
@@ -33,15 +34,24 @@ const FormDate = <T extends FieldValues>({
                             }
                         }}
                         value={moment.tz(value, "Europe/Warsaw")}
-                        onChange={(date) => onChange(moment.tz(date, "Europe/Warsaw").format())}
+                        defaultValue={moment().utcOffset(0).set({
+                            hour: 0,
+                            minute: 0,
+                            second: 0,
+                            millisecond: 0,
+                        })}
+                        onChange={(date) => {
+                            onChange(moment.tz(date, "Europe/Warsaw").format())
+                        }}
                         label={label}
                         sx={{
                             width: "100%"
                         }} />
                 </LocalizationProvider>
-            )}
+            )
+            }
         />
     );
 };
 
-export default FormDate;
+export default FormTime;

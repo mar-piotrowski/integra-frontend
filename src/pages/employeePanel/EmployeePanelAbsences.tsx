@@ -5,11 +5,11 @@ import { MRT_ColumnDef } from "material-react-table";
 import { UserAbsentHistory } from "../../constants/models";
 import { HolidayLimit } from "../../api/types/documentTypes";
 import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
-import { useParams } from "react-router-dom";
+import useAuth from "../../hooks/auth/useAuth";
 
 const EmployeePanelAbsences = () => {
-    const { userId } = useParams();
-    const { data: holidayLimits } = useGetHolidayLimits(parseInt(userId!));
+    const { auth } = useAuth();
+    const { data: holidayLimits } = useGetHolidayLimits(auth?.userId);
 
     const columnsLimitHoliday = useMemo<MRT_ColumnDef<HolidayLimit>[]>(
         () => [

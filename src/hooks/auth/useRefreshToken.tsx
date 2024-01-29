@@ -15,7 +15,7 @@ const useRefreshToken = (enable: boolean) => {
             var token = decodeToken(data.accessToken);
             if (token?.userId == undefined)
                 return;
-            setAuth({ accessToken: data.accessToken, userId: token.userId });
+            setAuth({ accessToken: data.accessToken, userId: token.userId, permissions: token.permissions });
             setToken(data.accessToken);
             queryClient.removeQueries(["juan"]);
         },

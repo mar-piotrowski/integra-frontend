@@ -2,15 +2,15 @@ import { Grid, Button, MenuItem, ListItemIcon, ListItemText } from "@mui/materia
 import React, { useMemo, useState } from "react";
 import CustomTable from "../../components/CustomTable";
 import ShowAmount from "../../components/ShowAmount";
-import JobPositionModal from "../../features/modals/JobPositionModal";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { MRT_ColumnDef } from "material-react-table";
+import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
 
 const Permissions = () => {
-    //   const [jobPositionEdit, setJobPositionEdit] = useState<JobPosition | null>(null);
+    const [jobPositionEdit, setJobPositionEdit] = useState<JobPosition | null>(null);
     const [openModal, setOpenModal] = useState(false);
-    //     const { data: jobPositions } = useGetJobPositions();
+    const { data: jobPositions } = useGetJobPositions();
 
     const columns = useMemo<MRT_ColumnDef<JobPosition>[]>(() => [
         {
@@ -52,7 +52,7 @@ const Permissions = () => {
                         enableRowActions
                         renderRowActionMenuItems={({ closeMenu, row }) => [
                             <MenuItem key="edit" onClick={() => {
-                                // setJobPositionEdit(row.original);
+                                setJobPositionEdit(row.original);
                                 closeMenu();
                                 handleOpenModal();
                             }}>

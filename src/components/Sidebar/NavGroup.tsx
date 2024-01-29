@@ -1,9 +1,8 @@
-import { List, Typography } from "@mui/material";
+import { List, Typography, useTheme } from "@mui/material";
 import { MenuItem } from "../../constants/navigation/menuItems";
 import NavCollapse from "./NavCollapse";
 import NavItem from "./NavItem";
 import React from "react";
-import { useTheme } from "@emotion/react";
 
 interface NavGroupProps {
 	item: MenuItem;

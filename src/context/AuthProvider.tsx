@@ -16,12 +16,14 @@ export type AuthContextBase = {
 type AuthContextUser = {
     accessToken: string;
     userId: number;
+    permissions: number[];
 }
 
 const defaultValues: AuthContextBase = {
     auth: {
         accessToken: "",
         userId: 0,
+        permissions: []
     },
     setAuth: () => { },
     clearAuth: () => { },

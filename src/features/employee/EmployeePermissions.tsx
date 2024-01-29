@@ -23,10 +23,6 @@ const EmployeePermissions = ({ permissions, manage }: EmployeePermissions) => {
             header: "Nazwa",
         },
         {
-            accessorKey: "type",
-            header: "Typ",
-        },
-        {
             accessorKey: "asignmentDate",
             header: "Data nadania"
         },

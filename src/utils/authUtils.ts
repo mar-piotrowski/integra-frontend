@@ -1,13 +1,17 @@
-import {jwtDecode} from "jwt-decode";
-import {DecodedToken} from "../api/types/authTypes";
+import { JwtPayload, jwtDecode } from "jwt-decode";
+import { DecodedToken } from "../api/types/authTypes";
+
+interface UserPayload extends JwtPayload {
+    userId: number;
+    permissions: number[];
+}
 
 export const decodeToken = (token: string): DecodedToken | null => {
-    const decode = jwtDecode(token);
-    if(decode == undefined)
+    const decode = jwtDecode<UserPayload>(token);
+    if (decode == undefined)
         return null;
-    return  {
-        userId: decode?.userId,
-        roles: [1,2,3],
-        modules: [1,2,3]
+    return {
+        userId: decode!.userId,
+        permissions: decode!.permissions
     }
 }

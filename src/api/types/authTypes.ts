@@ -1,4 +1,4 @@
-import {Roles} from "../../constants/roles";
+import { Permission } from "../../constants/permission";
 
 export type Login = {
     email: string;
@@ -14,7 +14,6 @@ export type Register = {
 };
 
 export type DecodedToken = {
+    permissions: number[];
     userId: number;
-    roles: Roles[],
-    modules: Roles[]
 }

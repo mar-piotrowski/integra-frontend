@@ -9,25 +9,19 @@ const PersistLogin = () => {
     const [fetch, setFetch] = useState(false);
     const { token, query } = useRefreshToken(fetch);
     const { auth, persist } = useAuth();
-
+    console.log(auth)
     useEffect(() => {
         if (query.isError && auth?.accessToken == null) {
             errorToast("Wystąpił błąd z serwerem");
             return;
         }
-        if (auth?.accessToken != null && !persist) return;
         if (token != null) setFetch(false); else setFetch(true);
-    }, [token, auth?.accessToken, persist]);
-
-
-    if (query.isError && auth?.accessToken == null)
-        return <Outlet />
+    }, [token, fetch, persist]);
 
     return (
-        !persist ? <Outlet />
-            : auth?.accessToken == null
-                ? <BackdropLoading text={"Ładowanie"} />
-                : <Outlet />
+        auth?.accessToken == null
+            ? <BackdropLoading text={"Ładowanie"} />
+            : <Outlet />
     )
 }
 

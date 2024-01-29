@@ -22,6 +22,8 @@ const Employees = () => {
     const [employeeModal, setEmployeeModal] = useState<boolean>(false);
     const { data: employees } = useGetEmployees();
 
+    const { auth } = useAuth();
+
     const navigate = useNavigate();
 
     const columns = useMemo<MRT_ColumnDef<UserDto>[]>(
@@ -68,7 +70,7 @@ const Employees = () => {
                         </Button>
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Ilość pracowników" value={100} color="blue" />
+                        <ShowAmount label="Ilość pracowników" value={employees?.length} color="blue" />
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={2}>
                         <ShowAmount label="Aktywnych" value={100} color="green" />

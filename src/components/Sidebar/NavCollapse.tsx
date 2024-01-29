@@ -15,6 +15,7 @@ import NavItem from "./NavItem";
 import React from "react";
 import { CustomListItemButton } from "../CustomListItemButton";
 import { useLocation } from "react-router-dom";
+import useAuth from "../../hooks/auth/useAuth";
 
 interface NavCollapseProps {
 	menu: MenuItem;
@@ -26,6 +27,7 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
 	const [open, setOpen] = useState(false);
 	const [selected, setSelected] = useState<string | null>(null);
 	const location = useLocation();
+	const { auth } = useAuth();
 
 	useEffect(() => {
 		if (menu.children?.find(item => item.url == location.pathname))
@@ -67,61 +69,70 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
 
 	return (
 		<>
-			<CustomListItemButton
-				sx={{
-					mb: 0.5,
-					alignItems: "flex-start",
-					backgroundColor: level > 1 ? "transparent !important" : "inherit",
-					py: level > 1 ? 1 : 1.25,
-					pl: `${level * 24}px`,
-				}}
-				selected={selected === menu.id}
-				onClick={collapseHanlder}
-			>
-				<ListItemIcon sx={{ my: "auto", minWidth: !menu.icon ? 18 : 36 }}>
-					{menuIcon}
-				</ListItemIcon>
-				<ListItemText
-					primary={
-						<Typography
-							variant={selected === menu.id ? "h5" : "body1"}
-							color="inherit"
-							sx={{ my: "auto" }}
-						>
-							{menu.title}
-						</Typography>
-					}
-					secondary={
-						menu.caption && (
-							<Typography variant="caption" display="block" gutterBottom>
-								{menu.caption}
-							</Typography>
-						)
-					}
-				/>
-				{open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-			</CustomListItemButton>
-			<Collapse in={open} timeout="auto" unmountOnExit>
-				<List
-					component="div"
-					disablePadding
-					sx={{
-						position: "relative",
-						"&:after": {
-							content: "''",
-							position: "absolute",
-							left: "32px",
-							top: 0,
-							height: "100%",
-							width: "1px",
-							opacity: 1,
-							background: theme.palette.divider,
-						},
-					}}
-				>
-					{menus}
-				</List>
-			</Collapse>
+			{
+				menu.permissions.some(permission => auth?.permissions.includes(permission)) || menu.id == "pages" ?
+					(
+						<>
+							<CustomListItemButton
+								sx={{
+									mb: 0.5,
+									alignItems: "flex-start",
+									backgroundColor: level > 1 ? "transparent !important" : "inherit",
+									py: level > 1 ? 1 : 1.25,
+									pl: `${level * 24}px`,
+								}}
+								selected={selected === menu.id}
+								onClick={collapseHanlder}
+							>
+								<ListItemIcon sx={{ my: "auto", minWidth: !menu.icon ? 18 : 36 }}>
+									{menuIcon}
+								</ListItemIcon>
+								<ListItemText
+									primary={
+										<Typography
+											variant={selected === menu.id ? "h5" : "body1"}
+											color="inherit"
+											sx={{ my: "auto" }}
+										>
+											{menu.title}
+										</Typography>
+									}
+									secondary={
+										menu.caption && (
+											<Typography variant="caption" display="block" gutterBottom>
+												{menu.caption}
+											</Typography>
+										)
+									}
+								/>
+								{open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+							</CustomListItemButton>
+							<Collapse in={open} timeout="auto" unmountOnExit>
+								<List
+									component="div"
+									disablePadding
+									sx={{
+										position: "relative",
+										"&:after": {
+											content: "''",
+											position: "absolute",
+											left: "32px",
+											top: 0,
+											height: "100%",
+											width: "1px",
+											opacity: 1,
+											background: theme.palette.divider,
+										},
+									}}
+								>
+									{menus}
+								</List>
+							</Collapse>
+						</>
+					)
+					: null
+			}
+
 		</>
 	);
 };
