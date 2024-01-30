@@ -1,13 +1,13 @@
-import {Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 import FormInput from "../../../../components/form/FormInput";
-import FormSelect, {FormSelectOption} from "../../../../components/form/FormSelect";
+import FormSelect, { FormSelectOption } from "../../../../components/form/FormSelect";
 import FormTextField from "../../../../components/form/FormTextField";
 import React from "react";
-import {Control} from "react-hook-form";
-import {AddArticleForm} from "../ModalAddArticle";
+import { Control } from "react-hook-form";
+import { ArticleForm } from "../ModalArticle";
 
 interface ModalAddArticleDetailsProps {
-    control: Control<AddArticleForm>
+    control: Control<ArticleForm>
 }
 
 const measureUnits: FormSelectOption[] = [
@@ -40,42 +40,42 @@ const vats: FormSelectOption[] = [
     }
 ]
 
-const ModalAddArticleDetails = ({control}: ModalAddArticleDetailsProps) => {
+const ModalAddArticleDetails = ({ control }: ModalAddArticleDetailsProps) => {
     return (
-        <Grid sx={{flexGrow: 1}} item container spacing={2}>
+        <Grid sx={{ flexGrow: 1 }} item container spacing={2}>
             <Grid item xs={12}>
-                <FormInput name={"name"} label={"Nazwa"} control={control}/>
+                <FormInput name={"name"} label={"Nazwa"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"code"} label={"Kod produktu"} control={control}/>
+                <FormInput name={"code"} label={"Kod produktu"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"gtin"} label={"Kod GTIN"} control={control}/>
+                <FormInput name={"gtin"} label={"Kod GTIN"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
                 <FormSelect name={"measureUnit"} label={"Jednostka miary"} control={control}
-                            options={measureUnits}/>
+                    options={measureUnits} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"pkwiu"} label={"PKWiU"} control={control}/>
+                <FormInput name={"pkwiu"} label={"PKWiU"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"buyPrice"} label={"Cena zakupu netto"} control={control}/>
+                <FormInput type={"number"} name={"buyPriceWithoutTax"} label={"Cena zakupu netto"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"buyPrice"} label={"Cena zakupu brutto"} control={control}/>
+                <FormInput type={"number"} name={"buyPriceWithTax"} label={"Cena zakupu brutto"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"sellPrice"} label={"Cena sprzedaży netto"} control={control}/>
+                <FormInput type={"number"} name={"sellPriceWithoutTax"} label={"Cena sprzedaży netto"} control={control} />
             </Grid>
             <Grid item sm={12} md={6}>
-                <FormInput name={"sellPrice"} label={"Cena sprzedaży brutto"} control={control}/>
+                <FormInput type={"number"} name={"sellPriceWithTax"} label={"Cena sprzedaży brutto"} control={control} />
             </Grid>
             <Grid item xs={12}>
-                <FormSelect name={"vat"} label={"Vat"} control={control} options={vats}/>
+                <FormSelect name={"tax"} label={"Vat"} control={control} options={vats} />
             </Grid>
             <Grid item xs={12}>
-                <FormTextField name={"description"} label={"Opis"} control={control}/>
+                <FormTextField name={"description"} label={"Opis"} control={control} />
             </Grid>
         </Grid>
     )

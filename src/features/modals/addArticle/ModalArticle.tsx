@@ -1,6 +1,6 @@
 import { ModalBaseProps } from "../../../interfaces/modal";
 import CustomModal from "../../../components/CustomModal";
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import { Button, Grid, Tab, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "Zod";
@@ -9,70 +9,98 @@ import { Box } from "@mui/system";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import ModalAddArticleDetails from "./components/ModalAddArticleDetails";
 import ModalAddArticleGallery from "./components/ModalAddArticleGallery";
+import useCreateArticle from "../../../hooks/article/useCreateArticle";
+import { ArticleDto } from "../../../api/types/articleTypes";
+import useEditArticle from "../../../hooks/article/useEditArticle";
 
 interface ModalAddArticleProps extends ModalBaseProps {
+    articleToEdit?: ArticleDto | null;
 }
 
-export interface AddArticleForm {
-    groupId: number;
+export interface ArticleForm {
     name: string;
     code: string;
-    type: string;
     gtin: string;
     pkwiu: string;
     measureUnit: string;
-    buyPrice: number;
-    buyCurrency: number;
-    sellPrice: number;
-    sellCurrency: number;
+    buyPriceWithoutTax: number;
+    buyPriceWithTax: number;
+    sellPriceWithoutTax: number;
+    sellPriceWithTax: number;
     image: string;
-    vat: number;
+    tax: number;
     description: string;
 }
 
-const addArticleDefaultValues: AddArticleForm = {
-    groupId: 0,
+const defaultValues: ArticleForm = {
     name: "",
     code: "",
-    type: "",
     gtin: "",
     measureUnit: "",
     pkwiu: "",
-    buyPrice: 0,
-    buyCurrency: 0,
-    sellPrice: 0,
-    sellCurrency: 0,
+    buyPriceWithoutTax: 0,
+    buyPriceWithTax: 0,
+    sellPriceWithoutTax: 0,
+    sellPriceWithTax: 0,
     image: "",
-    vat: 0,
+    tax: 0,
     description: ""
 }
-
 
 const schema = z.object({
     name: z.string().min(1, "Pole jest wymagane"),
     code: z.string().min(1, "Kod produktu jest wymagany"),
     measureUnit: z.string().min(1, "Pole jest wymagane"),
-    gtin: z.string().min(1, "Pole jest wymagane"),
-    vat: z.number().gte(0, "Wybierz stawke vat!"),
+    gtin: z.string().optional(),
+    tax: z.number().gt(0, "Wybierz stawke vat!"),
+    pkwiu: z.string().nullable().optional(),
+    buyPriceWithoutTax: z.number().gt(0, "Pole wymagane!"),
+    buyPriceWithTax: z.number().gt(0, "Pole wymagane!"),
+    sellPriceWithoutTax: z.number().optional(),
+    sellPriceWithTax: z.number().optional()
 })
 
-const ModalAddArticle = ({ open, onClose }: ModalAddArticleProps) => {
+const ModalArticle = ({ open, onClose, articleToEdit }: ModalAddArticleProps) => {
+    const { mutate: createArticle, isSuccess: createArticleSuccess } = useCreateArticle();
+    const { mutate: editArticle, isSuccess: editArticleSuccess } = useEditArticle();
     const [value, setValue] = React.useState("1");
-    const { control, reset, handleSubmit, formState: { errors } } = useForm<AddArticleForm>({
-        defaultValues: addArticleDefaultValues,
+    const { control, reset, handleSubmit } = useForm<ArticleForm>({
+        defaultValues,
         resolver: zodResolver(schema)
     });
 
-    const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
-    const onSubmitHandler: SubmitHandler<AddArticleForm> = (data) => { console.log(data) };
+    useEffect(() => {
+        if (!articleToEdit) return;
+        reset({ ...articleToEdit });
+    }, [articleToEdit])
 
-    const extendedOnCloseModal = () => {
+    useEffect(() => {
+        if (!editArticleSuccess) return;
+        handleOnClose();
+    }, [editArticleSuccess])
+
+    useEffect(() => {
+        if (!createArticleSuccess) return;
+        handleOnClose();
+    }, [createArticleSuccess])
+
+    const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
+
+    const onSubmitHandler: SubmitHandler<ArticleForm> = (data) => {
+        if (articleToEdit != null) {
+            editArticle({ ...data, id: articleToEdit.id });
+            return;
+        }
+        createArticle({ ...data });
+    };
+
+    const handleOnClose = () => {
         onClose();
-        reset();
+        reset(defaultValues);
     }
 
     return (
-        <CustomModal isOpen={open} onClose={extendedOnCloseModal}>
+        <CustomModal isOpen={open} onClose={handleOnClose}>
             <Grid container spacing={2}>
                 <Grid item>
                     <Typography variant="h3">Dodawanie nowego produktu</Typography>
@@ -101,13 +129,13 @@ const ModalAddArticle = ({ open, onClose }: ModalAddArticleProps) => {
                             xs={12}
                         >
                             <Grid item>
-                                <Button variant="contained" color="error" onClick={extendedOnCloseModal}>
+                                <Button variant="contained" color="error" onClick={handleOnClose}>
                                     Anuluj
                                 </Button>
                             </Grid>
                             <Grid item>
                                 <Button variant="contained" type="submit">
-                                    Dodaj
+                                    {articleToEdit != null ? "Edytuj" : "Dodaj"}
                                 </Button>
                             </Grid>
                         </Grid>
@@ -118,4 +146,4 @@ const ModalAddArticle = ({ open, onClose }: ModalAddArticleProps) => {
     )
 }
 
-export default ModalAddArticle;
+export default ModalArticle;

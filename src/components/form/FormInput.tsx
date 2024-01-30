@@ -32,7 +32,7 @@ const FormInput = <T extends FieldValues>({
                         disabled={disabled}
                         helperText={error ? error.message : null}
                         error={!!error}
-                        value={value}
+                        value={type == "number" ? parseInt(value) : value}
                         name={name}
                         onChange={(inputValue) => {
                             onChange(
