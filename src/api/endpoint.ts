@@ -9,7 +9,8 @@ const endpoint = {
     articles: "articles",
     jobPositions: "job-positions",
     permissions: "permissions",
-    schedules: "schedules"
+    schedules: "schedules",
+    absences: "absences"
 }
 
 export default endpoint;

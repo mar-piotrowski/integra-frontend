@@ -29,3 +29,16 @@ export enum Day {
     Saturday,
     Sunday
 }
+
+export enum AbsenceType {
+    Unknown,
+    Holiday,
+    Disease
+}
+
+export enum AbsenceStatus {
+    Unknown,
+    Pending,
+    Accepted,
+    Rejected
+}

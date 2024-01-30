@@ -1,7 +1,5 @@
-import { Button, Grid, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import CustomTable from "../../components/CustomTable";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import React, { useMemo } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import { useNavigate } from "react-router-dom";
@@ -72,20 +70,13 @@ const Contracts = () => {
                         columns={columns}
                         data={contracts ?? []}
                         enableRowActions
-                        renderRowActionMenuItems={() => [
-                            <MenuItem key="edit" onClick={() => console.info("Dodaj aneks")}>
-                                <ListItemIcon>
-                                    <EditOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText>Dodaj aneks</ListItemText>
-                            </MenuItem>,
-                            <MenuItem key="delete" onClick={() => console.info("Delete")}>
-                                <ListItemIcon>
-                                    <DeleteOutlineOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText>Usuń</ListItemText>
-                            </MenuItem>,
-                        ]}
+                        muiTableBodyRowProps={({ row }) => ({
+                            onClick: () => {
+                                var number = row.original.user.id;
+                                navigate(`/management-panel/employee/${number}/contracts`)
+                            },
+                            sx: { cursor: "pointer" }
+                        })}
                     />
                 </Grid>
             </Grid>

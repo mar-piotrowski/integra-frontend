@@ -3,7 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, } from "react-rou
 import NotFoundPage from "../pages/NotFoundPage";
 import MainLayout from "../layouts/MainLayout";
 import Employees from "../pages/manegementPanel/Employees";
-import Holidays from "../pages/manegementPanel/Holidays";
+import Absences from "../pages/manegementPanel/Absences";
 import Profile from "../pages/account/Profile";
 import Privacy from "../pages/account/Privacy";
 import AccountLayout from "../layouts/AccountLayout";
@@ -104,7 +104,7 @@ const router = createBrowserRouter(
                             <Route path="schedules" element={<Schedules />} />
                         </Route>
                         <Route element={<ProtectedRoute allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrHolidays]} />}>
-                            <Route path="holiday" element={<Holidays />} />
+                            <Route path="holiday" element={<Absences />} />
                         </Route>
                         <Route element={<ProtectedRoute allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.DocInvoices]} />}>
                             <Route path="invoices" element={<Invoices />} />
