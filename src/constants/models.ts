@@ -1,3 +1,6 @@
+import { UserDto } from "../api/types/userTypes";
+import { AbsenceStatus, AbsenceType } from "./enums";
+
 export const enum Gender {
     None,
     Male,
@@ -23,13 +26,17 @@ export interface UserAbsent {
     description: string;
 }
 
-export interface UserAbsentHistory {
-    userId: number;
-    holidayType: string;
+export interface UserAbsence {
+    id: number;
+    user: UserDto;
+    type: AbsenceType,
     startDate: string;
     endDate: string;
-    accepted: boolean;
-    description: string;
+    diseaseCode: string | null;
+    series: string | null;
+    number: string | null;
+    description: string | null;
+    status: AbsenceStatus;
 }
 
 export interface UserAbsentReason {

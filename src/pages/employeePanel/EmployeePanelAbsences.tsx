@@ -2,14 +2,18 @@ import CustomTable from "../../components/CustomTable";
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useMemo } from "react";
 import { MRT_ColumnDef } from "material-react-table";
-import { UserAbsentHistory } from "../../constants/models";
+import { UserAbsence } from "../../constants/models";
 import { HolidayLimit } from "../../api/types/documentTypes";
 import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
 import useAuth from "../../hooks/auth/useAuth";
+import useGetAbsences from "../../hooks/absence/useGetAbsences";
+import { toDateString } from "../../utils/dateHelper";
+import { absenceTypeMapper, absenceStatus } from "../manegementPanel/employee/ManagementEmployeeAbsences";
 
 const EmployeePanelAbsences = () => {
     const { auth } = useAuth();
     const { data: holidayLimits } = useGetHolidayLimits(auth?.userId);
+    const { data: absences } = useGetAbsences(auth!.userId);
 
     const columnsLimitHoliday = useMemo<MRT_ColumnDef<HolidayLimit>[]>(
         () => [
@@ -34,20 +38,27 @@ const EmployeePanelAbsences = () => {
         []
     );
 
-    const columnsArrangeAbsent = useMemo<MRT_ColumnDef<UserAbsentHistory>[]>(
+    const columnsArrangeAbsent = useMemo<MRT_ColumnDef<UserAbsence>[]>(
         () => [
             {
-                accessorKey: "holidayType",
+                accessorKey: "type",
                 header: "Typ",
+                Cell: ({ row }) => <div>{absenceTypeMapper(row.original.type)}</div>
             },
             {
                 accessorKey: "startDate",
                 header: "Od",
+                Cell: ({ row }) => <div>{toDateString(row.original.startDate)}</div>
             },
             {
                 accessorKey: "endDate",
-                header: "Do",
+                header: "Do", Cell: ({ row }) => <div>{toDateString(row.original.endDate)}</div>
             },
+            {
+                accessorKey: "status",
+                header: "Status",
+                Cell: ({ row }) => <div>{absenceStatus(row.original.status)}</div>
+            }
         ],
         []
     );
@@ -79,7 +90,7 @@ const EmployeePanelAbsences = () => {
                 <Grid xs={12}>
                     <CustomTable
                         columns={columnsArrangeAbsent}
-                        data={[]}
+                        data={absences ?? []}
                     />
                 </Grid>
             </Box>
