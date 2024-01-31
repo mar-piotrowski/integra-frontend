@@ -1,10 +1,9 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, Typography } from "@mui/material";
-import CustomModal from "../components/CustomModal";
 import React from "react";
-import { ContractorDto } from "../api/types/contractorTypes";
-import Description from "../components/Description";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TextWithLabel from "../components/TextWithLabel";
+import { ContractorDto } from "../../api/types/contractorTypes";
+import CustomModal from "../../components/CustomModal";
+import Description from "../../components/Description";
 
 interface ContractorDetailsModalProps {
     isOpen: boolean;

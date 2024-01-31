@@ -7,7 +7,7 @@ import FormSelect, { FormSelectOption } from "../components/form/FormSelect";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 interface ArticleDocumentProps {
-    control: Control<GoodsReceivedNoteForm>
+    control: Control<Document>
 }
 
 const measureUnits: FormSelectOption[] = [
@@ -20,6 +20,17 @@ const measureUnits: FormSelectOption[] = [
         value: "litry"
     }
 ]
+
+const emptyArticle = {
+    code: "",
+    measureUnit: "",
+    amount: 1,
+    priceWithoutTax: 0,
+    discount: 0,
+    tax: 0,
+    totalPriceWithoutTax: 0,
+    totalPriceWithTax: 0
+};
 
 const ArticleDocument = ({ control }: ArticleDocumentProps) => {
     const [totalPriceWithTax, setTotalPriceWithTax] = useState(0);
@@ -34,14 +45,14 @@ const ArticleDocument = ({ control }: ArticleDocumentProps) => {
         control
     })
 
-    useEffect(() => {
-        watch.forEach((article, index) => {
-            // update(index, {
-            //     ...article,
-            //     totalPriceWithoutTax: article.amount * article.priceWithoutTax
-            // })
-        })
-    }, [watch]);
+    // useEffect(() => {
+    //     watch.forEach((article, index) => {
+    // update(index, {
+    //     ...article,
+    //     totalPriceWithoutTax: article.amount * article.priceWithoutTax
+    // })
+    //     })
+    // }, [watch]);
 
     const taxes: FormSelectOption[] = [
         {
@@ -68,7 +79,7 @@ const ArticleDocument = ({ control }: ArticleDocumentProps) => {
                                                 control={control}
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
+                                        <Grid item lg={1}>
                                             <FormSelect
                                                 name={`articles.${index}.measureUnit`}
                                                 label={"Jednostka miary"}
@@ -76,7 +87,7 @@ const ArticleDocument = ({ control }: ArticleDocumentProps) => {
                                                 options={measureUnits}
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
+                                        <Grid item>
                                             <FormInput
                                                 name={`articles.${index}.amount`}
                                                 label={"Ilosc"}
@@ -84,7 +95,7 @@ const ArticleDocument = ({ control }: ArticleDocumentProps) => {
                                                 type={"number"}
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
+                                        <Grid item>
                                             <FormInput
                                                 name={`articles.${index}.priceWithoutTax`}
                                                 label={"Cena"}
@@ -97,7 +108,7 @@ const ArticleDocument = ({ control }: ArticleDocumentProps) => {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
+                                        <Grid item lg={1}>
                                             <FormSelect
                                                 name={`articles.${index}.tax`}
                                                 label={"Podatek"}
@@ -129,16 +140,7 @@ const ArticleDocument = ({ control }: ArticleDocumentProps) => {
                 }
             </Grid>
             <Grid item>
-                <Button variant={"contained"} onClick={() => append({
-                    code: "",
-                    measureUnit: "",
-                    amount: 1,
-                    priceWithoutTax: 0,
-                    discount: 0,
-                    tax: 0,
-                    totalPriceWithoutTax: 0,
-                    totalPriceWithTax: 0
-                })}>
+                <Button variant={"contained"} onClick={() => append(emptyArticle)}>
                     Dodaj produkt
                 </Button>
             </Grid>

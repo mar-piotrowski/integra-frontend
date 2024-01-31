@@ -9,7 +9,7 @@ import ContactorModal from "../../features/modals/addContractor/ContactorModal";
 import useGetContractors from "../../hooks/contractor/useGetContractors";
 import { ContractorDto } from "../../api/types/contractorTypes";
 import { useBoolean } from "../../hooks/useBoolean";
-import ContractorDetailsModal from "../../features/ContractorDetailsModal";
+import ContractorDetailsModal from "../../features/modals/ContractorDetailsModal";
 
 const Contractors = () => {
     const { data: contractors } = useGetContractors();

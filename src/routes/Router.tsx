@@ -20,7 +20,7 @@ import Contractors from "../pages/manegementPanel/Contractors";
 import WZ from "../pages/manegementPanel/documents/WZ";
 import RW from "../pages/manegementPanel/documents/RW";
 import MM from "../pages/manegementPanel/documents/MM";
-import Invoices from "../pages/manegementPanel/Invoices";
+import Invoices from "../pages/Invoice/Invoice";
 import ManagementEmployeeDocuments from "../pages/manegementPanel/employee/ManagementEmployeeDocuments";
 import ManagementEmployeeSalary from "../pages/manegementPanel/employee/ManagementEmployeeSalary";
 import ManagementEmployeeSchedule from "../pages/manegementPanel/employee/ManagementEmployeeSchedule";
@@ -49,6 +49,8 @@ import Permissions from "../pages/manegementPanel/Permissions";
 import Schedules from "../pages/manegementPanel/Schedules";
 import ScheduleSchemas from "../pages/manegementPanel/ScheduleSchemas";
 import EmployeePanelSchedule from "../pages/employeePanel/EmployeePanelSchedule";
+import StockDocuments from "../pages/manegementPanel/StockDocuments";
+import DocumentCreator from "../pages/Invoice/features/DocumentCreator";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -83,6 +85,7 @@ const router = createBrowserRouter(
                         </Route>
 
                         <Route element={<BackgroundLayout />}>
+                            <Route path="document-creator" element={<DocumentCreator />} />
                             <Route path={"pz"} element={<PZ />} />
                             <Route path={"pw"} element={<WZ />} />
                             <Route path={"wz"} element={<WZ />} />
@@ -99,6 +102,9 @@ const router = createBrowserRouter(
                                 <Route path="contracts" element={<ManagementEmployeeContracts />} />
                                 <Route path="salary" element={<ManagementEmployeeSalary />} />
                             </Route>
+                        </Route>
+                        <Route element={<ProtectedRoute allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrSchedules]} />}>
+                            <Route path="stock-documents" element={<StockDocuments />} />
                         </Route>
                         <Route element={<ProtectedRoute allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrSchedules]} />}>
                             <Route path="schedules" element={<Schedules />} />

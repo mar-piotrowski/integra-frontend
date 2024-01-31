@@ -6,34 +6,13 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import React, { useMemo, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import ModalArticle from "../../features/modals/addArticle/ModalArticle";
-import ButtonDropdown, { ButtonDropdownItem } from "../../components/ButtonDropdown";
+import { ButtonDropdownItem } from "../../components/ButtonDropdown";
 import { ArticleDto } from "../../api/types/articleTypes";
 import { useGetArticles } from "../../hooks/article/useGetArticles";
 import { useBoolean } from "../../hooks/useBoolean";
 import ModalArticleChangeAmount from "../../features/modals/ModalArticleChangeAmount";
 import ModalArticleDelete from "../../features/modals/ModalArticleDelete";
 
-const issueMenuItems: ButtonDropdownItem[] = [
-    {
-        label: "Wydanie zewnetrzne",
-        to: "/management-panel/wz"
-    },
-    {
-        label: "Rozchód wewnętrzny",
-        to: "/management-panel/rw"
-    }
-]
-
-const receptionMenuItems: ButtonDropdownItem[] = [
-    {
-        label: "Przyjęcie wewnętrzne",
-        to: "/management-panel/pw"
-    },
-    {
-        label: "Przyjęcie zewnętrzne",
-        to: "/management-panel/pz"
-    }
-]
 
 const Articles = () => {
     const {
@@ -93,15 +72,9 @@ const Articles = () => {
         <>
             <Grid container spacing={2}>
                 <Grid item>
-                    <Button variant="contained" disableElevation onClick={openCreateArticleModal} >
+                    <Button variant="contained" disableElevation onClick={openCreateArticleModal}>
                         Dodaj produkt
                     </Button>
-                </Grid>
-                <Grid item>
-                    <ButtonDropdown label={"Wydanie"} items={issueMenuItems} />
-                </Grid>
-                <Grid item>
-                    <ButtonDropdown label={"Przyjęcie"} items={receptionMenuItems} />
                 </Grid>
                 <Grid item xs={12} md={4} lg={2}>
                     <ShowAmount label="Ilosc produktow" value={100} color="blue" />

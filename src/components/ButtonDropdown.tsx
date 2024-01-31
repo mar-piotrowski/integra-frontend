@@ -1,9 +1,9 @@
-import {alpha, Button, ListItemText, Menu, MenuProps} from "@mui/material";
+import { alpha, Button, ListItemText, Menu, MenuProps } from "@mui/material";
 import React from "react";
 import styled from "@emotion/styled";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import {CustomListItemButton} from "./CustomListItemButton";
-import {Link} from "react-router-dom";
+import { CustomListItemButton } from "./CustomListItemButton";
+import { Link } from "react-router-dom";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -18,7 +18,7 @@ const StyledMenu = styled((props: MenuProps) => (
         }}
         {...props}
     />
-))(({theme}) => ({
+))(({ theme }) => ({
     '& .MuiPaper-root': {
         borderRadius: 6,
         marginTop: theme.spacing(1),
@@ -57,7 +57,7 @@ interface ButtonDropdownProps {
     items: ButtonDropdownItem[];
 }
 
-const ButtonDropdown = ({label, items}: ButtonDropdownProps) => {
+const ButtonDropdown = ({ label, items }: ButtonDropdownProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -89,7 +89,7 @@ const ButtonDropdown = ({label, items}: ButtonDropdownProps) => {
                 variant="contained"
                 disableElevation
                 onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon/>}
+                endIcon={<KeyboardArrowDownIcon />}
             >
                 {label}
             </Button>
