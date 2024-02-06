@@ -36,7 +36,7 @@ export const employeePanelNavItems: MenuItem = {
             permissions: [748, 643],
         },
         {
-            id: "documents",
+            id: "Documents",
             title: "Dokumenty",
             type: "item",
             icon: TopicOutlinedIcon,

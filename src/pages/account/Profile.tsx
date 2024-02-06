@@ -2,7 +2,7 @@ import React, { SyntheticEvent } from "react";
 import { Grid, Tab, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import ManagementEmployeeDetails from "../manegementPanel/employee/ManagementEmployeeDetails";
+import ManagementEmployeeDetails from "../Employee/ManagementEmployeeDetails";
 
 const Profile = () => {
     const [value, setValue] = React.useState("1");

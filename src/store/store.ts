@@ -5,7 +5,7 @@ import collapseMenuSlice from "./collapseMenuSlice";
 export const store = configureStore({
 	reducer: {
 		sidebar: sidebarSlice,
-		collepseMenus: collapseMenuSlice,
+		collapseMenus: collapseMenuSlice,
 	},
 });
 

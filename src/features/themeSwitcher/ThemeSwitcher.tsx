@@ -2,8 +2,10 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import ThemeIcon from "./components/ThemeIcon";
 import { useContext } from "react";
 import { ThemeContext, ThemeContextType } from "../../context/ThemeContext";
+
 const ThemeSwitcher = () => {
 	const { theme, changeTheme } = useContext(ThemeContext) as ThemeContextType;
+
 	return (
 		<div
 			className="relative rounded-full cursor-pointer bg-gray-50 dark:bg-gray-400"

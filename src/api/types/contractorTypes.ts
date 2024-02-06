@@ -23,3 +23,7 @@ export type ContractorDto = {
     email: string;
     bankAccount: BankAccount;
 }
+
+export type ContractorsResponse = {
+    contractors: ContractorDto[];
+}

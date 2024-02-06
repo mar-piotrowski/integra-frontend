@@ -2,7 +2,7 @@
 // import CustomModal from "../../../components/CustomModal";
 // import { ModalBaseProps } from "../../../interfaces/modal";
 // import React, { SyntheticEvent, useEffect, useState } from "react";
-// import { SubmitHandler, useForm } from "react-hook-form";
+// import { SubmitHandler, useForm } from "react-hook-Form";
 // import { Box } from "@mui/system";
 // import { TabContext, TabList, TabPanel } from "@mui/lab";
 // import ModalAddEmployeeContractBaseInfo from "./components/ModalAddEmployeeContractBaseInfo";
@@ -73,7 +73,7 @@
 //                     }</Typography>
 //                 </Grid>
 //                 <Grid item xs={12}>
-//                     <form onSubmit={handleSubmit(onSubmitHandler)}>
+//                     <Form onSubmit={handleSubmit(onSubmitHandler)}>
 //                         <TabContext value={value}>
 //                             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 //                                 <TabList onChange={handleChange}>
@@ -110,7 +110,7 @@
 //                                 </Button>
 //                             </Grid>
 //                         </Grid>
-//                     </form>
+//                     </Form>
 //                 </Grid>
 //             </Grid>
 //         </CustomModal>

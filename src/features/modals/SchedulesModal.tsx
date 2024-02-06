@@ -4,7 +4,7 @@ import CustomModal from "../../components/CustomModal";
 import Header from "../../components/CustomModalHeader";
 import useGetSchedules from "../../hooks/schedule/useGetSchedules";
 import { ScheduleDay, ScheduleDto } from "../../api/types/scheduleTypes";
-import ScheduleDayHours from "../ScheduleDayHours";
+import ScheduleDayHours from "../Schedule/ScheduleDayHours";
 import { MRT_ColumnDef } from "material-react-table";
 import { Grid, ListItemIcon, ListItemText, MenuItem, Typography } from "@mui/material";
 import { Day } from "../../constants/enums";

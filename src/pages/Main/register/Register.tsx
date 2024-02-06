@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import LogoWithText from "../../../LogoWithText";
+import LogoWithText from "../../../components/LogoWithText";
 import useRegister from "../../../hooks/auth/useRegister";
 import { z } from "Zod";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -8,7 +8,7 @@ import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
 import useAuth from "../../hooks/auth/useAuth";
 import useGetAbsences from "../../hooks/absence/useGetAbsences";
 import { toDateString } from "../../utils/dateHelper";
-import { absenceTypeMapper, absenceStatus } from "../manegementPanel/employee/ManagementEmployeeAbsences";
+import { absenceTypeMapper, absenceStatus } from "../Employee/ManagementEmployeeAbsences";
 
 const EmployeePanelAbsences = () => {
     const { auth } = useAuth();

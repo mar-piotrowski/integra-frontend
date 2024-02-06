@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import FormInput from "../../../../components/form/FormInput";
+import FormInput from "../../../../components/Form/FormInput";
 import { CreateContractorRequest } from "../../../../api/types/contractorTypes";
 import { Control } from "react-hook-form";
 

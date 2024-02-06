@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Typography } from "@mui/material";
-import LogoWithText from "../../LogoWithText";
+import LogoWithText from "../../components/LogoWithText";
 import { SubmitHandler, useForm } from "react-hook-form";
-import FormInput from "../../components/form/FormInput";
+import FormInput from "../../components/Form/FormInput";
 import useLogin from "../../hooks/auth/useLogin";
 import useAuth from "../../hooks/auth/useAuth";
 import { useNavigate } from "react-router-dom";

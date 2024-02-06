@@ -2,11 +2,12 @@ type Id = {
     id: number;
 }
 
-type Article = {
+export type Article = {
     name: string;
     code?: string;
     gtin?: string;
     measureUnit: string;
+    stockAmount: number;
     sellPriceWithTax: number;
     sellPriceWithoutTax: number;
     buyPriceWithTax: number;

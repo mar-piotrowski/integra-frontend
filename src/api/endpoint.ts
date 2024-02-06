@@ -10,7 +10,8 @@ const endpoint = {
     jobPositions: "job-positions",
     permissions: "permissions",
     schedules: "schedules",
-    absences: "absences"
+    absences: "absences",
+    stocks: "stocks"
 }
 
 export default endpoint;

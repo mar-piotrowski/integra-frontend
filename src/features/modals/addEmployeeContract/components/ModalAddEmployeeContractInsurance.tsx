@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material"
 import { Control } from "react-hook-form";
 import React from "react";
-import FormSelect, { FormSelectOption } from "../../../../components/form/FormSelect";
-import FormCheckBox from "../../../../components/form/FormCheckBox";
+import FormSelect, { FormSelectOption } from "../../../../components/Form/FormSelect";
+import FormCheckBox from "../../../../components/Form/FormCheckBox";
 import { Contract } from "../../../../api/types/documentTypes";
 
 interface ModalAddEmployeeContractInsuranceProps {

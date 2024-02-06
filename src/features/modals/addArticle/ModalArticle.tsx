@@ -1,16 +1,13 @@
-import { ModalBaseProps } from "../../../interfaces/modal";
+import {ModalBaseProps} from "../../../interfaces/modal";
 import CustomModal from "../../../components/CustomModal";
-import React, { SyntheticEvent, useEffect } from "react";
-import { Button, Grid, Tab, Typography } from "@mui/material";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "Zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box } from "@mui/system";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import React, {useEffect} from "react";
+import {Button, Grid,  Typography} from "@mui/material";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {z} from "Zod";
+import {zodResolver} from "@hookform/resolvers/zod";
 import ModalAddArticleDetails from "./components/ModalAddArticleDetails";
-import ModalAddArticleGallery from "./components/ModalAddArticleGallery";
 import useCreateArticle from "../../../hooks/article/useCreateArticle";
-import { ArticleDto } from "../../../api/types/articleTypes";
+import {ArticleDto} from "../../../api/types/articleTypes";
 import useEditArticle from "../../../hooks/article/useEditArticle";
 
 interface ModalAddArticleProps extends ModalBaseProps {
@@ -60,18 +57,17 @@ const schema = z.object({
     sellPriceWithTax: z.number().optional()
 })
 
-const ModalArticle = ({ open, onClose, articleToEdit }: ModalAddArticleProps) => {
-    const { mutate: createArticle, isSuccess: createArticleSuccess } = useCreateArticle();
-    const { mutate: editArticle, isSuccess: editArticleSuccess } = useEditArticle();
-    const [value, setValue] = React.useState("1");
-    const { control, reset, handleSubmit } = useForm<ArticleForm>({
+const ModalArticle = ({open, onClose, articleToEdit}: ModalAddArticleProps) => {
+    const {mutate: createArticle, isSuccess: createArticleSuccess} = useCreateArticle();
+    const {mutate: editArticle, isSuccess: editArticleSuccess} = useEditArticle();
+    const {control, reset, handleSubmit} = useForm<ArticleForm>({
         defaultValues,
         resolver: zodResolver(schema)
     });
 
     useEffect(() => {
         if (!articleToEdit) return;
-        reset({ ...articleToEdit });
+        reset({...articleToEdit});
     }, [articleToEdit])
 
     useEffect(() => {
@@ -84,14 +80,13 @@ const ModalArticle = ({ open, onClose, articleToEdit }: ModalAddArticleProps) =>
         handleOnClose();
     }, [createArticleSuccess])
 
-    const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
     const onSubmitHandler: SubmitHandler<ArticleForm> = (data) => {
         if (articleToEdit != null) {
-            editArticle({ ...data, id: articleToEdit.id });
+            editArticle({...data, id: articleToEdit.id});
             return;
         }
-        createArticle({ ...data });
+        createArticle({...data});
     };
 
     const handleOnClose = () => {
@@ -101,47 +96,28 @@ const ModalArticle = ({ open, onClose, articleToEdit }: ModalAddArticleProps) =>
 
     return (
         <CustomModal isOpen={open} onClose={handleOnClose}>
-            <Grid container spacing={2}>
-                <Grid item>
-                    <Typography variant="h3">Dodawanie nowego produktu</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <form onSubmit={handleSubmit(onSubmitHandler)}>
-                        <TabContext value={value}>
-                            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                                <TabList onChange={handleChange}>
-                                    <Tab label="Podstawowe informacje" value="1" />
-                                    <Tab label="Galeria" value="2" />
-                                </TabList>
-                            </Box>
-                            <TabPanel value="1">
-                                <ModalAddArticleDetails control={control} />
-                            </TabPanel>
-                            <TabPanel value="2">
-                                <ModalAddArticleGallery control={control} />
-                            </TabPanel>
-                        </TabContext>
-                        <Grid
-                            item
-                            container
-                            justifyContent={"flex-end"}
-                            spacing={1}
-                            xs={12}
-                        >
-                            <Grid item>
-                                <Button variant="contained" color="error" onClick={handleOnClose}>
-                                    Anuluj
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="contained" type="submit">
-                                    {articleToEdit != null ? "Edytuj" : "Dodaj"}
-                                </Button>
-                            </Grid>
+            <form onSubmit={handleSubmit(onSubmitHandler)}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography variant="h3">Dodawanie nowego produktu</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ModalAddArticleDetails control={control}/>
+                    </Grid>
+                    <Grid item container justifyContent={"flex-end"} spacing={1} xs={12}>
+                        <Grid item>
+                            <Button variant="contained" color="error" onClick={handleOnClose}>
+                                Anuluj
+                            </Button>
                         </Grid>
-                    </form>
+                        <Grid item>
+                            <Button variant="contained" type="submit">
+                                {articleToEdit != null ? "Edytuj" : "Dodaj"}
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </form>
         </CustomModal>
     )
 }
