@@ -51,7 +51,7 @@ export const managementNavItems: MenuItem = {
             ],
         },
         {
-            id: "documents",
+            id: "Documents",
             title: "Dokumenty",
             type: "collapse",
             url: "/management-panel",

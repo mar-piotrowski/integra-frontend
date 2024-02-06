@@ -2,7 +2,7 @@ import { Button, Grid } from "@mui/material";
 import React from "react";
 import { RegisterForm } from "../Register";
 import { Control } from "react-hook-form";
-import FormInput from "../../../../components/form/FormInput";
+import FormInput from "../../../../components/Form/FormInput";
 
 interface RegisterVerificationStepProps {
     control: Control<RegisterForm>;

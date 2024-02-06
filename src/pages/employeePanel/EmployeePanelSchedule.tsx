@@ -1,5 +1,5 @@
 import React from "react";
-import Schedule from "../../features/Schedule";
+import Schedule from "../../features/Schedule/Schedule";
 import useAuth from "../../hooks/auth/useAuth";
 
 const EmployeePanelSchedule = () => {

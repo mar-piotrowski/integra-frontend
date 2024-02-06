@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import FormSelect, { FormSelectOption } from "../../../../components/form/FormSelect";
-import FormCheckBox from "../../../../components/form/FormCheckBox";
+import FormSelect, { FormSelectOption } from "../../../../components/Form/FormSelect";
+import FormCheckBox from "../../../../components/Form/FormCheckBox";
 import { Control } from "react-hook-form";
 import { Contract } from "../../../../api/types/documentTypes";
 

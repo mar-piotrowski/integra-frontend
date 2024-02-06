@@ -2,7 +2,7 @@ import { AppBar, Box, Button, Drawer, Toolbar, Typography, useMediaQuery } from 
 import React, { useEffect, useState } from "react"
 import { useTheme } from "@emotion/react"
 import CustomButton from "./CustomButton";
-import LogoWithText from "../../../LogoWithText";
+import LogoWithText from "../../../components/LogoWithText";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from "react-router-dom";

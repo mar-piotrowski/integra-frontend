@@ -25,7 +25,7 @@ const ModalAddPermission = ({ isOpen, onClose, userPermissions }: ModalAddPermis
     }, [addPermissionSuccess])
 
     const handleToggleSelectPermission = (permissionCode: number) => {
-        var codeIndex = selectedPermissions.findIndex(permission => permission == permissionCode);
+        const codeIndex = selectedPermissions.findIndex(permission => permission == permissionCode);
         if (codeIndex == -1) {
             setSelectedPermissions(prev => ([...prev, permissionCode]))
             return;

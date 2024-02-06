@@ -1,7 +1,8 @@
-import { C } from "@fullcalendar/core/internal-common";
-import { ContractType } from "../../constants/enums";
+import {ContractType} from "../../constants/enums";
 import { UserDto, UserId } from "./userTypes";
 import { MutationRequest } from "./apiTypes";
+import {Contractor, PaymentMethod} from "../../constants/models";
+import {ContractorDto} from "./contractorTypes";
 
 export enum ContractStatusType {
     None = 0,
@@ -9,6 +10,16 @@ export enum ContractStatusType {
     Pending = 2,
     NotActive = 3
 }
+
+export enum DocumentType {
+    Unknown,
+    Invoice,
+    Wz,
+    Pz,
+    Rw,
+    Pw,
+}
+
 export type Id = {
     id: number;
 }
@@ -122,5 +133,56 @@ export type ContractTerminate = {
 
 export type ContractChange = Omit<Contract, "startDate" | "endDate">
 
-
 export type CreateContractChangeRequest = { contractId: number } & MutationRequest<ContractChange>;
+
+export interface DocumentDetails {
+    type: DocumentType;
+    number: string;
+    issueDate: string;
+    admissionDate?: string;
+    receptionDate?: string;
+    paymentDate?: string;
+    paymentMethod: PaymentMethod;
+    contractor?: ContractorDto | null;
+    discount: number;
+    totalAmountWithTax: number;
+    totalAmountWithoutTax: number;
+    paid: boolean;
+    locked: boolean;
+    articles: DocumentArticleDto[];
+    sourceStockId: number;
+    targetStockId: number;
+}
+
+export interface CreateDocumentRequest {
+    type: DocumentType;
+    number: string;
+    issueDate: string;
+    receptionDate: string;
+    paymentDate: string;
+    contractorId: number;
+    discount: number;
+    totalAmountWithTax: number;
+    totalAmountWithoutTax: number;
+    paid: boolean;
+    articles: CreateDocumentArticleDto[];
+}
+
+export interface CreateDocumentArticleDto {
+    articleId: number;
+    amount: number;
+}
+
+export interface DocumentArticleDto {
+    id: number;
+    name: string;
+    code?: string;
+    gtin?: string;
+    measureUnit: string;
+    amount: number;
+    sellPriceWithTax: number;
+    sellPriceWithoutTax: number;
+    pkwiu: string;
+    tax: number
+    description?: string;
+}

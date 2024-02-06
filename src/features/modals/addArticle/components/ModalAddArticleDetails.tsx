@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
-import FormInput from "../../../../components/form/FormInput";
-import FormSelect, { FormSelectOption } from "../../../../components/form/FormSelect";
-import FormTextField from "../../../../components/form/FormTextField";
+import FormInput from "../../../../components/Form/FormInput";
+import FormSelect, { FormSelectOption } from "../../../../components/Form/FormSelect";
+import FormTextField from "../../../../components/Form/FormTextField";
 import React from "react";
 import { Control } from "react-hook-form";
 import { ArticleForm } from "../ModalArticle";

@@ -5,15 +5,15 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import { MenuItem } from "../../constants/navigation/menuItems";
+import {MenuItem} from "../../constants/navigation/menuItems";
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
-import { CustomListItemButton } from "../CustomListItemButton";
-import { Link, useLocation } from "react-router-dom";
-import { RootState } from "../../store/store";
-import { set } from "../../store/sidebarSlice";
-import { add } from "../../store/collapseMenuSlice";
+import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {CustomListItemButton} from "../CustomListItemButton";
+import {Link, useLocation} from "react-router-dom";
+import {RootState} from "../../store/store";
+import {set} from "../../store/sidebarSlice";
+import {add} from "../../store/collapseMenuSlice";
 import useAuth from "../../hooks/auth/useAuth";
 
 interface NavItemProps {
@@ -21,15 +21,13 @@ interface NavItemProps {
     level: number;
 }
 
-const NavItem = ({ item, level }: NavItemProps) => {
+const NavItem = ({item, level}: NavItemProps) => {
     const theme = useTheme();
     const location = useLocation();
-    const collapseMenusSelector = useSelector(
-        (state: RootState) => state.collepseMenus.collapaseMenus
-    );
+    const collapseMenusSelector = useSelector((state: RootState) => state.collapseMenus.collapseMenus);
     const dispatch = useDispatch();
     const responsive = useMediaQuery(theme.breakpoints.down("lg"));
-    const { auth } = useAuth();
+    const {auth} = useAuth();
 
     useEffect(() => {
         if (location.pathname == item?.url)
@@ -39,7 +37,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
     const Icon = item.icon;
     const itemIcon =
         item.icon != null ? (
-            <Icon />
+            <Icon/>
         ) : (
             <FiberManualRecordRoundedIcon
                 sx={{
@@ -79,7 +77,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
                                 listItemHandler(item.id);
                             }}
                         >
-                            <ListItemIcon sx={{ my: "auto", minWidth: !item?.icon ? 18 : 36 }}>
+                            <ListItemIcon sx={{my: "auto", minWidth: !item?.icon ? 18 : 36}}>
                                 {itemIcon}
                             </ListItemIcon>
                             <ListItemText
@@ -88,7 +86,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
                                         variant={
                                             "body1"
                                         }
-                                        sx={{ my: "auto" }}
+                                        sx={{my: "auto"}}
                                         color="inherit"
                                     >
                                         {item.title}

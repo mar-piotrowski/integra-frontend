@@ -4,10 +4,10 @@ import { Button, Grid, Typography } from "@mui/material";
 import React, { RefObject, useEffect } from "react";
 import CustomModal from "../../components/CustomModal";
 import { SubmitHandler, useForm } from "react-hook-form";
-import FormInput from "../../components/form/FormInput";
-import FormDateTime from "../../components/form/FormDateTime";
+import FormInput from "../../components/Form/FormInput";
+import FormDateTime from "../../components/Form/FormDateTime";
 import FullCalendar from "@fullcalendar/react";
-import FormCheckBox from "../../components/form/FormCheckBox";
+import FormCheckBox from "../../components/Form/FormCheckBox";
 import { successToast } from "../../utils/toastUtil";
 
 interface CalendarAddEventModalProps extends ModalBaseProps {

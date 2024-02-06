@@ -1,27 +1,27 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface CollapseMenuState {
-	collapaseMenus: string[];
+	collapseMenus: string[];
 }
 
 const initialState: CollapseMenuState = {
-	collapaseMenus: [],
+	collapseMenus: [],
 };
 
-export const collapaseMenuSlice = createSlice({
+export const collapseMenuSlice = createSlice({
 	name: "collapseMenus",
 	initialState,
 	reducers: {
 		add: (state, action: PayloadAction<string>) => {
-			state.collapaseMenus = [...state.collapaseMenus, action.payload];
+			state.collapseMenus = [...state.collapseMenus, action.payload];
 		},
 		remove: (state, action: PayloadAction<string>) => {
-			state.collapaseMenus = state.collapaseMenus.filter(
+			state.collapseMenus = state.collapseMenus.filter(
 				(item) => item != action.payload
 			);
 		},
 	},
 });
 
-export const { add, remove } = collapaseMenuSlice.actions;
-export default collapaseMenuSlice.reducer;
+export const { add, remove } = collapseMenuSlice.actions;
+export default collapseMenuSlice.reducer;

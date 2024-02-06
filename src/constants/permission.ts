@@ -10,7 +10,7 @@ export enum Permission {
     HrSalaries = 205,
     DocAll = 300,
     DocContractors = 301,
-    DocInvoices = 302,
+    DocDocuments = 302,
     DocStocks = 303,
     StAll = 400,
     StProducts = 401

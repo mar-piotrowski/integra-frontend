@@ -6,7 +6,7 @@ import { Button, Grid, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "Zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInput from "../../components/form/FormInput";
+import FormInput from "../../components/Form/FormInput";
 import useChangeArticleAmount from "../../hooks/article/useChangeArticleAmount";
 
 interface ModalArticleChangeAmountProps extends ModalBaseProps {

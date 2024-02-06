@@ -37,3 +37,7 @@ export type UserDto = {
     locations: LocationDto[];
     permissions: Permission[];
 }
+
+export type UsersResponse = {
+    users: UserDto[]
+};

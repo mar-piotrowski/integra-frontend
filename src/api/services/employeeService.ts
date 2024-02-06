@@ -1,4 +1,4 @@
-import { CreateUser } from "../types/userTypes";
+import {CreateUser, UserDto, UsersResponse} from "../types/userTypes";
 import endpoint from "../endpoint";
 import axios from "../axios";
 import { AddUserPermissionsRequest, RemoveUserPermissionsRequest } from "../types/permissionTypes";
@@ -7,9 +7,9 @@ import { DeleteUserSchedule } from "../../hooks/employee/useDeleteSchedule";
 
 const employeeService = {
     getAll: async () =>
-        await axios.get(endpoint.users),
+        await axios.get<UsersResponse>(endpoint.users),
     get: async (employeeId: number) =>
-        await axios.get(`/${endpoint.users}/${employeeId}`),
+        await axios.get<UserDto>(`/${endpoint.users}/${employeeId}`),
     create: async (employee: CreateUser) =>
         await axios.post(endpoint.users, employee),
     update: async (employeeId: number, employee: CreateUser) =>
