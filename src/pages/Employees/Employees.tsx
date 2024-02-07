@@ -14,7 +14,7 @@ import CustomTable from "../../components/CustomTable";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {UserDto} from "../../api/types/userTypes";
-import {useEmployees} from "../../hooks/employee/useEmployees";
+import {useUsers} from "../../hooks/employee/useUsers";
 import {useNavigate} from "react-router-dom";
 import {useBoolean} from "../../hooks/useBoolean";
 
@@ -24,7 +24,7 @@ const Employees = () => {
         setTrue: openCreateEmployeeModal,
         setFalse: closeCreateEmployeeModal
     } = useBoolean();
-    const {data: employees} = useEmployees();
+    const {data: employees} = useUsers();
     const navigate = useNavigate();
 
     const columns = useMemo<MRT_ColumnDef<UserDto>[]>(

@@ -15,8 +15,8 @@ import ContractDetailsModal from "../../features/modals/contractDetails/Contract
 import HeaderAction from "../../components/HeaderAction";
 import { errorToast } from "../../utils/toastUtil";
 
-const ManagementEmployeeContracts = () => {
-    const [openTermianteContractModal, setOpenTerminateContractModal] = useState<boolean>(false);
+const ProfileUserContracts = () => {
+    const [openTerminateContractModal, setOpenTerminateContractModal] = useState<boolean>(false);
     const [openDetailsContractModal, setOpenDetailsContractModal] = useState<boolean>(false);
     const [contract, setContract] = useState<ContractDto | null>(null);
 
@@ -137,9 +137,9 @@ const ManagementEmployeeContracts = () => {
                 </Grid>
             </Grid>
             {
-                openTermianteContractModal
+                openTerminateContractModal
                     ? <TerminateContractModal
-                        isOpen={openTermianteContractModal}
+                        isOpen={openTerminateContractModal}
                         onClose={handleCloseTerminateContractModal}
                         contractId={contract!.id}
                     />
@@ -158,4 +158,4 @@ const ManagementEmployeeContracts = () => {
     )
 }
 
-export default ManagementEmployeeContracts;
+export default ProfileUserContracts;

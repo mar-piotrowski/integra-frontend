@@ -9,7 +9,7 @@ const PersistLogin = () => {
     const [fetch, setFetch] = useState(false);
     const { token, query } = useRefreshToken(fetch);
     const { auth, persist } = useAuth();
-    console.log(auth)
+
     useEffect(() => {
         if (query.isError && auth?.accessToken == null) {
             errorToast("Wystąpił błąd z serwerem");

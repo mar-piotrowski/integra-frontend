@@ -3,7 +3,7 @@ import React from "react";
 import {Control, Controller, useFieldArray, useWatch} from "react-hook-form";
 import FormInput from "../../components/Form/FormInput";
 import FormSelect, {FormSelectOption, FormSelectOptionButton} from "../../components/Form/FormSelect";
-import {useGetArticles} from "../../hooks/article/useGetArticles";
+import {useArticles} from "../../hooks/article/useArticles";
 import ModalArticle from "../modals/addArticle/ModalArticle";
 import {useBoolean} from "../../hooks/useBoolean";
 import {DocumentDetails} from "../../api/types/documentTypes";
@@ -27,7 +27,7 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
         setTrue: openCreateArticleModal,
         setFalse: closeCreateArticleModal
     } = useBoolean(false);
-    const {data: articles} = useGetArticles();
+    const {data: articles} = useArticles();
     const {fields, append, remove, update} = useFieldArray({control, name: "articles"});
 
     const watch = useWatch({name: "articles", control});
@@ -40,22 +40,21 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
     ];
 
     const articlesToChoose: FormSelectOption[] = (lineIndex: number) =>
-        articles?.map((article: Article) => ({
+        articles?.map((article) => ({
             label: article.name,
-            value: article.id,
             onClick: () => {
                 const product = articles.find(articleUpdate => articleUpdate.id == article.id);
                 update(lineIndex, {...product, amount: 1})
-            }
+            },
         }));
 
     const displayProductPriceWithTax = (index: number) => {
-        if(watch[index] == undefined || watch[index].name == "") return 0;
+        if (watch[index] == undefined || watch[index].name == "") return 0;
         return ((watch[index]?.sellPriceWithTax * (1 - (watch[index].tax / 100))) * watch[index].amount).toFixed(2);
     }
 
     const displayProductPriceWithoutTax = (index: number) => {
-        if(watch[index] == undefined || watch[index].name == "") return 0;
+        if (watch[index] == undefined || watch[index].name == "") return 0;
         return (watch[index]?.sellPriceWithoutTax * watch[index].amount).toFixed(2);
     }
 
@@ -66,11 +65,10 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
                     <Typography variant={"h4"} mb={1}>Produkty</Typography>
                     <Divider/>
                 </Grid>
-                <Grid item container xs={12} maxHeight={"400px"} sx={{overflowY: "auto"}}>
+                <Grid item container maxHeight={"400px"} sx={{overflowY: "auto"}}>
                     {
                         fields.map((field, index) => (
                             <Controller
-                                mb={2}
                                 key={field.id}
                                 control={control}
                                 name={`articles`}
@@ -163,7 +161,7 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
             </Grid>
             {
                 createArticleModal
-                    ? <ModalArticle open={createArticleModal} onClose={closeCreateArticleModal} />
+                    ? <ModalArticle open={createArticleModal} onClose={closeCreateArticleModal}/>
                     : null
             }
         </>

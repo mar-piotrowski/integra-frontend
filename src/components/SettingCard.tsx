@@ -39,7 +39,7 @@ const Icon = ({ children }: IconProps) => {
     const newElement = cloneElement(children, {
         fontSize: "large"
     })
-    console.log(newElement);
+
 
     return (
         <Grid item xs={12} p={5} >

@@ -7,7 +7,7 @@ import React, { useMemo, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import ModalArticle from "../../features/modals/addArticle/ModalArticle";
 import { ArticleDto } from "../../api/types/articleTypes";
-import { useGetArticles } from "../../hooks/article/useGetArticles";
+import { useArticles } from "../../hooks/article/useArticles";
 import { useBoolean } from "../../hooks/useBoolean";
 import ModalArticleDelete from "../../features/modals/ModalArticleDelete";
 
@@ -22,7 +22,7 @@ const Articles = () => {
         setTrue: openCreateArticleModal,
         setFalse: closeCreateArticleModal
     } = useBoolean(false);
-    const { data: articles } = useGetArticles();
+    const { data: articles } = useArticles();
     const [articleToEdit, setArtileToEdit] = useState<ArticleDto | null>(null);
 
     const columns = useMemo<MRT_ColumnDef<ArticleDto>[]>(

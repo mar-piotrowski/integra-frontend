@@ -17,9 +17,9 @@ const CustomPageTabs = ({ tabs }: CustomTabsProps) => {
     const location = useLocation();
 
     useEffect(() => {
-        var index = tabs.findIndex(tab => tab.link == location.pathname);
-        setValue(index);
-    }, [])
+            const index = tabs.findIndex(tab => tab.link == location.pathname);
+            setValue(index);
+        }, [])
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue);

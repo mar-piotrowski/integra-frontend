@@ -5,7 +5,7 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 
 export const managementPanelAccountDropdownItems: AccountDropdownItem[] = [
     {
-        to: "/management-panel/acocunt",
+        to: "/management-panel/account",
         title: "Profil",
         icon: PermIdentityOutlinedIcon
     },

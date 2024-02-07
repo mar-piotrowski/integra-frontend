@@ -12,7 +12,7 @@ interface EmployeeDetailsProps {
     employee: UserDto;
 }
 
-const EmployeeDetails = ({ employee }: EmployeeDetailsProps) => {
+const UserDetails = ({ employee }: EmployeeDetailsProps) => {
     const userLocations = employee?.locations?.map((location: LocationDto) => (
         <>
             <Grid item>
@@ -89,4 +89,4 @@ const EmployeeDetails = ({ employee }: EmployeeDetailsProps) => {
     );
 }
 
-export default EmployeeDetails;
+export default UserDetails;

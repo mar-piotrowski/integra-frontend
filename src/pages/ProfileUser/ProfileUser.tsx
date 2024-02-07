@@ -1,11 +1,11 @@
 import React from "react";
-import { Box } from "@mui/system";
-import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
-import CustomPageTabs, { CustomTabItem } from "../../components/CustomPageTabs";
-import useGetEmployee from "../../hooks/employee/useGetEmployee";
-import ManagementEmployeeNotFound from "./ManagementEmployeeNotFound";
+import {Box} from "@mui/system";
+import {Navigate, Outlet, useLocation, useParams} from "react-router-dom";
+import CustomPageTabs, {CustomTabItem} from "../../components/CustomPageTabs";
+import ProfileUserNotFound from "./ProfileUserNotFound";
+import useUser from "../../hooks/employee/useUser";
 
-const tabs = [
+const employeeTabs = [
     {
         title: "Dane pracownika",
         link: "details"
@@ -20,24 +20,20 @@ const tabs = [
     },
     {
         title: "Dokumenty",
-        link: "Documents"
+        link: "documents"
     },
     {
         title: "Umowy",
         link: "contracts"
     },
-    {
-        title: "Wypłaty",
-        link: "salary"
-    },
 ]
 
-const ManagementEmployeeTabs = () => {
+const ProfileUser = () => {
     const { userId } = useParams();
+    const {data: user } = useUser(parseInt(userId!));
     const location = useLocation();
-    const { data: user } = useGetEmployee(parseInt(userId!));
 
-    const customTabs: CustomTabItem[] = tabs.map(tab => ({
+    const customTabs: CustomTabItem[] = employeeTabs.map(tab => ({
         title: tab.title,
         link: `/management-panel/employee/${userId}/${tab.link}`
     }))
@@ -53,18 +49,18 @@ const ManagementEmployeeTabs = () => {
         >
             {
                 location.pathname == `/management-panel/employee/${userId}`
-                    ? <Navigate to={customTabs[0].link} replace={true} />
-                    : <CustomPageTabs tabs={customTabs} />
+                    ? <Navigate to={customTabs[0].link} replace={true}/>
+                    : <CustomPageTabs tabs={customTabs}/>
             }
-            <Box sx={{ padding: "10px" }}>
+            <Box sx={{padding: "10px"}}>
                 {
                     user != undefined
-                        ? <Outlet />
-                        : <ManagementEmployeeNotFound />
+                        ? <Outlet/>
+                        : <ProfileUserNotFound/>
                 }
             </Box>
         </Box>
     );
 };
 
-export default ManagementEmployeeTabs;
+export default ProfileUser;

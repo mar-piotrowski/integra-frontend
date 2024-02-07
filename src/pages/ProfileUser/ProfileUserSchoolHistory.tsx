@@ -13,7 +13,7 @@ import DeleteSchoolHistoryDialog from "../../features/dialog/DeleteSchoolHistory
 import HeaderAction from "../../components/HeaderAction";
 import { useParams } from "react-router-dom";
 
-const ManagementEmployeeSchoolHistoryTable = () => {
+const ProfileUserSchoolHistory = () => {
     const { userId } = useParams();
     const { data: schoolHistories } = useGetSchoolHistories(parseInt(userId!));
     const [schoolHistoryModal, setSchoolHistoryModal] = useState<boolean>(false);
@@ -122,4 +122,4 @@ const ManagementEmployeeSchoolHistoryTable = () => {
     )
 }
 
-export default ManagementEmployeeSchoolHistoryTable;
+export default ProfileUserSchoolHistory;
