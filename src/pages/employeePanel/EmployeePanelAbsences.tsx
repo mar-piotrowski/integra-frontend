@@ -6,14 +6,14 @@ import { UserAbsence } from "../../constants/models";
 import { HolidayLimit } from "../../api/types/documentTypes";
 import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
 import useAuth from "../../hooks/auth/useAuth";
-import useGetAbsences from "../../hooks/absence/useGetAbsences";
+import useAbsences from "../../hooks/absence/useAbsences";
 import { toDateString } from "../../utils/dateHelper";
-import { absenceTypeMapper, absenceStatus } from "../Employee/ManagementEmployeeAbsences";
+import {absenceStatus, absenceTypeMapper} from "../Absences/Absences";
 
 const EmployeePanelAbsences = () => {
     const { auth } = useAuth();
     const { data: holidayLimits } = useGetHolidayLimits(auth?.userId);
-    const { data: absences } = useGetAbsences(auth!.userId);
+    const { data: absences } = useAbsences(auth!.userId);
 
     const columnsLimitHoliday = useMemo<MRT_ColumnDef<HolidayLimit>[]>(
         () => [

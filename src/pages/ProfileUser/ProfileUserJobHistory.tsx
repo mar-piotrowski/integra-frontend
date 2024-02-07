@@ -12,7 +12,7 @@ import useGetJobHistories from "../../hooks/workHistory/useGetJobHistories";
 import HeaderAction from "../../components/HeaderAction";
 import { useParams } from "react-router-dom";
 
-const ManagementEmployeeJobHistoryTable = () => {
+const ProfileUserJobHistory = () => {
     const { userId } = useParams();
     const { data: jobHistories } = useGetJobHistories(parseInt(userId!));
     const [jobHistoryToEdit, setJobHistoryToEdit] = useState<JobHistoryDto | null>(null);
@@ -118,4 +118,4 @@ const ManagementEmployeeJobHistoryTable = () => {
     )
 }
 
-export default ManagementEmployeeJobHistoryTable;
+export default ProfileUserJobHistory;

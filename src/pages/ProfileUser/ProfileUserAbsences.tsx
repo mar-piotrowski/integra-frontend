@@ -11,7 +11,7 @@ import { HolidayLimit } from "../../api/types/documentTypes";
 import useGetHolidayLimits from "../../hooks/holidayLimits/useGetHolidayLimits";
 import HeaderAction from "../../components/HeaderAction";
 import { useParams } from "react-router-dom";
-import useGetAbsences from "../../hooks/absence/useGetAbsences";
+import useAbsences from "../../hooks/absence/useAbsences";
 import { toDateString } from "../../utils/dateHelper";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -21,30 +21,12 @@ import { errorToast } from "../../utils/toastUtil";
 import { UpdateAbsence } from "../../api/types/absenceTypes";
 import useAcceptAbsence from "../../hooks/absence/useAcceptAbsence";
 import useRejectAbsence from "../../hooks/absence/useRejectAbsence";
+import {absenceStatus, absenceTypeMapper} from "../Absences/Absences";
 
-export const absenceTypeMapper = (type: number) => {
-    switch (type) {
-        case 0: return "Nieznany";
-        case 1: return "Wypoczynkowy";
-        case 2: return "Chorobowy"
-    }
-}
-
-export const absenceStatus = (status: AbsenceStatus) => {
-    switch (status) {
-        case AbsenceStatus.Accepted:
-            return <Box p={"5px"} borderRadius={1} bgcolor={"#27ae60"} color={"white"}>Zaakceptowany</Box>;
-        case AbsenceStatus.Rejected:
-            return <Box p={"5px"} borderRadius={1} bgcolor={"#e74c3c"} color={"white"}>Odrzucony</Box>
-        case AbsenceStatus.Pending:
-            return <Box p={"5px"} borderRadius={1} bgcolor={"#f39c12"} color={"white"}>Oczekuje</Box>
-    };
-};
-
-const ManagementEmployeeAbsences = () => {
+const ProfileUserAbsences = () => {
     const { userId } = useParams();
     const { data: holidayLimits } = useGetHolidayLimits(parseInt(userId!));
-    const { data: absences } = useGetAbsences(parseInt(userId!));
+    const { data: absences } = useAbsences(parseInt(userId!));
     const { mutate: acceptAbsence } = useAcceptAbsence();
     const { mutate: rejectAbsence } = useRejectAbsence();
     const { mutate: deleteAbsence } = useDeleteAbsence();
@@ -203,4 +185,4 @@ const ManagementEmployeeAbsences = () => {
     )
 }
 
-export default ManagementEmployeeAbsences;
+export default ProfileUserAbsences;

@@ -1,5 +1,3 @@
-import { Permission } from "../../constants/permission";
-
 export type Login = {
     email: string;
     password: string;

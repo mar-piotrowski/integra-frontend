@@ -4,22 +4,20 @@ import NotFoundPage from "../pages/NotFoundPage";
 import MainLayout from "../layouts/MainLayout";
 import Employees from "../pages/Employees/Employees";
 import Absences from "../pages/Absences/Absences";
-import Profile from "../pages/account/Profile";
-import Privacy from "../pages/account/Privacy";
+import AccountPrivacy from "../pages/Account/AccountPrivacy";
 import AccountLayout from "../layouts/AccountLayout";
 import Articles from "../pages/Articles/Articles";
-import Account from "../pages/account/Account";
-import ManagementEmployeeDetails from "../pages/Employee/ManagementEmployeeDetails";
-import ManagementEmployeeTabs from "../pages/Employee/ManagementEmployeeTabs";
-import ManagementEmployeeAbsences from "../pages/Employee/ManagementEmployeeAbsences";
-import ManagementEmployeeContracts from "../pages/Employee/ManagementEmployeeContracts";
+import AccountDetails from "../pages/Account/AccountDetails";
+import ProfileUserDetails from "../pages/ProfileUser/ProfileUserDetails";
+import ProfileUser from "../pages/ProfileUser/ProfileUser";
+import ProfileUserAbsences from "../pages/ProfileUser/ProfileUserAbsences";
+import ProfileUserContracts from "../pages/ProfileUser/ProfileUserContracts";
 import Contracts from "../pages/Contracts/Contracts";
 import BackgroundLayout from "../layouts/BackgroundLayout";
 import Contractors from "../pages/Contractors/Contractors";
 import Invoices from "../pages/Invoices/Invoices";
-import ManagementEmployeeDocuments from "../pages/Employee/ManagementEmployeeDocuments";
-import ManagementEmployeeSalary from "../pages/Employee/ManagementEmployeeSalary";
-import ManagementEmployeeSchedule from "../pages/Employee/ManagementEmployeeSchedule";
+import ProfileUserDocuments from "../pages/ProfileUser/ProfileUserDocuments";
+import ProfileUserSchedule from "../pages/ProfileUser/ProfileUserSchedule";
 import EmployeePanelAbsences from "../pages/employeePanel/EmployeePanelAbsences";
 import EmployeePanelLayout from "../layouts/EmployeePanelLayout";
 import EmployeePanelWorkingTime from "../pages/employeePanel/EmployeePanelWorkingTime";
@@ -37,7 +35,6 @@ import CreateContract from "../pages/CreateContract/CreateContract";
 import EmployeePanelDocumentTabs from "../pages/employeePanel/EmployeePanelDocumentTabs";
 import EmployeePanelContracts from "../pages/employeePanel/EmployeePanelContracts";
 import EmployeePanelDocuments from "../pages/employeePanel/EmployeePanelDocuments";
-import EmployeePanelSalaries from "../pages/employeePanel/EmployeePanelSalaries";
 import ChangeContract from "../pages/ChangeContract/ChangeContract";
 import ChooseLogin from "../pages/main/chooseLogin/ChooseLogin";
 import Permissions from "../pages/Permissions/Permissions";
@@ -51,6 +48,10 @@ import DocumentRw from "../pages/Documents/RW/DocumentRw";
 import DocumentPz from "../pages/Documents/PZ/DocumentPz";
 import DocumentWz from "../pages/Documents/WZ/DocumentWz";
 import DocumentPw from "../pages/Documents/PW/DocumentPw";
+import AccountSchedule from "../pages/Account/AccountSchedule";
+import AccountAbsences from "../pages/Account/AccountAbsences";
+import AccountDocuments from "../pages/Account/AccountDocuments";
+import AccountContracts from "../pages/Account/AccountContracts";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -65,8 +66,11 @@ const router = createBrowserRouter(
             <Route path="choose-login" element={<ChooseLogin/>}/>
             <Route element={<PersistLogin/>}>
                 <Route path="employee-panel" element={<MainLayout type={"employee"}/>}>
+                    <Route path="account" element={<AccountLayout type={"employee"}/>}>
+                        <Route path="/" element={<AccountDetails/>}/>
+                        <Route path="privacy" element={<AccountPrivacy/>}/>
+                    </Route>
                     <Route path="working-time" element={<EmployeePanelWorkingTime/>}/>
-                    <Route path="salaries" element={<EmployeePanelSalaries/>}/>
                     <Route element={<EmployeePanelLayout/>}>
                         <Route path="schedule" element={<EmployeePanelSchedule/>}/>
                         <Route path="absence" element={<EmployeePanelAbsences/>}/>
@@ -78,21 +82,23 @@ const router = createBrowserRouter(
                 </Route>
                 <Route element={<ProtectedRoute allowedPermissions={[Permission.FullAccess, Permission.MgPanel]}/>}>
                     <Route path="management-panel" element={<MainLayout type={"management"}/>}>
-                        <Route element={<AccountLayout/>}>
-                            <Route path="account" element={<Account/>}/>
-                            <Route path="account/profile" element={<Profile/>}/>
-                            <Route path="account/privacy" element={<Privacy/>}/>
+                        <Route path="account" element={<AccountLayout type={"panel"}/>}>
+                            <Route path="/" element={<AccountDetails/>}/>
+                            <Route path="schedule" element={<AccountSchedule/>}/>
+                            <Route path="absences" element={<AccountAbsences/>}/>
+                            <Route path="documents" element={<AccountDocuments/>}/>
+                            <Route path="contracts" element={<AccountContracts/>}/>
+                            <Route path="privacy" element={<AccountPrivacy/>}/>
                         </Route>
                         <Route element={<ProtectedRoute
                             allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrEmployees]}/>}>
                             <Route path="employees" element={<Employees/>}/>
-                            <Route path="employee/:userId" element={<ManagementEmployeeTabs/>}>
-                                <Route index path="details" element={<ManagementEmployeeDetails/>}/>
-                                <Route path="schedule" element={<ManagementEmployeeSchedule/>}/>
-                                <Route path="documents" element={<ManagementEmployeeDocuments/>}/>
-                                <Route path="absence" element={<ManagementEmployeeAbsences/>}/>
-                                <Route path="contracts" element={<ManagementEmployeeContracts/>}/>
-                                <Route path="salary" element={<ManagementEmployeeSalary/>}/>
+                            <Route path="employee/:userId" element={<ProfileUser/>}>
+                                <Route index path="details" element={<ProfileUserDetails/>}/>
+                                <Route path="schedule" element={<ProfileUserSchedule/>}/>
+                                <Route path="documents" element={<ProfileUserDocuments/>}/>
+                                <Route path="absence" element={<ProfileUserAbsences/>}/>
+                                <Route path="contracts" element={<ProfileUserContracts/>}/>
                             </Route>
                         </Route>
                         <Route element={<ProtectedRoute

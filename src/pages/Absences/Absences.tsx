@@ -5,14 +5,37 @@ import CustomTable from "../../components/CustomTable";
 import ShowAmount from "../../components/ShowAmount";
 import {MRT_ColumnDef} from "material-react-table";
 import {useNavigate} from "react-router-dom";
-import useGetAbsences from "../../hooks/absence/useGetAbsences";
-import {absenceStatus, absenceTypeMapper} from "../Employee/ManagementEmployeeAbsences";
+import useAbsences from "../../hooks/absence/useAbsences";
 import {UserAbsence} from "../../constants/models";
 import {toDateString} from "../../utils/dateHelper";
+import {AbsenceStatus} from "../../constants/enums";
+
+export const absenceTypeMapper = (type: number) => {
+    switch (type) {
+        case 0:
+            return "Nieznany";
+        case 1:
+            return "Wypoczynkowy";
+        case 2:
+            return "Chorobowy"
+    }
+}
+
+export const absenceStatus = (status: AbsenceStatus) => {
+    switch (status) {
+        case AbsenceStatus.Accepted:
+            return <Box p={"5px"} borderRadius={1} bgcolor={"#27ae60"} color={"white"}>Zaakceptowany</Box>;
+        case AbsenceStatus.Rejected:
+            return <Box p={"5px"} borderRadius={1} bgcolor={"#e74c3c"} color={"white"}>Odrzucony</Box>
+        case AbsenceStatus.Pending:
+            return <Box p={"5px"} borderRadius={1} bgcolor={"#f39c12"} color={"white"}>Oczekuje</Box>
+    }
+};
 
 const Absences = () => {
     const navigate = useNavigate();
-    const {data: absences} = useGetAbsences();
+    const {data: absences} = useAbsences();
+
     const columns = useMemo<MRT_ColumnDef<UserAbsence>[]>(
         () => [
             {

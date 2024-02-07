@@ -2,7 +2,6 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import TopicOutlinedIcon from '@mui/icons-material/TopicOutlined';
-import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
 import { MenuItem } from "./menuItems";
 
 export const employeePanelNavItems: MenuItem = {
@@ -43,13 +42,5 @@ export const employeePanelNavItems: MenuItem = {
             url: "/employee-panel/documents/contracts",
             permissions: [748, 643],
         },
-        {
-            id: "salaries",
-            title: "Wypaty",
-            type: "item",
-            icon: SavingsOutlinedIcon,
-            url: "/employee-panel/salaries",
-            permissions: [748, 643],
-        }
     ],
 };

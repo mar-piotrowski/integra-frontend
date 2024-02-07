@@ -5,14 +5,9 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 
 export const employeePanelAccountDropdownItems: AccountDropdownItem[] = [
     {
-        to: "/employee-panel/profile",
+        to: "/employee-panel/account",
         title: "Profil",
         icon: PermIdentityOutlinedIcon
-    },
-    {
-        to: "/management-panel/settings",
-        title: "Ustawienia",
-        icon: SettingsOutlinedIcon
     },
 ]
 

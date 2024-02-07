@@ -27,3 +27,7 @@ export type CreateArticle = Article;
 export type EditArticle = Article & Id;
 
 export type ArticleDto = Article & Id & { amount: number };
+
+export type ArticlesResponse = {
+   articles: ArticleDto[]
+}
