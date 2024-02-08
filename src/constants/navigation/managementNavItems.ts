@@ -93,12 +93,20 @@ export const managementNavItems: MenuItem = {
             permissions: [748, 400],
             children: [
                 {
+                    id: "stocks",
+                    title: "Magazyny",
+                    type: "item",
+                    url: "/management-panel/stocks",
+                    target: true,
+                    permissions: [748, 400, 401],
+                },
+                {
                     id: "articles",
                     title: "Produkty",
                     type: "item",
                     url: "/management-panel/articles",
                     target: true,
-                    permissions: [748, 400, 401],
+                    permissions: [748, 400, 402],
                 },
             ],
         },

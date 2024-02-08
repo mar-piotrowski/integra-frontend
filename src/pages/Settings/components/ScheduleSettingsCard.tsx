@@ -4,7 +4,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
-const ManagementPanelScheduleSettings = () => {
+const ScheduleSettingsCard = () => {
     const navigate = useNavigate();
 
     return (
@@ -19,5 +19,5 @@ const ManagementPanelScheduleSettings = () => {
     );
 };
 
-export default ManagementPanelScheduleSettings;
+export default ScheduleSettingsCard;
 

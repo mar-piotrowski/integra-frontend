@@ -52,6 +52,7 @@ import AccountSchedule from "../pages/Account/AccountSchedule";
 import AccountAbsences from "../pages/Account/AccountAbsences";
 import AccountDocuments from "../pages/Account/AccountDocuments";
 import AccountContracts from "../pages/Account/AccountContracts";
+import Stocks from "../pages/Stocks/Stocks";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -67,7 +68,7 @@ const router = createBrowserRouter(
             <Route element={<PersistLogin/>}>
                 <Route path="employee-panel" element={<MainLayout type={"employee"}/>}>
                     <Route path="account" element={<AccountLayout type={"employee"}/>}>
-                        <Route path="/" element={<AccountDetails/>}/>
+                        <Route path="" element={<AccountDetails/>}/>
                         <Route path="privacy" element={<AccountPrivacy/>}/>
                     </Route>
                     <Route path="working-time" element={<EmployeePanelWorkingTime/>}/>
@@ -83,7 +84,7 @@ const router = createBrowserRouter(
                 <Route element={<ProtectedRoute allowedPermissions={[Permission.FullAccess, Permission.MgPanel]}/>}>
                     <Route path="management-panel" element={<MainLayout type={"management"}/>}>
                         <Route path="account" element={<AccountLayout type={"panel"}/>}>
-                            <Route path="/" element={<AccountDetails/>}/>
+                            <Route path="" element={<AccountDetails/>}/>
                             <Route path="schedule" element={<AccountSchedule/>}/>
                             <Route path="absences" element={<AccountAbsences/>}/>
                             <Route path="documents" element={<AccountDocuments/>}/>
@@ -101,6 +102,7 @@ const router = createBrowserRouter(
                                 <Route path="contracts" element={<ProfileUserContracts/>}/>
                             </Route>
                         </Route>
+                        <Route path="stocks" element={<Stocks/>}/>
                         <Route element={<ProtectedRoute
                             allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrSchedules]}/>}>
                             <Route path="stock-documents" element={<StockDocuments/>}/>
