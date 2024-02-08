@@ -1,16 +1,16 @@
-import { Grid } from "@mui/material";
+import {Grid} from "@mui/material";
 import React from "react";
-import ManagementPanelJobPositionSetting from "./components/ManagementPanelJobPositionSettings";
-import ManagementPanelScheduleSettings from "./components/ManagementPanelScheduleSettings";
+import JobPositionSettingCard from "./components/JobPositionSettingsCard";
+import ScheduleSettingsCard from "./components/ScheduleSettingsCard";
 
 const Settings = () => {
     return (
         <Grid container spacing={3}>
             <Grid item>
-                <ManagementPanelJobPositionSetting />
+                <JobPositionSettingCard/>
             </Grid>
             <Grid item>
-                <ManagementPanelScheduleSettings />
+                <ScheduleSettingsCard/>
             </Grid>
         </Grid>
     );

@@ -5,7 +5,7 @@ import { Control, Controller, FieldValues, Path } from "react-hook-form";
 export interface FormSelectOption {
     label: string;
     value: string | number;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 export interface FormSelectOptionButton {

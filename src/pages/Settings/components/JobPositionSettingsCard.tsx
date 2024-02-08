@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import WorkIcon from '@mui/icons-material/Work';
 import { useNavigate } from "react-router-dom";
 
-const ManagementPanelJobPositionSetting = () => {
+const JobPositionSettingCard = () => {
     const navigate = useNavigate();
 
     return (
@@ -19,4 +19,4 @@ const ManagementPanelJobPositionSetting = () => {
     );
 };
 
-export default ManagementPanelJobPositionSetting;
+export default JobPositionSettingCard;
