@@ -1,12 +1,12 @@
 import { Grid } from "@mui/material";
 import { Control } from "react-hook-form";
 import FormInput from "../../../../../components/Form/FormInput";
-import { EmployeeForm } from "../ModalAddEmployee";
+import { EmployeeForm } from "../ModalAddUser";
 import React from "react";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import { CreateUserRequest } from "../../../../../api/types/userTypes";
 
 interface ModalWorkerBankProps {
-	control: Control<CreateUser>;
+	control: Control<CreateUserRequest>;
 }
 
 const ModalAddEmployeeBank = ({ control }: ModalWorkerBankProps) => {

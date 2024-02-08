@@ -3,10 +3,10 @@ import FormDate from "../../../../../components/Form/FormDate";
 import FormInput from "../../../../../components/Form/FormInput";
 import React from "react";
 import { Control } from "react-hook-form";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import { CreateUserRequest } from "../../../../../api/types/userTypes";
 
 interface ModalWorkerDetailsProps {
-	control: Control<CreateUser>;
+	control: Control<CreateUserRequest>;
 }
 
 const ModalAddEmployeeDetails = ({ control }: ModalWorkerDetailsProps) => {

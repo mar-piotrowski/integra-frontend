@@ -1,4 +1,4 @@
-import {CreateUser, UserDto, UsersResponse} from "../types/userTypes";
+import {CreateUserRequest, UserDto, UsersResponse} from "../types/userTypes";
 import endpoint from "../endpoint";
 import axios from "../axios";
 import { AddUserPermissionsRequest, RemoveUserPermissionsRequest } from "../types/permissionTypes";
@@ -10,10 +10,10 @@ const employeeService = {
         await axios.get<UsersResponse>(endpoint.users),
     get: async (employeeId: number) =>
         await axios.get<UserDto>(`/${endpoint.users}/${employeeId}`),
-    create: async (employee: CreateUser) =>
+    create: async (employee: CreateUserRequest) =>
         await axios.post(endpoint.users, employee),
-    update: async (employeeId: number, employee: CreateUser) =>
-        await axios.put(`/ ${endpoint.users}/${employeeId}`, employee),
+    edit: async (employee: CreateUserRequest) =>
+        await axios.put(`/ ${endpoint.users}/${employee.id}`, employee),
     addPermissions: async (request: AddUserPermissionsRequest) =>
         await axios.post(`${endpoint.users}/${request.userId}/add-permissions`, request),
     removePermissions: async (request: RemoveUserPermissionsRequest) =>

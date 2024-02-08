@@ -1,24 +1,28 @@
-import { Button, Grid, Tab } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { SyntheticEvent } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import {Button, Grid, Tab} from "@mui/material";
+import {Box} from "@mui/system";
+import React, {SyntheticEvent, useEffect} from "react";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {TabContext, TabList, TabPanel} from "@mui/lab";
 import ModalAddEmployeeBasicInfo from "./components/ModalAddEmployeeBasicInfo";
 import ModalAddEmployeeAddress from "./components/ModalAddEmployeeAddress";
 import ModalAddEmployeeDetails from "./components/ModalAddEmployeeDetails";
 import ModalAddEmployeeBank from "./components/ModalAddEmployeeBank";
 import CustomModal from "../../../../components/CustomModal";
-import { z } from "Zod";
-import { CreateUser } from "../../../../api/types/userTypes";
-import useCreateEmployee from "../../../../hooks/employee/useCreateEmployee";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {z} from "Zod";
+import {CreateUserRequest, UserDto} from "../../../../api/types/userTypes";
+import useCreateUser from "../../../../hooks/employee/useCreateEmployee";
+import {zodResolver} from "@hookform/resolvers/zod";
+import useEditUser from "../../../../hooks/employee/useEditUser";
+import ModalAddUserEmployeePanel from "./components/ModalAddUserEmployeePanel";
 
 interface ModalAddEmployeeProps {
     open: boolean;
     onClose: () => void;
+    user?: UserDto | null;
 }
 
-const employeeFormDefaultValues: CreateUser = {
+const employeeFormDefaultValues: CreateUserRequest = {
+    id: 0,
     firstname: "",
     lastname: "",
     secondName: "",
@@ -32,6 +36,7 @@ const employeeFormDefaultValues: CreateUser = {
     citizenship: "",
     nip: "",
     isStudent: false,
+    createAccount: false,
     jobPositionId: 0,
     locations: [{
         street: "",
@@ -73,46 +78,66 @@ const validationSchema = z.object({
     })
 })
 
-const ModalAddEmployee = ({ open, onClose }: ModalAddEmployeeProps) => {
-    const { mutate: createEmployeeMutation } = useCreateEmployee();
+const ModalAddUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
+    const {mutate: createUserMutate, isSuccess: createUserSuccess} = useCreateUser();
+    const {mutate: editUserMutate, isSuccess: editUserSuccess} = useEditUser();
     const [value, setValue] = React.useState("1");
-    const { control, handleSubmit } = useForm<CreateUser>({
+    const {control, handleSubmit, reset} = useForm<CreateUserRequest>({
         defaultValues: employeeFormDefaultValues,
         resolver: zodResolver(validationSchema)
     });
 
+    useEffect(() => {
+        if (createUserSuccess || editUserSuccess)
+            onClose();
+    }, [createUserSuccess, editUserSuccess]);
+
+
+    useEffect(() => {
+        if (user != undefined)
+            reset({...user});
+    }, []);
+
     const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
 
-    const onSubmitHandler: SubmitHandler<CreateUser> = (data) => {
-        createEmployeeMutation(data);
+    const onSubmitHandler: SubmitHandler<CreateUserRequest> = (data) => {
+        if (user != undefined) {
+            editUserMutate(data);
+            return;
+        }
+        createUserMutate(data);
     }
 
     return (
         <CustomModal isOpen={open} onClose={onClose}>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Box sx={{borderBottom: 1, borderColor: "divider"}}>
                         <TabList onChange={handleChange}>
-                            <Tab label="podstawowe" value="1" />
-                            <Tab label="adresowe" value="2" />
-                            <Tab label="szczegółowe" value="3" />
-                            <Tab label="rozliczeniowe" value="4" />
+                            <Tab label="podstawowe" value="1"/>
+                            <Tab label="adresowe" value="2"/>
+                            <Tab label="szczegółowe" value="3"/>
+                            <Tab label="rozliczeniowe" value="4"/>
+                            <Tab label="employeeAnywhere" value="5"/>
                         </TabList>
                     </Box>
                     <TabPanel value="1">
-                        <ModalAddEmployeeBasicInfo control={control} />
+                        <ModalAddEmployeeBasicInfo control={control}/>
                     </TabPanel>
                     <TabPanel value="2">
-                        <ModalAddEmployeeAddress control={control} />
+                        <ModalAddEmployeeAddress control={control}/>
                     </TabPanel>
                     <TabPanel value="3">
-                        <ModalAddEmployeeDetails control={control} />
+                        <ModalAddEmployeeDetails control={control}/>
                     </TabPanel>
                     <TabPanel value="4">
-                        <ModalAddEmployeeBank control={control} />
+                        <ModalAddEmployeeBank control={control}/>
+                    </TabPanel>
+                    <TabPanel value="5">
+                        <ModalAddUserEmployeePanel control={control}/>
                     </TabPanel>
                 </TabContext>
-                <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+                <Grid item xs={12} sx={{display: "flex", justifyContent: "flex-end", gap: "10px"}}>
                     <Button variant="contained" color="error" type="button" onClick={onClose}>
                         Anuluj
                     </Button>
@@ -125,4 +150,4 @@ const ModalAddEmployee = ({ open, onClose }: ModalAddEmployeeProps) => {
     );
 };
 
-export default ModalAddEmployee;
+export default ModalAddUser;

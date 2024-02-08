@@ -2,10 +2,10 @@ import { Control } from "react-hook-form";
 import { Grid } from "@mui/material";
 import React from "react";
 import FormInput from "../../../../../components/Form/FormInput";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import { CreateUserRequest } from "../../../../../api/types/userTypes";
 
 interface ModalWorkerAddressProps {
-    control: Control<CreateUser>;
+    control: Control<CreateUserRequest>;
 }
 
 const ModalAddEmployeeAddress = ({ control }: ModalWorkerAddressProps) => {

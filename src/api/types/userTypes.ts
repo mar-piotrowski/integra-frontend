@@ -6,7 +6,8 @@ export type UserId = {
     userId: number
 };
 
-export type CreateUser = {
+export type CreateUserRequest = {
+    id: number;
     firstname: string;
     lastname: string;
     secondName: string;
@@ -21,6 +22,7 @@ export type CreateUser = {
     citizenship: string;
     nip: string;
     isStudent: boolean;
+    createAccount: boolean;
     locations: LocationDto[];
     bankDetails: BankDetails;
 };

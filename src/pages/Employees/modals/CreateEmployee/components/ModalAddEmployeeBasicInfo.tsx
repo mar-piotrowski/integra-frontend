@@ -3,10 +3,10 @@ import React from "react";
 import { Control } from "react-hook-form";
 import FormInput from "../../../../../components/Form/FormInput";
 import FormRadio from "../../../../../components/Form/FormRadio";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import { CreateUserRequest } from "../../../../../api/types/userTypes";
 
 interface ModalWorkerBasicInfoProps {
-	control: Control<CreateUser>;
+	control: Control<CreateUserRequest>;
 }
 
 const radioSexOptions = [

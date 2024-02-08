@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "react-query"
 import employeeService from "../../api/services/employeeService";
-import { errorToast } from "../../utils/toastUtil";
+import {errorToast, successToast} from "../../utils/toastUtil";
 import { ErrorResponse } from "../../api/types/dto";
 
 export type DeleteUserSchedule = {
@@ -13,12 +13,12 @@ const useDeleteUserSchedule = () => {
     return useMutation({
         mutationFn: async (payload: DeleteUserSchedule) => await employeeService.removeSchedule(payload),
         onSuccess: () => {
-
+            successToast("Usunięto pracownika")
         },
         onError: (response: ErrorResponse) => {
             errorToast(response.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ["employeess"] })
+        onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] })
     });
 }
 

@@ -1,5 +1,5 @@
 import {MRT_ColumnDef} from "material-react-table";
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import {
     Box,
     Button,
@@ -8,7 +8,7 @@ import {
     ListItemText,
     MenuItem,
 } from "@mui/material";
-import ModalAddEmployee from "./modals/CreateEmployee/ModalAddEmployee";
+import ModalAddUser from "./modals/CreateEmployee/ModalAddUser";
 import ShowAmount from "../../components/ShowAmount";
 import CustomTable from "../../components/CustomTable";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -24,8 +24,9 @@ const Employees = () => {
         setTrue: openCreateEmployeeModal,
         setFalse: closeCreateEmployeeModal
     } = useBoolean();
-    const {data: employees} = useUsers();
+    const {data: users} = useUsers();
     const navigate = useNavigate();
+    const [user, setUser] = useState<UserDto | null>(null);
 
     const columns = useMemo<MRT_ColumnDef<UserDto>[]>(
         () => [
@@ -67,7 +68,7 @@ const Employees = () => {
                         </Button>
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Ilość pracowników" value={employees?.length ?? 0} color="blue"/>
+                        <ShowAmount label="Ilość pracowników" value={users?.length ?? 0} color="blue"/>
                     </Grid>
                     <Grid item xs={12} sm={12} md={3} lg={2}>
                         <ShowAmount label="Aktywnych" value={100} color="green"/>
@@ -82,9 +83,14 @@ const Employees = () => {
                                 sx: {cursor: "pointer"}
                             })}
                             columns={columns}
-                            data={employees ?? []}
-                            renderRowActionMenuItems={() => [
-                                <MenuItem key="edit" onClick={() => console.info("Edit")}>
+                            data={users ?? []}
+                            enableRowActions
+                            renderRowActionMenuItems={({row, closeMenu}) => [
+                                <MenuItem key="edit" onClick={() => {
+                                    closeMenu();
+                                    setUser(row.original);
+                                    openCreateEmployeeModal();
+                                }}>
                                     <ListItemIcon>
                                         <EditOutlinedIcon/>
                                     </ListItemIcon>
@@ -103,9 +109,10 @@ const Employees = () => {
             </Box>
             {
                 createEmployeeModal
-                    ? <ModalAddEmployee
+                    ? <ModalAddUser
                         open={createEmployeeModal}
                         onClose={closeCreateEmployeeModal}
+                        user={user}
                     />
                     : null
             }
