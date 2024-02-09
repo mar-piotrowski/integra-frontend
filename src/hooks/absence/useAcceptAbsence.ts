@@ -8,15 +8,13 @@ const useAcceptAbsence = () => {
     return useMutation({
         mutationKey: ["absences"],
         mutationFn: absenceService.accept,
-        onSuccess(data, variables, context) {
+        onSuccess() {
             successToast("Zaakceptowano nieobecność")
         },
-        onError(error: ErrorResponse, variables, context) {
+        onError(error: ErrorResponse) {
             errorToast(error.response.data.message);
         },
-        onSettled(data, error, variables, context) {
-            queryClient.invalidateQueries(["absences"])
-        },
+        onSettled: () => queryClient.invalidateQueries(["absences"])
     });
 };
 

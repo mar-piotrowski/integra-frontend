@@ -27,10 +27,10 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
         setTrue: openCreateArticleModal,
         setFalse: closeCreateArticleModal
     } = useBoolean(false);
-    const {data: articles} = useArticles();
+    const {data: articles, refetch} = useArticles();
     const {fields, append, remove, update} = useFieldArray({control, name: "articles"});
 
-    const watch = useWatch({name: "articles", control});
+    const watchArticles = useWatch({name: "articles", control});
 
     const productSelectButtons: FormSelectOptionButton[] = [
         {
@@ -39,23 +39,29 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
         }
     ];
 
-    const articlesToChoose: FormSelectOption[] = (lineIndex: number) =>
+    const handleCloseCreateArticleModal = () => {
+        closeCreateArticleModal();
+        refetch()
+    }
+
+    const articlesToChoose = (lineIndex: number): FormSelectOption[] | undefined =>
         articles?.map((article) => ({
             label: article.name,
+            value: article.name,
             onClick: () => {
                 const product = articles.find(articleUpdate => articleUpdate.id == article.id);
-                update(lineIndex, {...product, amount: 1})
+                update(lineIndex, {...product!, amount: 1})
             },
         }));
 
     const displayProductPriceWithTax = (index: number) => {
-        if (watch[index] == undefined || watch[index].name == "") return 0;
-        return ((watch[index]?.sellPriceWithTax * (1 - (watch[index].tax / 100))) * watch[index].amount).toFixed(2);
+        if (watchArticles[index] == undefined || watchArticles[index].name == "") return 0;
+        return ((watchArticles[index]?.sellPriceWithTax * (1 - (watchArticles[index].tax / 100))) * watchArticles[index].amount).toFixed(2);
     }
 
     const displayProductPriceWithoutTax = (index: number) => {
-        if (watch[index] == undefined || watch[index].name == "") return 0;
-        return (watch[index]?.sellPriceWithoutTax * watch[index].amount).toFixed(2);
+        if (watchArticles[index] == undefined || watchArticles[index].name == "") return 0;
+        return (watchArticles[index]?.sellPriceWithoutTax * watchArticles[index].amount).toFixed(2);
     }
 
     return (
@@ -79,7 +85,7 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
                                                 name={`articles.${index}.name`}
                                                 label={"Produkt"}
                                                 control={control}
-                                                options={articlesToChoose(index)}
+                                                options={articlesToChoose(index) ?? []}
                                                 buttons={productSelectButtons}
                                             />
                                         </Grid>
@@ -156,12 +162,14 @@ const DocumentArticle = ({control}: ArticleDocumentProps) => {
                     }
                 </Grid>
                 <Grid item>
-                    <Button variant={"contained"} onClick={() => append(emptyArticle)}> Dodaj produkt </Button>
+                    <Button variant={"contained"} onClick={() => append({id: 0, pkwiu: "", ...emptyArticle})}>
+                        Dodaj produkt
+                    </Button>
                 </Grid>
             </Grid>
             {
                 createArticleModal
-                    ? <ModalArticle open={createArticleModal} onClose={closeCreateArticleModal}/>
+                    ? <ModalArticle open={createArticleModal} onClose={handleCloseCreateArticleModal}/>
                     : null
             }
         </>

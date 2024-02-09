@@ -11,7 +11,8 @@ const endpoint = {
     permissions: "permissions",
     schedules: "schedules",
     absences: "absences",
-    stocks: "stocks"
+    stocks: "stocks",
+    documents: "documents"
 }
 
 export default endpoint;

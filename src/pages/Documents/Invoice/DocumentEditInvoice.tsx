@@ -1,5 +1,5 @@
-import {Grid} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import {Button, Grid, Typography} from "@mui/material";
+import React, {useEffect, useState } from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import DocumentInvoiceBaseInfo from "./DocumentInvoiceBaseInfo";
 import DocumentArticle from "../../../features/document/DocumentArticle";
@@ -8,35 +8,60 @@ import DocumentCalculations from "../../../features/document/DocumentCalculation
 import {DocumentDetails, DocumentType} from "../../../api/types/documentTypes";
 import {ContractorDto} from "../../../api/types/contractorTypes";
 import {defaultValues} from "../../Invoices/Invoices";
-import {useNavigate} from "react-router-dom";
-import useCreateDocument from "../../../hooks/documents/useCreateDocument";
+import {useNavigate, useParams } from "react-router-dom";
+import useEditDocument from "../../../hooks/documents/useEditContractor";
+import useDocument from "../../../hooks/documents/useDocument";
 import DocumentHeader from "../../../features/document/DocumentHeader";
 
 const DocumentInvoice = () => {
+    const {documentId} = useParams();
     const navigate = useNavigate();
+    const {
+        data: document,
+        isSuccess: getDocumentSuccess,
+        isError: getDocumentError,
+        isLoading: getDocumentLoading
+    } = useDocument(parseInt(documentId!));
+    const {mutate: editDocumentMutate, isSuccess: editDocumentSuccess} = useEditDocument();
     const [lock, setLock] = useState(false);
-    const {mutate: createDocumentMutate, isSuccess: createDocumentSuccess} = useCreateDocument();
-    const {control, handleSubmit, setValue} = useForm<DocumentDetails>({
+    const {control, handleSubmit, setValue, reset} = useForm<DocumentDetails>({
         defaultValues,
     });
 
     useEffect(() => {
-        if (createDocumentSuccess)
+        if (editDocumentSuccess)
             navigate("/management-panel/invoices")
-    }, [createDocumentSuccess]);
+    }, [editDocumentSuccess]);
+
+    useEffect(() => {
+        if (getDocumentSuccess)
+            reset({
+                ...document,
+                sourceStockId: document.sourceStock?.id,
+                targetStockId: document.targetStock?.id
+            });
+    }, [getDocumentSuccess]);
+
+    if (getDocumentLoading)
+        return <div>Pobieranie dokumentu</div>
+
+    if (getDocumentError)
+        return <div>Nie udało się pobrać dokumentu</div>
 
     const onSubmitHandler: SubmitHandler<DocumentDetails> = (data) => {
-        createDocumentMutate({
+        editDocumentMutate({
             ...data,
             type: DocumentType.Invoice,
             locked: lock,
-            contractorId: data.contractor!.id,
+            contractorId: null,
             articles: data.articles.map(article => ({
                 id: article.id,
                 amount: article.amount
             }))
         });
+        setLock(false)
     };
+
 
     const handleSetContractor = (contractor: ContractorDto) => {
         setValue("contractor", contractor);
@@ -46,9 +71,9 @@ const DocumentInvoice = () => {
         <>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <Grid sx={{flexGrow: 1}} container spacing={4}>
-                    <Grid item xs={12}>
+                    <Grid item container>
                         <DocumentHeader
-                            title={"Faktura"}
+                            title={`Edycja faktury nr: ${document?.number}`}
                             setLockDocument={() => setLock(true)}
                         />
                     </Grid>

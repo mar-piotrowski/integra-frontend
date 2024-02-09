@@ -1,39 +1,50 @@
 import {Button, Grid, Typography} from "@mui/material";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {DocumentDetails} from "../../../api/types/documentTypes";
+import {DocumentDetails, DocumentType} from "../../../api/types/documentTypes";
 import {defaultValues} from "../../Invoices/Invoices";
 import DocumentArticle from "../../../features/document/DocumentArticle";
 import DocumentMmBaseInfo from "./DocumentMmBaseInfo";
+import { useNavigate } from "react-router-dom";
+import useCreateDocument from "../../../hooks/documents/useCreateDocument";
+import DocumentHeader from "../../../features/document/DocumentHeader";
 
 const DocumentMM = () => {
+    const navigate = useNavigate();
+    const [lock, setLock] = useState(false);
+    const {mutate: createDocumentMutate, isSuccess: createDocumentSuccess} = useCreateDocument();
     const {control, handleSubmit, setValue} = useForm<DocumentDetails>({
         defaultValues,
     });
 
+    useEffect(() => {
+        if(createDocumentSuccess)
+            navigate("/management-panel/stock-documents")
+    }, [createDocumentSuccess]);
+
     const onSubmitHandler: SubmitHandler<DocumentDetails> = (data) => {
-        console.log(data);
+        createDocumentMutate({
+            ...data,
+            type: DocumentType.Mm,
+            contractorId: null,
+            locked: lock,
+            articles: data.articles.map(article => ({
+                id: article.id,
+                amount: article.amount
+            }))
+        });
+        setLock(false)
     };
 
     return (
         <>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <Grid sx={{flexGrow: 1}} container spacing={4}>
-                    <Grid item container>
-                        <Grid item xs={6}>
-                            <Typography variant={"h3"} mb={2}>Wystawianie dokumentu MM</Typography>
-                        </Grid>
-                        <Grid item xs={6} sx={{display: "flex", justifyContent: "flex-end", gap: "10px",}}>
-                            <Button disableElevation variant="contained" type="submit" color="primary">
-                                Zapisz na stale
-                            </Button>
-                            <Button disableElevation variant="contained" type="submit" color="primary">
-                                Zapisz tymczasowo
-                            </Button>
-                            <Button disableElevation variant="contained" color="error">
-                                Anuluj
-                            </Button>
-                        </Grid>
+                    <Grid item xs={12}>
+                        <DocumentHeader
+                            title={"Przeniesienie magazynowe"}
+                            setLockDocument={() => setLock(true)}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <DocumentMmBaseInfo control={control} setValue={setValue}/>

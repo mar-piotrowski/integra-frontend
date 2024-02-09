@@ -7,15 +7,13 @@ const useCreateAbsence = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: absenceService.create,
-        onSuccess(data, variables, context) {
+        onSuccess() {
             successToast("Nieobecność została utworzona")
         },
-        onError(error: ErrorResponse, variables, context) {
+        onError(error: ErrorResponse) {
             errorToast(error.response.data.message);
         },
-        onSettled(data, error, variables, context) {
-            queryClient.invalidateQueries(["absences", "holidayLimits"])
-        },
+        onSettled: () => queryClient.invalidateQueries(["absences, holidayLimits"])
     });
 };
 

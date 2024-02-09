@@ -44,15 +44,17 @@ import EmployeePanelSchedule from "../pages/employeePanel/EmployeePanelSchedule"
 import StockDocuments from "../pages/StockDocuments/StockDocuments";
 import DocumentInvoice from "../pages/Documents/Invoice/DocumentInvoice";
 import DocumentMM from "../pages/Documents/MM/DocumentMM";
-import DocumentRw from "../pages/Documents/RW/DocumentRw";
 import DocumentPz from "../pages/Documents/PZ/DocumentPz";
 import DocumentWz from "../pages/Documents/WZ/DocumentWz";
-import DocumentPw from "../pages/Documents/PW/DocumentPw";
 import AccountSchedule from "../pages/Account/AccountSchedule";
 import AccountAbsences from "../pages/Account/AccountAbsences";
 import AccountDocuments from "../pages/Account/AccountDocuments";
 import AccountContracts from "../pages/Account/AccountContracts";
 import Stocks from "../pages/Stocks/Stocks";
+import DocumentEditPz from "../pages/Documents/PZ/DocumentEditPz";
+import DocumentEditMM from "../pages/Documents/MM/DocumentEditMM";
+import DocumentEditWz from "../pages/Documents/WZ/DocumentEditWz";
+import DocumentEditInvoice from "../pages/Documents/Invoice/DocumentEditInvoice";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -108,10 +110,11 @@ const router = createBrowserRouter(
                             <Route path="stock-documents" element={<StockDocuments/>}/>
                             <Route element={<BackgroundLayout/>}>
                                 <Route path="document-pz" element={<DocumentPz/>}/>
-                                <Route path="document-pw" element={<DocumentPw/>}/>
-                                <Route path="document-rw" element={<DocumentRw/>}/>
                                 <Route path="document-wz" element={<DocumentWz/>}/>
                                 <Route path="document-mm" element={<DocumentMM/>}/>
+                                <Route path="document-pz/:documentId/edit" element={<DocumentEditPz/>}/>
+                                <Route path="document-wz/:documentId/edit" element={<DocumentEditWz/>}/>
+                                <Route path="document-mm/:documentId/edit" element={<DocumentEditMM/>}/>
                             </Route>
                         </Route>
                         <Route element={<ProtectedRoute
@@ -127,6 +130,7 @@ const router = createBrowserRouter(
                             <Route path="invoices" element={<Invoices/>}/>
                             <Route element={<BackgroundLayout/>}>
                                 <Route path="document-invoice" element={<DocumentInvoice/>}/>
+                                <Route path="document-invoice/:documentId/edit" element={<DocumentEditInvoice/>}/>
                             </Route>
                         </Route>
                         <Route element={<ProtectedRoute

@@ -9,6 +9,7 @@ export type StockDto = {
     name: string;
     isMain: boolean;
     description?: string | null;
+    totalProductsAmount: number;
     articles: StockArticleDto[]
 };
 

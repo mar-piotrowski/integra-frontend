@@ -14,7 +14,6 @@ export type CreateUserRequest = {
     dateOfBirth: string;
     placeOfBirth: string;
     pesel: string;
-    jobPositionId: number;
     sex: number;
     email: string;
     identityNumber: string;

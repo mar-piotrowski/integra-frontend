@@ -45,7 +45,7 @@ const Stocks = () => {
             Cell: ({row}) => <div>{row.original.isMain ? "Tak" : "Nie"}</div>
         },
         {
-            // accessorKey: "totalProductsAmount",
+            accessorKey: "totalProductsAmount",
             header: "Ilość produktów"
         }
     ], []);

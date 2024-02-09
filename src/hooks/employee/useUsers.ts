@@ -4,7 +4,7 @@ import {UserDto} from "../../api/types/userTypes";
 import {ErrorResponse} from "../../api/types/dto";
 
 export const useUsers = () => useQuery<UserDto[], ErrorResponse>({
-    queryKey: ["employees"],
+    queryKey: ["users"],
     queryFn: async () => (await employeeService.getAll()).data.users,
     refetchOnWindowFocus: false
 });

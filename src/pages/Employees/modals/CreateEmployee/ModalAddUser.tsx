@@ -37,13 +37,12 @@ const employeeFormDefaultValues: CreateUserRequest = {
     nip: "",
     isStudent: false,
     createAccount: false,
-    jobPositionId: 0,
     locations: [{
+        city: "",
         street: "",
         houseNo: "",
         apartmentNo: "",
         postalCode: "",
-        city: "",
         country: "",
         commune: "",
         district: "",
@@ -58,23 +57,39 @@ const employeeFormDefaultValues: CreateUserRequest = {
 };
 
 const validationSchema = z.object({
+    id: z.number().optional(),
     firstname: z.string().min(1, "Pole jest wymagane"),
     lastname: z.string().min(1, "Pole jest wymagane"),
+    secondName: z.string().optional(),
+    placeOfBirth: z.string().min(1, "Pole jest wymagane"),
+    dateOfBirth: z.string().min(1, "Pole jest wymagane"),
     pesel: z.string()
         .length(11, "Pesel musi zawierać 11 cyfr")
         .regex(/^[0-9]/, "Podano błędny pesel"),
-    email: z.string().email("Podano błędy adres email"),
-    phone: z.string().min(1, "Pole jest wymagane"),
-    placeOfBirth: z.string().min(1, "Pole jest wymagane"),
-    dateOfBirth: z.string().min(1, "Pole jest wymagane"),
-    citizenship: z.string().min(1, "Pole jest wymagane"),
     sex: z.number().min(1, "Wymagane jest wybranie płci"),
-    location: z.object({
+    email: z.string().email("Podano błędy adres email"),
+    identityNumber: z.string().min(1, "Pole jest wymagane"),
+    phone: z.string().min(1, "Pole jest wymagane"),
+    citizenship: z.string().min(1, "Pole jest wymagane"),
+    nip: z.string().optional(),
+    isStudent: z.boolean(),
+    createAccount: z.boolean(),
+    locations: z.array(z.object({
         city: z.string().min(1, "Pole jest wymagane"),
         street: z.string().min(1, "Pole jest wymagane"),
         houseNo: z.string().min(1, "Pole jest wymagane"),
         apartmentNo: z.string().min(1, "Pole jest wymagane"),
-        country: z.string().min(1, "Pole jest wymagane")
+        postalCode: z.string().min(2, "Pole jest wymagane"),
+        country: z.string().min(1, "Pole jest wymagane"),
+        commune: z.string().min(1, "Pole jest wymagane"),
+        district: z.string().min(1, "Pole jest wymagane"),
+        province: z.string().min(1, "Pole jest wymagane"),
+        isPrivate: z.boolean(),
+        isCompany: z.boolean(),
+    })),
+    bankDetails: z.object({
+        name: z.string().min(1, "Pole jest wymagane"),
+        number: z.string().min(1, "Pole jest wymagane"),
     })
 })
 

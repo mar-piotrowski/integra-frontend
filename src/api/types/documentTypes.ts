@@ -1,8 +1,9 @@
 import {ContractType} from "../../constants/enums";
-import { UserDto, UserId } from "./userTypes";
-import { MutationRequest } from "./apiTypes";
-import {Contractor, PaymentMethod} from "../../constants/models";
+import {UserDto, UserId} from "./userTypes";
+import {MutationRequest} from "./apiTypes";
+import {PaymentMethod} from "../../constants/models";
 import {ContractorDto} from "./contractorTypes";
+import {StockDto} from "./stockTypes";
 
 export enum ContractStatusType {
     None = 0,
@@ -18,6 +19,7 @@ export enum DocumentType {
     Pz,
     Rw,
     Pw,
+    Mm
 }
 
 export type Id = {
@@ -136,12 +138,13 @@ export type ContractChange = Omit<Contract, "startDate" | "endDate">
 export type CreateContractChangeRequest = { contractId: number } & MutationRequest<ContractChange>;
 
 export interface DocumentDetails {
+    id: number;
     type: DocumentType;
     number: string;
     issueDate: string;
-    admissionDate?: string;
-    receptionDate?: string;
-    paymentDate?: string;
+    admissionDate?: string | null;
+    receptionDate?: string | null;
+    paymentDate?: string | null;
     paymentMethod: PaymentMethod;
     contractor?: ContractorDto | null;
     discount: number;
@@ -150,26 +153,35 @@ export interface DocumentDetails {
     paid: boolean;
     locked: boolean;
     articles: DocumentArticleDto[];
-    sourceStockId: number;
-    targetStockId: number;
+    sourceStockId?: number | null;
+    targetStockId?: number | null;
+    description?: string | null;
 }
 
 export interface CreateDocumentRequest {
     type: DocumentType;
     number: string;
     issueDate: string;
-    receptionDate: string;
-    paymentDate: string;
-    contractorId: number;
+    admissionDate?: string | null;
+    receptionDate?: string | null;
+    paymentDate?: string | null;
+    paymentMethod: PaymentMethod;
     discount: number;
     totalAmountWithTax: number;
     totalAmountWithoutTax: number;
+    locked: boolean;
     paid: boolean;
     articles: CreateDocumentArticleDto[];
+    contractorId: number | null;
+    sourceStockId?: number | null;
+    targetStockId?: number | null;
+    description?: string | null;
 }
 
+export type EditDocumentRequest = CreateDocumentRequest & { id: number };
+
 export interface CreateDocumentArticleDto {
-    articleId: number;
+    id: number;
     amount: number;
 }
 
@@ -185,4 +197,29 @@ export interface DocumentArticleDto {
     pkwiu: string;
     tax: number
     description?: string;
+}
+
+export interface DocumentDto {
+    id: number;
+    type: DocumentType;
+    number: string;
+    issueDate: string;
+    admissionDate?: string | null;
+    receptionDate?: string | null;
+    paymentDate?: string | null;
+    paymentMethod: PaymentMethod;
+    contractor?: ContractorDto | null;
+    discount: number;
+    totalAmountWithTax: number;
+    totalAmountWithoutTax: number;
+    paid: boolean;
+    locked: boolean;
+    articles: DocumentArticleDto[];
+    sourceStock?: StockDto | null;
+    targetStock?: StockDto | null;
+    description?: string | null;
+}
+
+export interface DocumentResponse {
+    documents: DocumentDetails[]
 }

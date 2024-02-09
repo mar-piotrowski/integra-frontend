@@ -8,15 +8,13 @@ const useRejectAbsence = () => {
     return useMutation({
         mutationKey: ["absences"],
         mutationFn: absenceService.reject,
-        onSuccess(data, variables, context) {
+        onSuccess() {
             successToast("Odrzucono nieobecność");
         },
-        onError(error: ErrorResponse, variables, context) {
+        onError(error: ErrorResponse) {
             errorToast(error.response.data.message);
         },
-        onSettled(data, error, variables, context) {
-            queryClient.invalidateQueries(["absences", "holidayLimits"])
-        },
+        onSettled: () => queryClient.invalidateQueries(["absences"])
     });
 };
 

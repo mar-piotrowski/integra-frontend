@@ -8,16 +8,13 @@ const useDeleteAbsence = () => {
     return useMutation({
         mutationKey: ["absences"],
         mutationFn: absenceService.delete,
-        onSuccess(data, variables, context) {
+        onSuccess() {
             successToast("Usunięto nieobecność")
         },
-        onError(error: ErrorResponse, variables, context) {
+        onError(error: ErrorResponse) {
             errorToast(error.response.data.message);
         },
-        onSettled(data, error, variables, context) {
-            queryClient.invalidateQueries(["absences"])
-        },
-
+        onSettled: () => queryClient.invalidateQueries(["absences"])
     });
 };
 

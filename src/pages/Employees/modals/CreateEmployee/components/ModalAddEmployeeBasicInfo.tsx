@@ -42,12 +42,7 @@ const ModalAddEmployeeBasicInfo = ({ control }: ModalWorkerBasicInfoProps) => {
 				<FormInput name="phone" label="Numer telefonu" control={control} />
 			</Grid>
 			<Grid item xs={12}>
-				<FormRadio
-					name="sex"
-					label="Płeć"
-					control={control}
-					options={radioSexOptions}
-				/>
+				<FormRadio name="sex" label="Płeć" control={control} options={radioSexOptions} />
 			</Grid>
 		</Grid>
 	);
