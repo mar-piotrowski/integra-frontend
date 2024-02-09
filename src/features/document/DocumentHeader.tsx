@@ -8,7 +8,6 @@ interface DocumentHeaderProps {
 }
 
 const DocumentHeader = ({title, setLockDocument}: DocumentHeaderProps) => {
-    const navigate = useNavigate();
     return (
         <Grid item container>
             <Grid item xs={6}>

@@ -53,7 +53,7 @@ const DocumentInvoice = () => {
             ...data,
             type: DocumentType.Invoice,
             locked: lock,
-            contractorId: null,
+            contractorId: data.contractor?.id ?? null,
             articles: data.articles.map(article => ({
                 id: article.id,
                 amount: article.amount

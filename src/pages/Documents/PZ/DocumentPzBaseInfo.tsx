@@ -21,7 +21,7 @@ const DocumentPzBaseInfo = ({control, setValue}: DocumentPzBaseInfoProps) => {
             return stocks.map(stock => ({
                 label: stock.name,
                 value: stock.id,
-                onClick: () => setValue("sourceStockId", stock.id)
+                onClick: () => setValue("targetStockId", stock.id)
             }));
         },
         []
@@ -40,8 +40,8 @@ const DocumentPzBaseInfo = ({control, setValue}: DocumentPzBaseInfoProps) => {
             </Grid>
             <Grid item xs={12}>
                 <FormSelect
-                    label={"Magazyn źródłowy"}
-                    name={"sourceStockId"}
+                    label={"Magazyn docelowy"}
+                    name={"targetStockId"}
                     control={control}
                     options={stockOptions}
                 />

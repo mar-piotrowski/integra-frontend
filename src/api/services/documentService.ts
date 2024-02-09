@@ -12,7 +12,7 @@ const documentService = {
     getAll: (documentsFilter: DocumentType[]) => axios.get<DocumentResponse>(`${endpoint.documents}${documentsQueryFilter(documentsFilter)}`),
     get: (documentId: number) => axios.get<DocumentDetails>(`${endpoint.documents}/${documentId}`),
     create: (document: CreateDocumentRequest) => axios.post(`${endpoint.documents}`, document),
-    edit: (document: EditDocumentRequest) => axios.post(`${endpoint.documents}`, document)
+    edit: (document: EditDocumentRequest) => axios.put(`${endpoint.documents}/${document.id}`, document)
 };
 
 const documentsQueryFilter = (documentsFilter: DocumentType[]) => {
