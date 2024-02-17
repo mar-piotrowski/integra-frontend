@@ -1,13 +1,13 @@
+import useAuth from "../../hooks/auth/useAuth";
 import React, {useMemo} from "react";
-import {Grid, Typography} from "@mui/material";
-import {Box} from "@mui/system";
-import CustomTable from "../../components/CustomTable";
 import {MRT_ColumnDef} from "material-react-table";
 import {WorkingTimeDto} from "../../api/types/workingTimeTypes";
-import useAuth from "../../hooks/auth/useAuth";
-import useWorkingTimes from "../../hooks/workingTime/useWorkingTimes";
 import {convertSecondsToStringHoursAndMinutes, toEuropeDate} from "../../utils/dateHelper";
 import {workingTimeStatusMapper} from "../../utils/workingTimeUtils";
+import CustomTable from "../../components/CustomTable";
+import useWorkingTimes from "../../hooks/workingTime/useWorkingTimes";
+import {Grid, Typography} from "@mui/material";
+import {Box} from "@mui/system";
 import useWorkingTimeUserStats from "../../hooks/workingTime/useWorkingTimeUserStats";
 
 interface CustomBoxProps {
@@ -21,7 +21,7 @@ const CustomBox = ({children}: CustomBoxProps) => {
             textAlign: "center",
             display: "flex",
             flexDirection: "column",
-            backgroundColor: "white",
+            backgroundColor: "#ececec",
             borderRadius: 2
         }}>
             {children}
@@ -29,14 +29,15 @@ const CustomBox = ({children}: CustomBoxProps) => {
     );
 }
 
-const EmployeePanelWorkingTime = () => {
+
+const AccountWorkingTimes = () => {
     const {auth} = useAuth();
     const {data: userWorkingTimes} = useWorkingTimes(auth!.userId);
     const {data: statsWorkingTime} = useWorkingTimeUserStats({
         userId: auth!.userId,
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1
-    });
+    })
 
     const columns = useMemo<MRT_ColumnDef<WorkingTimeDto>[]>(
         () => [
@@ -92,16 +93,15 @@ const EmployeePanelWorkingTime = () => {
                     </CustomBox>
                 </Grid>
             </Grid>
-            <Grid item xs={12} borderRadius={2} p={3} sx={{background: "white"}}>
-                <Grid item xs={12}>
-                    <CustomTable
-                        columns={columns}
-                        data={userWorkingTimes ?? []}
-                    />
-                </Grid>
+            <Grid item xs={12}>
+
+                <CustomTable
+                    columns={columns}
+                    data={userWorkingTimes ?? []}
+                />
             </Grid>
         </Grid>
-    )
+    );
 }
 
-export default EmployeePanelWorkingTime;
+export default AccountWorkingTimes;

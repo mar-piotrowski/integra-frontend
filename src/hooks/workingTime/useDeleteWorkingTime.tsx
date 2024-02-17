@@ -16,6 +16,7 @@ const useDeleteWorkingTime = (userId?: number) => {
         onSettled: () => {
             queryClient.invalidateQueries(["workingTimes"])
             queryClient.invalidateQueries([`workingTimes_user_id_${userId}`])
+            queryClient.invalidateQueries([`workingTimes_stats_user_id_${userId}`])
         }
     })
 };

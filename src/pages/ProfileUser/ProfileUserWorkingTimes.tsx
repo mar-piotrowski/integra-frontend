@@ -2,7 +2,7 @@ import React, {useMemo, useState} from "react";
 import {Grid, ListItemIcon, ListItemText, MenuItem, Typography} from "@mui/material";
 import CustomTable from "../../components/CustomTable";
 import {MRT_ColumnDef} from "material-react-table";
-import {WorkingTimeDto, WorkingTimeTypeStatus} from "../../api/types/workingTimeTypes";
+import {WorkingTimeDto} from "../../api/types/workingTimeTypes";
 import {Box} from "@mui/system";
 import {useParams} from "react-router-dom";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -11,8 +11,9 @@ import {useBoolean} from "../../hooks/useBoolean";
 import ModalEditWorkingTime from "../../features/modals/ModalEditWorkingTime";
 import ModalDeleteWorkingTime from "../../features/modals/ModalDeleteWorkingTime";
 import useWorkingTimes from "../../hooks/workingTime/useWorkingTimes";
-import {convertSecondsToStringHoursAndMinutes, toDateString, toEuropeDate, toFullDateString} from "../../utils/dateHelper";
+import {convertSecondsToStringHoursAndMinutes, toEuropeDate} from "../../utils/dateHelper";
 import {workingTimeStatusMapper} from "../../utils/workingTimeUtils";
+import useWorkingTimeUserStats from "../../hooks/workingTime/useWorkingTimeUserStats";
 
 interface CustomBoxProps {
     children: JSX.Element | JSX.Element[];
@@ -36,6 +37,11 @@ const CustomBox = ({children}: CustomBoxProps) => {
 const ProfileUserWorkingTimes = () => {
     const {userId} = useParams();
     const {data: userWorkingTimes} = useWorkingTimes(parseInt(userId!));
+    const {data: statsWorkingTime} = useWorkingTimeUserStats({
+        userId: parseInt(userId!),
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1
+    })
     const [workingTime, setWorkingTime] = useState<WorkingTimeDto | null>(null);
     const {
         value: editWorkingTimeModal,
@@ -50,10 +56,6 @@ const ProfileUserWorkingTimes = () => {
 
     const columns = useMemo<MRT_ColumnDef<WorkingTimeDto>[]>(
         () => [
-            {
-                accessorKey: "id",
-                header: "Id"
-            },
             {
                 accessorKey: "startDate",
                 header: "Rozpoczęcie",
@@ -83,7 +85,6 @@ const ProfileUserWorkingTimes = () => {
     );
 
 
-
     const handleCloseEditModal = () => {
         closeEditWorkingTimeModal();
         setWorkingTime(null);
@@ -98,22 +99,24 @@ const ProfileUserWorkingTimes = () => {
         <>
             <Grid container>
                 <Grid item container spacing={2} mb={2}>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={6}>
                         <CustomBox>
-                            <Typography variant={"subtitle1"}> Aktualny miesiac</Typography>
-                            <Typography variant={"subtitle1"} color={"green"}> 160 godzin </Typography>
+                            <Typography variant={"subtitle1"}>Aktualny miesiac</Typography>
+                            <Typography
+                                variant={"subtitle1"}
+                                color={"green"}>{convertSecondsToStringHoursAndMinutes(statsWorkingTime?.totalUserWorkedSeconds ?? 0)}
+                                {" "}
+                            </Typography>
                         </CustomBox>
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                        <CustomBox>
-                            <Typography variant={"subtitle1"}>Pozostalo</Typography>
-                            <Typography variant={"subtitle1"} color={"red"}>8 godzin</Typography>
-                        </CustomBox>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={6}>
                         <CustomBox>
                             <Typography variant={"subtitle1"}>Nadgodziny</Typography>
-                            <Typography variant={"subtitle1"} color={"blue"}>0 godzin</Typography>
+                            <Typography
+                                variant={"subtitle1"}
+                                color={"blue"}>{convertSecondsToStringHoursAndMinutes(statsWorkingTime?.overUserWorkedHours ?? 0)}
+                                {" "}
+                            </Typography>
                         </CustomBox>
                     </Grid>
                 </Grid>

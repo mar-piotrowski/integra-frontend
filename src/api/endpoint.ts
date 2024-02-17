@@ -13,7 +13,8 @@ const endpoint = {
     absences: "absences",
     stocks: "stocks",
     documents: "documents",
-    workingTimes: "working-times"
+    workingTimes: "working-times",
+    cards: "cards"
 }
 
 export default endpoint;

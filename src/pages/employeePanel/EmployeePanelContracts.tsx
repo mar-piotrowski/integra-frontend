@@ -65,7 +65,6 @@ const EmployeePanelContracts = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
-                        enableRowActions
                         data={contracts ?? []}
                         muiTableBodyRowProps={({ row }) => ({
                             onClick: () => {
@@ -74,16 +73,6 @@ const EmployeePanelContracts = () => {
                             },
                             sx: { cursor: "pointer" }
                         })}
-                        renderRowActionMenuItems={({ closeMenu, row }) => [
-                            <MenuItem key="cancel" onClick={() => {
-                                closeMenu();
-                            }}>
-                                <ListItemIcon>
-                                    <ContentPasteOffOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText>Wypowiedz</ListItemText>
-                            </MenuItem>,
-                        ]}
                     />
                 </Grid>
             </Grid>

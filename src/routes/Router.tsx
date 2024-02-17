@@ -56,6 +56,10 @@ import DocumentEditWz from "../pages/Documents/WZ/DocumentEditWz";
 import DocumentEditInvoice from "../pages/Documents/Invoice/DocumentEditInvoice";
 import Contact from "../pages/main/Contact";
 import ProfileUserWorkingTimes from "../pages/ProfileUser/ProfileUserWorkingTimes";
+import AccountWorkingTimes from "../pages/Account/AccountWorkingTimes";
+import ProfileUserCards from "../pages/ProfileUser/ProfileUserCards";
+import EmployeePanelCards from "../pages/employeePanel/EmployeePanelCards";
+import AccountCards from "../pages/Account/AccountCards";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -73,6 +77,7 @@ const router = createBrowserRouter(
                     <Route path="account" element={<AccountLayout type={"employee"}/>}>
                         <Route path="" element={<AccountDetails/>}/>
                         <Route path="privacy" element={<AccountPrivacy/>}/>
+                        <Route path="cards" element={<EmployeePanelCards/>}/>
                     </Route>
                     <Route path="working-time" element={<EmployeePanelWorkingTime/>}/>
                     <Route element={<EmployeePanelLayout/>}>
@@ -90,9 +95,11 @@ const router = createBrowserRouter(
                             <Route path="" element={<AccountDetails/>}/>
                             <Route path="schedule" element={<AccountSchedule/>}/>
                             <Route path="absences" element={<AccountAbsences/>}/>
+                            <Route path="working-times" element={<AccountWorkingTimes/>}/>
                             <Route path="documents" element={<AccountDocuments/>}/>
                             <Route path="contracts" element={<AccountContracts/>}/>
                             <Route path="privacy" element={<AccountPrivacy/>}/>
+                            <Route path="cards" element={<AccountCards/>}/>
                         </Route>
                         <Route element={<ProtectedRoute
                             allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrEmployees]}/>}>
@@ -104,6 +111,7 @@ const router = createBrowserRouter(
                                 <Route path="documents" element={<ProfileUserDocuments/>}/>
                                 <Route path="absence" element={<ProfileUserAbsences/>}/>
                                 <Route path="contracts" element={<ProfileUserContracts/>}/>
+                                <Route path="cards" element={<ProfileUserCards/>}/>
                             </Route>
                         </Route>
                         <Route path="stocks" element={<Stocks/>}/>

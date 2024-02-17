@@ -24,3 +24,15 @@ export enum WorkingTimeTypeStatus {
     Start,
     End
 }
+
+export type UserWorkingTimeStatsRequest = {
+    userId: number;
+    year: number;
+    month: number;
+}
+
+export type UserWorkingTimeStatResponse = {
+    monthWorkingHours: number;
+    totalUserWorkedSeconds: number;
+    overUserWorkedHours: number;
+}

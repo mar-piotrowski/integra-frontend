@@ -30,6 +30,10 @@ const employeeTabs = [
         title: "Umowy",
         link: "contracts"
     },
+    {
+        title: "Karty",
+        link: "cards"
+    },
 ]
 
 const ProfileUser = () => {

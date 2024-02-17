@@ -1,14 +1,22 @@
 import axios from "../axios";
 import endpoint from "../endpoint";
-import {EditWorkingTimeDto, WorkingTimesResponse} from "../types/workingTimeTypes";
+import {
+    EditWorkingTimeDto,
+    UserWorkingTimeStatResponse,
+    UserWorkingTimeStatsRequest,
+    WorkingTimesResponse
+} from "../types/workingTimeTypes";
 
 const workingTimeService = {
     getAll: async (userId?: number) =>
-        axios.get<WorkingTimesResponse>(`${endpoint.workingTimes}${queryParams(userId)}`),
+        await axios.get<WorkingTimesResponse>(`${endpoint.workingTimes}${queryParams(userId)}`),
+    userStats: async (stats: UserWorkingTimeStatsRequest) =>
+        await axios.get<UserWorkingTimeStatResponse>(
+            `${endpoint.workingTimes}/${endpoint.users}/${stats.userId}/stats/${stats.year}/${stats.month}`),
     edit: async (workingTime: EditWorkingTimeDto) =>
-        axios.put(`${endpoint.workingTimes}/${workingTime.id}`, workingTime),
+        await axios.put(`${endpoint.workingTimes}/${workingTime.id}`, workingTime),
     delete: async (workingTimeId: number) =>
-        axios.delete(`${endpoint.workingTimes}/${workingTimeId}`),
+        await axios.delete(`${endpoint.workingTimes}/${workingTimeId}`),
 }
 
 const queryParams = (userId?: number) => {

@@ -18,10 +18,17 @@ export const toFullDateString = (date: string) => moment.tz(date, "Europe/Warsaw
 export const convertSecondsToStringHoursAndMinutes = (seconds: number) => {
     const hours = (seconds / 3600);
     let calculatedHours = Math.floor(hours);
-    let calculatedMinutes = Math.ceil((hours - calculatedHours) * 60);
-    if (calculatedMinutes == 60) {
-        calculatedHours += 1;
-        calculatedMinutes = 0;
-    }
-    return `${calculatedHours}:${calculatedMinutes}`;
+    let calculatedMinutes = Math.floor((hours - calculatedHours) * 60);
+    // if (calculatedMinutes == 60) {
+    //     calculatedHours += 1;
+    //     calculatedMinutes = 0;
+    // }
+    return `${complementTime(calculatedHours)}:${complementTime(calculatedMinutes)}`;
+}
+
+const complementTime = (value: number) =>  {
+  const valueString = value.toString();
+   if(valueString.length == 1)
+       return `0${value}`;
+   return value;
 }
