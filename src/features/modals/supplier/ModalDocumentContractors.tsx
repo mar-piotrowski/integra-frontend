@@ -5,7 +5,7 @@ import {Button, Grid, TextField, Typography} from "@mui/material";
 import useGetContractors from "../../../hooks/contractor/useGetContractors";
 import ModalContractorListItem from "./components/ModalContractorListItem";
 import {ContractorDto} from "../../../api/types/contractorTypes";
-import ContactorModal from "../addContractor/ContactorModal";
+import ModalContractor from "../addContractor/ModalContractor";
 import {useBoolean} from "../../../hooks/useBoolean";
 
 interface ModalSupplierProps extends ModalBaseProps {
@@ -52,7 +52,7 @@ const ModalDocumentContractors = ({open, onClose, setContractor}: ModalSupplierP
                     </Grid>
                 </Grid>
             </CustomModal>
-            <ContactorModal open={createContractorModal} onClose={closeCreateContractorModal}  />
+            <ModalContractor open={createContractorModal} onClose={closeCreateContractorModal}  />
         </>
     )
 }

@@ -1,26 +1,21 @@
-import { jobHistoryService } from "../../api/services/jobHistoryService";
-import { errorToast, successToast } from "../../utils/toastUtil";
-import { useMutation, useQueryClient } from "react-query";
-import { JobHistoryDto } from "../../api/types/documentTypes";
+import {jobHistoryService} from "../../api/services/jobHistoryService";
+import {errorToast, successToast} from "../../utils/toastUtil";
+import {useMutation, useQueryClient} from "react-query";
 
-const useDeleteJobHistory = (jobHistoryId: number) => {
+const useDeleteJobHistory = (userId: number, jobHistoryId: number) => {
     const queryClient = useQueryClient();
-    return useMutation(
-        () => jobHistoryService.delete(jobHistoryId), {
+    return useMutation({
+        mutationFn: () => jobHistoryService.delete(jobHistoryId),
         onSuccess: () => {
             successToast("Usunięto historię wykształcenia");
-            var schoolHistories: (JobHistoryDto[] | undefined) = queryClient.getQueryData(["jobHistories"]);
-            if (schoolHistories?.length == 1)
-                queryClient.setQueryData(["schoolHistories"], []);
-            queryClient.setQueryData<Partial<JobHistoryDto>[] | undefined>(["jobHistories"], (data) => {
-                if (data != undefined)
-                    return data.filter(jobHistory => jobHistory.id != jobHistoryId)
-            })
         },
         onError: () => {
             errorToast("Nie udało się dodać historii wykształcenia!");
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ["jobHistories"] })
+        onSettled: async (data, error, variables) => {
+            queryClient.invalidateQueries([`jobHistories_user_id_${userId}`]);
+            queryClient.invalidateQueries(["jobHistories"]);
+        }
     });
 }
 

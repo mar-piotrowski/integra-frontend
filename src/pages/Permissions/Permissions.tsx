@@ -5,12 +5,12 @@ import ShowAmount from "../../components/ShowAmount";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { MRT_ColumnDef } from "material-react-table";
-import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
+import useJobPositions from "../../hooks/jobPositions/useJobPositions";
 
 const Permissions = () => {
     const [jobPositionEdit, setJobPositionEdit] = useState<JobPosition | null>(null);
     const [openModal, setOpenModal] = useState(false);
-    const { data: jobPositions } = useGetJobPositions();
+    const { data: jobPositions } = useJobPositions();
 
     const columns = useMemo<MRT_ColumnDef<JobPosition>[]>(() => [
         {

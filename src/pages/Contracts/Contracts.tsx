@@ -1,4 +1,4 @@
-import {Button, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import CustomTable from "../../components/CustomTable";
 import React, {useMemo} from "react";
 import {MRT_ColumnDef} from "material-react-table";
@@ -60,7 +60,6 @@ const Contracts = () => {
                     <CustomTable
                         columns={columns}
                         data={contracts ?? []}
-                        enableRowActions
                         muiTableBodyRowProps={({row}) => ({
                             onClick: () => navigate(`/management-panel/employee/${row.original.user.id}/contracts`),
                             sx: {cursor: "pointer"}

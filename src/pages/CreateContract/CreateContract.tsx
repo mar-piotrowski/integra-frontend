@@ -4,7 +4,7 @@ import FormCheckBox from "../../components/Form/FormCheckBox";
 import FormDate from "../../components/Form/FormDate";
 import FormInput from "../../components/Form/FormInput";
 import FormSelect, { FormSelectOption } from "../../components/Form/FormSelect";
-import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
+import useJobPositions from "../../hooks/jobPositions/useJobPositions";
 import useCreateContract from "../../hooks/contract/useCreateContract";
 import { Contract } from "../../api/types/documentTypes";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -14,8 +14,9 @@ import Header from "../../components/CustomModalHeader";
 import { z } from "Zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useBoolean } from "../../hooks/useBoolean";
-import JobPositionModal from "../../features/modals/JobPositionModal";
+import ModalJobPosition from "../../features/modals/ModalJobPosition";
 import { useNavigate, useParams } from "react-router-dom";
+import useUser from "../../hooks/employee/useUser";
 
 type Salary = {
     withTax: number;
@@ -100,7 +101,8 @@ const CreateContract = () => {
         setTrue: handleOpenJobPositionModal
     } = useBoolean(false);
     const [salary, setSalary] = useState<Salary>(defaultValuesSalary);
-    const { data: jobPositions } = useGetJobPositions();
+    const {data: user} = useUser(parseInt(userId!));
+    const { data: jobPositions } = useJobPositions();
     const { mutate: createContractMutation, isSuccess: createContractSuccess } = useCreateContract();
     const { control, reset, handleSubmit, setValue: setValueForm } = useForm<Contract>({
         defaultValues,
@@ -142,19 +144,30 @@ const CreateContract = () => {
     const handleCloseDialog = () => setOpenDialog(false);
 
     const handleOnChangeSalary = (data: string | number, withTax: boolean) => {
-        if (typeof (data) != "number")
+        if (data == "")
+            return {
+                withoutTax: 0,
+                withTax: 0
+            }
+        if (typeof data == "string" && data[data.length - 1] == "0" && data[data.length - 2] == ".")
             return;
+        if (typeof data == "string" && data[data.length - 1] == ".")
+            return;
+        if (typeof data == "number" || isNaN(parseFloat(data)))
+            return;
+        const parsedValue = parseFloat(data);
         setSalary(() => {
             if (withTax)
                 return {
-                    withoutTax: Math.floor(data * 0.77),
-                    withTax: data
+                    withoutTax: parseFloat((parsedValue * 0.77).toFixed(2)),
+                    withTax: parsedValue
                 }
             return {
-                withTax: Math.floor(data * 1.23),
-                withoutTax: data
+                withTax: parseFloat((parsedValue / 1.23).toFixed(2)),
+                withoutTax: parsedValue
             }
         })
+
     }
 
     const selectJobPositions = jobPositions?.map((jobPosition: JobPosition) => ({
@@ -170,7 +183,7 @@ const CreateContract = () => {
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid item container xs={12} spacing={2}>
                             <Grid item xs={12}>
-                                <TextField label={"Pracownik"} value={"Marcin Piotrowski"} />
+                                <TextField label={"Pracownik"} value={`${user?.firstname} ${user?.lastname}`} />
                             </Grid>
                             <Grid item xs={12}>
                                 <FormSelect
@@ -211,7 +224,6 @@ const CreateContract = () => {
                                             name={"salaryWithTax"}
                                             label={"Wynagrodzenie brutto"}
                                             control={control}
-                                            type={"number"}
                                             onChangeInput={(data) => handleOnChangeSalary(data, true)}
                                         />
                                     </Grid>
@@ -220,7 +232,6 @@ const CreateContract = () => {
                                             name={"salaryWithoutTax"}
                                             label={"Wynagrodzenie netto"}
                                             control={control}
-                                            type={"number"}
                                             onChangeInput={(data) => handleOnChangeSalary(data, false)}
                                         />
                                     </Grid>
@@ -275,12 +286,9 @@ const CreateContract = () => {
                         </Grid>
                     </form>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <EmployeeCostCalculator />
-                </Grid>
             </Grid >
             <CancelCreateContractDialog isOpen={openDialog} onClose={handleCloseDialog} reset={reset} />
-            <JobPositionModal isOpen={jobPositionModal} onClose={handleCloseJobPositionModal} />
+            <ModalJobPosition isOpen={jobPositionModal} onClose={handleCloseJobPositionModal} />
         </>
     );
 }

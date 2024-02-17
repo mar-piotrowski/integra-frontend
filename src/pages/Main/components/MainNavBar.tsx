@@ -1,11 +1,11 @@
-import { AppBar, Box, Button, Drawer, Toolbar, Typography, useMediaQuery } from "@mui/material"
+import { AppBar, Box, Drawer, Toolbar, useMediaQuery } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useTheme } from "@emotion/react"
 import CustomButton from "./CustomButton";
 import LogoWithText from "../../../components/LogoWithText";
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const MainNavBar = () => {
     const theme = useTheme();
@@ -24,8 +24,8 @@ const MainNavBar = () => {
         <CustomButton textColor="black" text="O nas" />,
         <CustomButton textColor="black" text="Produkty" />,
         <CustomButton textColor="black" text="Cennik" />,
-        <CustomButton text="Logowanie" onClick={() => navigate("/choose-login")} />,
-        <CustomButton variant="contained" text="Rejestracja" onClick={() => navigate("/register")} />
+        <CustomButton variant="outlined" text="Logowanie" onClick={() => navigate("/choose-login")}/>,
+        <CustomButton variant="contained" text="Kontakt" onClick={() => navigate("/contact")}/>
     ];
 
     return (

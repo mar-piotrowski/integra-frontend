@@ -12,7 +12,8 @@ const endpoint = {
     schedules: "schedules",
     absences: "absences",
     stocks: "stocks",
-    documents: "documents"
+    documents: "documents",
+    workingTimes: "working-times"
 }
 
 export default endpoint;

@@ -2,13 +2,15 @@ import React, { useEffect } from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { DialogProps } from "../../interfaces/dialog";
 import useDeleteJobHistory from "../../hooks/workHistory/useDeleteJobHistory";
+import {useParams} from "react-router-dom";
 
 interface DeleteJobHistoryDialog extends DialogProps {
     jobHistoryId: number
 }
 
 const DeleteJobHistoryDialog = ({ isOpen: open, onClose, jobHistoryId }: DeleteJobHistoryDialog) => {
-    const { mutate, isSuccess, reset } = useDeleteJobHistory(jobHistoryId);
+    const {userId} = useParams();
+    const { mutate, isSuccess, reset } = useDeleteJobHistory(parseInt(userId!), jobHistoryId);
 
     useEffect(() => {
         console.log(isSuccess)

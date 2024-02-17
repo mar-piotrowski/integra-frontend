@@ -68,7 +68,7 @@ const ProfileUserSchoolHistory = () => {
 
     return (
         <>
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
                 <Grid item xs={12}>
                     <HeaderAction title="Historia wyksztacenia">
                         <Button
@@ -81,6 +81,7 @@ const ProfileUserSchoolHistory = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTable
+                        enableTopToolbar={false}
                         columns={columns}
                         data={schoolHistories ?? []}
                         enableRowActions

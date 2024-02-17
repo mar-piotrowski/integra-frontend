@@ -36,8 +36,9 @@ const employeeFormDefaultValues: CreateUserRequest = {
     citizenship: "",
     nip: "",
     isStudent: false,
-    createAccount: false,
+    employeeAnyWherePassword: "",
     locations: [{
+        id:0,
         city: "",
         street: "",
         houseNo: "",
@@ -50,7 +51,7 @@ const employeeFormDefaultValues: CreateUserRequest = {
         isPrivate: true,
         isCompany: false,
     }],
-    bankDetails: {
+    bankAccount: {
         name: "",
         number: "",
     },
@@ -73,7 +74,7 @@ const validationSchema = z.object({
     citizenship: z.string().min(1, "Pole jest wymagane"),
     nip: z.string().optional(),
     isStudent: z.boolean(),
-    createAccount: z.boolean(),
+    employeeAnyWherePassword: z.string().min(8, "Hasło musi mięć conajmniej 8 znaków"),
     locations: z.array(z.object({
         city: z.string().min(1, "Pole jest wymagane"),
         street: z.string().min(1, "Pole jest wymagane"),
@@ -87,19 +88,19 @@ const validationSchema = z.object({
         isPrivate: z.boolean(),
         isCompany: z.boolean(),
     })),
-    bankDetails: z.object({
+    bankAccount: z.object({
         name: z.string().min(1, "Pole jest wymagane"),
         number: z.string().min(1, "Pole jest wymagane"),
     })
-})
+});
 
-const ModalAddUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
+const ModalUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
     const {mutate: createUserMutate, isSuccess: createUserSuccess} = useCreateUser();
     const {mutate: editUserMutate, isSuccess: editUserSuccess} = useEditUser();
-    const [value, setValue] = React.useState("1");
-    const {control, handleSubmit, reset} = useForm<CreateUserRequest>({
+    const [value, setValuePage] = React.useState("1");
+    const {control, handleSubmit, reset, setValue} = useForm<CreateUserRequest>({
         defaultValues: employeeFormDefaultValues,
-        resolver: zodResolver(validationSchema)
+        // resolver: zodResolver(validationSchema)
     });
 
     useEffect(() => {
@@ -111,9 +112,9 @@ const ModalAddUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
     useEffect(() => {
         if (user != undefined)
             reset({...user});
-    }, []);
+    }, [user]);
 
-    const handleChange = (event: SyntheticEvent, newValue: string) => setValue(newValue);
+    const handleChange = (event: SyntheticEvent, newValue: string) => setValuePage(newValue);
 
     const onSubmitHandler: SubmitHandler<CreateUserRequest> = (data) => {
         if (user != undefined) {
@@ -133,7 +134,11 @@ const ModalAddUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
                             <Tab label="adresowe" value="2"/>
                             <Tab label="szczegółowe" value="3"/>
                             <Tab label="rozliczeniowe" value="4"/>
-                            <Tab label="employeeAnywhere" value="5"/>
+                            {
+                                user == undefined
+                                    ? <Tab label="employeeAnywhere" value="5"/>
+                                    : null
+                            }
                         </TabList>
                     </Box>
                     <TabPanel value="1">
@@ -148,16 +153,20 @@ const ModalAddUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
                     <TabPanel value="4">
                         <ModalAddEmployeeBank control={control}/>
                     </TabPanel>
-                    <TabPanel value="5">
-                        <ModalAddUserEmployeePanel control={control}/>
-                    </TabPanel>
+                    {
+                        user == undefined
+                            ? <TabPanel value="5">
+                                <ModalAddUserEmployeePanel control={control} setValue={setValue}/>
+                            </TabPanel>
+                            : null
+                    }
                 </TabContext>
                 <Grid item xs={12} sx={{display: "flex", justifyContent: "flex-end", gap: "10px"}}>
                     <Button variant="contained" color="error" type="button" onClick={onClose}>
                         Anuluj
                     </Button>
                     <Button variant="contained" type="submit">
-                        Dodaj
+                        {user == undefined ? "Dodaj" : "Edytuj"}
                     </Button>
                 </Grid>
             </form>
@@ -165,4 +174,4 @@ const ModalAddUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
     );
 };
 
-export default ModalAddUser;
+export default ModalUser;

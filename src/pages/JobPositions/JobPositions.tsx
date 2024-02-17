@@ -1,17 +1,21 @@
-import { MRT_ColumnDef } from "material-react-table";
-import React, { useMemo, useState } from "react";
+import {MRT_ColumnDef} from "material-react-table";
+import React, {useMemo, useState} from "react";
 import CustomTable from "../../components/CustomTable";
-import { MenuItem, ListItemIcon, ListItemText, Button, Grid } from "@mui/material";
+import {MenuItem, ListItemIcon, ListItemText, Button, Grid} from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import JobPositionModal from "../../features/modals/JobPositionModal";
-import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
-import ShowAmount from "../../components/ShowAmount";
+import ModalJobPosition from "../../features/modals/ModalJobPosition";
+import useJobPositions from "../../hooks/jobPositions/useJobPositions";
+import {useBoolean} from "../../hooks/useBoolean";
 
 const JobPositions = () => {
     const [jobPositionEdit, setJobPositionEdit] = useState<JobPosition | null>(null);
-    const [openModal, setOpenModal] = useState(false);
-    const { data: jobPositions } = useGetJobPositions();
+    const {
+        value: jobPositionModal,
+        setTrue: openJobPositionModal,
+        setFalse: closeJobPositionModal
+    } = useBoolean(false);
+    const {data: jobPositions} = useJobPositions();
 
     const columns = useMemo<MRT_ColumnDef<JobPosition>[]>(() => [
         {
@@ -22,17 +26,12 @@ const JobPositions = () => {
             accessorKey: "title",
             header: "Nazwa"
         },
-        {
-            header: "Ilosc osob"
-        },
-        {
-            header: "Srednie wynagrodzenie"
-        }
     ], [])
 
-    const handleOpenModal = () => setOpenModal(true);
-
-    const handleCloseModal = () => setOpenModal(false);
+    const handleCloseJobPositionModal = () => {
+        closeJobPositionModal();
+        setJobPositionEdit(null);
+    }
 
     return (
         <>
@@ -41,33 +40,30 @@ const JobPositions = () => {
                     <Button
                         variant="contained"
                         disableElevation
-                        onClick={handleOpenModal}
+                        onClick={openJobPositionModal}
                     >
                         Dodaj stanowisko
                     </Button>
-                </Grid>
-                <Grid item xs={12} sm={12} md={4} lg={3}>
-                    <ShowAmount label="Ilość pracowników" value={jobPositions?.length} color="blue" />
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
                         data={jobPositions ?? []}
                         enableRowActions
-                        renderRowActionMenuItems={({ closeMenu, row }) => [
+                        renderRowActionMenuItems={({closeMenu, row}) => [
                             <MenuItem key="edit" onClick={() => {
                                 setJobPositionEdit(row.original);
                                 closeMenu();
-                                handleOpenModal();
+                                openJobPositionModal();
                             }}>
                                 <ListItemIcon>
-                                    <EditOutlinedIcon fontSize="small" />
+                                    <EditOutlinedIcon fontSize="small"/>
                                 </ListItemIcon>
                                 <ListItemText>Edytuj</ListItemText>
                             </MenuItem>,
                             <MenuItem key="delete" onClick={() => console.info("Delete")}>
                                 <ListItemIcon>
-                                    <DeleteOutlineOutlinedIcon fontSize="small" />
+                                    <DeleteOutlineOutlinedIcon fontSize="small"/>
                                 </ListItemIcon>
                                 <ListItemText>Usun</ListItemText>
                             </MenuItem>,
@@ -75,7 +71,11 @@ const JobPositions = () => {
                     />
                 </Grid>
             </Grid>
-            <JobPositionModal isOpen={openModal} onClose={handleCloseModal} jobPositionEdit={jobPositionEdit!} />
+            <ModalJobPosition
+                isOpen={jobPositionModal}
+                onClose={handleCloseJobPositionModal}
+                jobPositionEdit={jobPositionEdit!}
+            />
         </>
     );
 };

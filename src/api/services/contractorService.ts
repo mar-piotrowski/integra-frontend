@@ -13,5 +13,5 @@ export const contractorService = {
     create: async (contractor: CreateContractorRequest) => await axios.post(endpoint.contractors, contractor),
     update: async (updateVariables: UpdateContractorVariables) =>
         await axios.put(`/${endpoint.contractors}/${updateVariables.contractorId}`, updateVariables.contractor),
-    remove: async (contractorId: number) => await axios.delete(`/${endpoint.contractors}/${contractorId}`)
+    delete: async (contractorId: number) => await axios.delete(`/${endpoint.contractors}/${contractorId}`)
 };

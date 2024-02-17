@@ -4,7 +4,7 @@ import CustomTable from "../../components/CustomTable";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { MRT_ColumnDef } from "material-react-table";
-import ModalArrangeUserAbsent from "../../features/modals/ModalArrangeUserAbsent";
+import ModalArrangeUserAbsence from "../../features/modals/ModalArrangeUserAbsent";
 import { UserAbsence } from "../../constants/models";
 import ModalLimitUserHoliday from "../../features/modals/ModalLimitUserHoliday";
 import { HolidayLimit } from "../../api/types/documentTypes";
@@ -27,11 +27,11 @@ const ProfileUserAbsences = () => {
     const { userId } = useParams();
     const { data: holidayLimits } = useGetHolidayLimits(parseInt(userId!));
     const { data: absences } = useAbsences(parseInt(userId!));
-    const { mutate: acceptAbsence } = useAcceptAbsence();
-    const { mutate: rejectAbsence } = useRejectAbsence();
-    const { mutate: deleteAbsence } = useDeleteAbsence();
+    const { mutate: acceptAbsence } = useAcceptAbsence(parseInt(userId!));
+    const { mutate: rejectAbsence } = useRejectAbsence(parseInt(userId!));
+    const { mutate: deleteAbsence } = useDeleteAbsence(parseInt(userId!));
     const [limitHolidayModal, setLimitHolidayModal] = useState<boolean>(false);
-    const [arrangeAbsentModal, setArrangeAbsentModal] = useState<boolean>(false);
+    const [absenceModal, setAbsenceModal] = useState<boolean>(false);
     const [absence, setAbsence] = useState<UpdateAbsence | null>(null);
 
     const columnsLimitHoliday = useMemo<MRT_ColumnDef<HolidayLimit>[]>(
@@ -86,14 +86,17 @@ const ProfileUserAbsences = () => {
 
     const closeLimitHolidayModal = () => setLimitHolidayModal(false);
 
-    const openArrangeAbsentModal = () => setArrangeAbsentModal(true);
+    const openAbsenceModal = () => setAbsenceModal(true);
 
-    const closeArrangeAbsentModal = () => setArrangeAbsentModal(false);
+    const closeAbsenceModal = () => {
+        setAbsenceModal(false);
+        setAbsence(null);
+    }
 
     return (
         <>
             <Grid container spacing={4}>
-                <Grid item container xs={12}>
+                <Grid item container xs={12} spacing={4}>
                     <Grid item xs={12}>
                         <HeaderAction title={"Limity urlopowe"}>
                             <Button
@@ -107,18 +110,19 @@ const ProfileUserAbsences = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <CustomTable
+                            enableTopToolbar={false}
                             columns={columnsLimitHoliday}
                             data={holidayLimits ?? []}
                         />
                     </Grid>
                 </Grid>
-                <Grid item container xs={12}>
+                <Grid item container xs={12} spacing={4}>
                     <Grid item xs={12}>
                         <HeaderAction title={"Nieobecności"}>
                             <Button
                                 variant="contained"
                                 disableElevation
-                                onClick={openArrangeAbsentModal}
+                                onClick={openAbsenceModal}
                             >
                                 Dodaj nieobecność
                             </Button>
@@ -126,6 +130,7 @@ const ProfileUserAbsences = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <CustomTable
+                            enableTopToolbar={false}
                             columns={columnsArrangeAbsent}
                             data={absences ?? []}
                             enableRowActions
@@ -140,7 +145,7 @@ const ProfileUserAbsences = () => {
                                         userId: row.original.user.id,
                                         ...row.original
                                     });
-                                    openArrangeAbsentModal();
+                                    openAbsenceModal();
                                 }}>
                                     <ListItemIcon>
                                         <EditOutlinedIcon />
@@ -179,7 +184,7 @@ const ProfileUserAbsences = () => {
                     </Grid>
                 </Grid>
             </Grid >
-            <ModalArrangeUserAbsent open={arrangeAbsentModal} onClose={closeArrangeAbsentModal} absence={absence} />
+            <ModalArrangeUserAbsence open={absenceModal} onClose={closeAbsenceModal} absence={absence} />
             <ModalLimitUserHoliday open={limitHolidayModal} onClose={closeLimitHolidayModal} />
         </>
     )

@@ -8,7 +8,7 @@ export const employeePanelNavItems: MenuItem = {
     id: "pages",
     title: "Menu",
     type: "group",
-    permissions: [],
+    permissions: [943],
     children: [
         {
             id: "schedule",
@@ -16,7 +16,7 @@ export const employeePanelNavItems: MenuItem = {
             type: "item",
             icon: DateRangeIcon,
             url: "/employee-panel/schedule",
-            permissions: [748, 643],
+            permissions: [748, 643, 943],
         },
         {
             id: "workingTime",
@@ -24,7 +24,7 @@ export const employeePanelNavItems: MenuItem = {
             type: "item",
             icon: QueryBuilderIcon,
             url: "/employee-panel/working-time",
-            permissions: [748, 643],
+            permissions: [748, 643, 943],
         },
         {
             id: "holidays",
@@ -32,7 +32,7 @@ export const employeePanelNavItems: MenuItem = {
             type: "item",
             icon: FlightTakeoffIcon,
             url: "/employee-panel/absence",
-            permissions: [748, 643],
+            permissions: [748, 643, 943],
         },
         {
             id: "Documents",
@@ -40,7 +40,7 @@ export const employeePanelNavItems: MenuItem = {
             type: "item",
             icon: TopicOutlinedIcon,
             url: "/employee-panel/documents/contracts",
-            permissions: [748, 643],
+            permissions: [748, 643, 943],
         },
     ],
 };

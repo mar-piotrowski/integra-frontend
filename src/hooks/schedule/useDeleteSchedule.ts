@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "react-query"
+import {useMutation, useQueryClient} from "react-query"
 import scheduleService from "../../api/services/scheduleService";
-import { errorToast, successToast } from "../../utils/toastUtil";
-import { ErrorResponse } from "../../api/types/dto";
+import {errorToast, successToast} from "../../utils/toastUtil";
+import {ErrorResponse} from "../../api/types/dto";
 
 const useDeleteSchedule = () => {
     const queryClient = useQueryClient();
@@ -13,9 +13,7 @@ const useDeleteSchedule = () => {
         onError: (error: ErrorResponse) => {
             errorToast(error.response.data.message);
         },
-        onSettled: () => {
-            queryClient.invalidateQueries(["schedules"])
-        }
+        onSettled: () => queryClient.invalidateQueries(["schedules"])
     });
 };
 

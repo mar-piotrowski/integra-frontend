@@ -7,7 +7,7 @@ import {Control, useWatch} from "react-hook-form";
 import {ContractorDto} from "../../api/types/contractorTypes";
 import {DocumentDetails} from "../../api/types/documentTypes";
 import ModalDocumentContractors from "../modals/supplier/ModalDocumentContractors";
-import ContactorModal from "../modals/addContractor/ContactorModal";
+import ModalContractor from "../modals/addContractor/ModalContractor";
 
 interface DocumentContractorProps {
     setContractor: (contractor: ContractorDto) => void;

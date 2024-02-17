@@ -1,4 +1,4 @@
-import { BankDetails } from "../../constants/models";
+import { BankAccount } from "../../constants/models";
 import { LocationDto } from "./locationTypes";
 import { Permission } from "./permissionTypes";
 
@@ -21,10 +21,16 @@ export type CreateUserRequest = {
     citizenship: string;
     nip: string;
     isStudent: boolean;
-    createAccount: boolean;
+    employeeAnyWherePassword: string;
     locations: LocationDto[];
-    bankDetails: BankDetails;
+    bankAccount: BankAccount;
 };
+
+export type UserShortDto = {
+    id: number;
+    firstname: string;
+    lastname: string;
+}
 
 export type UserDto = {
     id: number;
@@ -34,6 +40,8 @@ export type UserDto = {
     email: string;
     phone: string;
     identityNumber: string;
+    nip?: string;
+    citizenship?: string;
     jobPosition?: string;
     locations: LocationDto[];
     permissions: Permission[];

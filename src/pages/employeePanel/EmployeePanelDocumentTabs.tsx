@@ -5,11 +5,11 @@ import { Outlet } from "react-router-dom";
 
 const tabs: CustomTabItem[] = [
     {
-        link: "/employee-panel/Documents/contracts",
+        link: "/employee-panel/documents/contracts",
         title: "Umowy"
     },
     {
-        link: "/employee-panel/Documents/other",
+        link: "/employee-panel/documents/other",
         title: "Inne"
     }
 ]

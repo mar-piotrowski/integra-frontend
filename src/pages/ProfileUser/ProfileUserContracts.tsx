@@ -1,6 +1,5 @@
 import CustomTable from "../../components/CustomTable";
 import { Button, Grid, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import React, { useMemo, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import useGetContracts from "../../hooks/contract/useGetContracts";
@@ -9,6 +8,7 @@ import { toDateString } from "../../utils/dateHelper";
 import { contractTypeMapper } from "../../constants/mappers";
 import { useNavigate, useParams } from "react-router-dom";
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ContractStatus from "../../components/ContractStatus";
 import TerminateContractModal from "../../features/modals/TerminateContractModal";
 import ContractDetailsModal from "../../features/modals/contractDetails/ContractDetailsModal";

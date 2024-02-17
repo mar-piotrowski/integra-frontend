@@ -8,7 +8,7 @@ import {
     ListItemText,
     MenuItem,
 } from "@mui/material";
-import ModalAddUser from "./modals/CreateEmployee/ModalAddUser";
+import ModalUser from "./modals/CreateEmployee/ModalUser";
 import ShowAmount from "../../components/ShowAmount";
 import CustomTable from "../../components/CustomTable";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -54,6 +54,11 @@ const Employees = () => {
         []
     );
 
+    const handleOnCloseAddUserModal = () => {
+        closeCreateEmployeeModal();
+        setUser(null);
+    }
+
     return (
         <>
             <Box sx={{flexGrow: 1}}>
@@ -66,15 +71,6 @@ const Employees = () => {
                         >
                             Dodaj pracownika
                         </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Ilość pracowników" value={users?.length ?? 0} color="blue"/>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Aktywnych" value={100} color="green"/>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Nieaktywnych" value={100} color="red"/>
                     </Grid>
                     <Grid item xs={12}>
                         <CustomTable
@@ -109,9 +105,9 @@ const Employees = () => {
             </Box>
             {
                 createEmployeeModal
-                    ? <ModalAddUser
+                    ? <ModalUser
                         open={createEmployeeModal}
-                        onClose={closeCreateEmployeeModal}
+                        onClose={handleOnCloseAddUserModal}
                         user={user}
                     />
                     : null

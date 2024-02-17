@@ -1,5 +1,5 @@
 import {Grid, Button, Typography, useTheme, Box} from "@mui/material";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import ModalAddPermission from "../modals/addPermission/ModalAddPermission";
 import {Permission} from "../../api/types/permissionTypes";
 import CustomTable from "../../components/CustomTable";
@@ -16,7 +16,7 @@ const UserPermissions = ({permissions, manage}: EmployeePermissions) => {
     const {userId} = useParams();
     const location = useLocation();
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-    const {mutate: removePermissionsMutate} = useRemovePermissions();
+    const {mutate: removePermissionsMutate,} = useRemovePermissions();
 
     const columns = useMemo<MRT_ColumnDef<Permission>[]>(() => [
         {
@@ -48,6 +48,7 @@ const UserPermissions = ({permissions, manage}: EmployeePermissions) => {
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTable
+                        enableTopToolbar={manage}
                         enableRowSelection={manage && location.pathname.includes("management-panel")}
                         columns={columns}
                         data={permissions ?? []}

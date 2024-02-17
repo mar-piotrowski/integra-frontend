@@ -13,7 +13,7 @@ const employeeService = {
     create: async (employee: CreateUserRequest) =>
         await axios.post(endpoint.users, employee),
     edit: async (employee: CreateUserRequest) =>
-        await axios.put(`/ ${endpoint.users}/${employee.id}`, employee),
+        await axios.put(`/${endpoint.users}/${employee.id}`, employee),
     addPermissions: async (request: AddUserPermissionsRequest) =>
         await axios.post(`${endpoint.users}/${request.userId}/add-permissions`, request),
     removePermissions: async (request: RemoveUserPermissionsRequest) =>

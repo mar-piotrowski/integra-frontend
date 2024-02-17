@@ -11,13 +11,13 @@ const AccountDetails = () => {
 
     return (
         <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
                 <UserDetails employee={user!}/>
             </Grid>
             <Grid item xs={12}>
                 <UserPermissions
                     permissions={user?.permissions ?? []}
-                    manage={user?.permissions.some(permission => permission.code == 748)}
+                    manage={user!.permissions.some(permission => permission.code == 748)}
                 />
             </Grid>
         </Grid>

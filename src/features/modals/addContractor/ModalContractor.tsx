@@ -29,6 +29,7 @@ const defaultValues: CreateContractorRequest = {
         number: ""
     },
     location: {
+        id: 0,
         street: "",
         houseNo: "",
         apartmentNo: "",
@@ -55,6 +56,7 @@ const validationSchema = z.object({
         number: z.string().min(10, "Podano błedny numer konta"),
     }),
     location: z.object({
+        id: z.number(),
         city: z.string().min(1, "Pole jest wymagane"),
         street: z.string().min(1, "Pole jest wymagane"),
         houseNo: z.string().min(1, "Pole jest wymagane"),
@@ -67,7 +69,7 @@ const validationSchema = z.object({
     })
 })
 
-const ContactorModal = ({ open, onClose, contractorUpdate }: ModalAddContractorProps) => {
+const ModalContractor = ({ open, onClose, contractorUpdate }: ModalAddContractorProps) => {
     const [value, setValue] = useState("1");
     const { control, handleSubmit, reset } = useForm<CreateContractorRequest>({
         defaultValues,
@@ -151,4 +153,4 @@ const ContactorModal = ({ open, onClose, contractorUpdate }: ModalAddContractorP
     )
 };
 
-export default ContactorModal;
+export default ModalContractor;

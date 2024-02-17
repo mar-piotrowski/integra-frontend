@@ -12,10 +12,10 @@ const ModalAddEmployeeBank = ({ control }: ModalWorkerBankProps) => {
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
-				<FormInput name="bankDetails.name" label="Nazwa banku" control={control} />
+				<FormInput name="bankAccount.name" label="Nazwa banku" control={control} />
 			</Grid>
 			<Grid item xs={12}>
-				<FormInput name="bankDetails.number" label="Numer rachunku" control={control} />
+				<FormInput name="bankAccount.number" label="Numer rachunku" control={control} />
 			</Grid>
 		</Grid>
 	);

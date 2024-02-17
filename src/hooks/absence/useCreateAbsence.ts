@@ -13,7 +13,10 @@ const useCreateAbsence = () => {
         onError(error: ErrorResponse) {
             errorToast(error.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries(["absences, holidayLimits"])
+        onSettled: (data, error, variables) => {
+            queryClient.invalidateQueries([`absences_user_id_${variables.userId}`]);
+            queryClient.invalidateQueries([`holidayLimits_user_id_${variables.userId}`])
+        }
     });
 };
 

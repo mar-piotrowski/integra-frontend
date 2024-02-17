@@ -89,7 +89,7 @@ const ModalCreateStock = ({isOpen, onClose, stock}: ModalCreateStock) => {
                     </Grid>
                     <Grid item xs={12} sx={{display: "flex", justifyContent: "flex-end", gap: "10px"}}>
                         <Button variant="contained" color="error" type="button" onClick={onClose}> Anuluj </Button>
-                        <Button variant="contained" type="submit"> Dodaj </Button>
+                        <Button variant="contained" type="submit"> {stock == undefined ? "Dodaj" : "Edytuj"} </Button>
                     </Grid>
                 </Grid>
             </form>

@@ -21,7 +21,6 @@ import ProfileUserSchedule from "../pages/ProfileUser/ProfileUserSchedule";
 import EmployeePanelAbsences from "../pages/employeePanel/EmployeePanelAbsences";
 import EmployeePanelLayout from "../layouts/EmployeePanelLayout";
 import EmployeePanelWorkingTime from "../pages/employeePanel/EmployeePanelWorkingTime";
-import Register from "../pages/main/register/Register";
 import Login from "../pages/main/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import {Permission} from "../constants/permission";
@@ -55,6 +54,8 @@ import DocumentEditPz from "../pages/Documents/PZ/DocumentEditPz";
 import DocumentEditMM from "../pages/Documents/MM/DocumentEditMM";
 import DocumentEditWz from "../pages/Documents/WZ/DocumentEditWz";
 import DocumentEditInvoice from "../pages/Documents/Invoice/DocumentEditInvoice";
+import Contact from "../pages/main/Contact";
+import ProfileUserWorkingTimes from "../pages/ProfileUser/ProfileUserWorkingTimes";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -64,9 +65,9 @@ const router = createBrowserRouter(
             <Route path="unauthorized" element={<Unauthorized/>}/>
             <Route path="management-panel/login" element={<Login type={"management"}/>}/>
             <Route path="employee-panel/login" element={<Login type={"employee"}/>}/>
-            <Route path="register" element={<Register/>}/>
             <Route path="logout" element={<Logout/>}/>
             <Route path="choose-login" element={<ChooseLogin/>}/>
+            <Route path="contact" element={<Contact/>}/>
             <Route element={<PersistLogin/>}>
                 <Route path="employee-panel" element={<MainLayout type={"employee"}/>}>
                     <Route path="account" element={<AccountLayout type={"employee"}/>}>
@@ -99,6 +100,7 @@ const router = createBrowserRouter(
                             <Route path="employee/:userId" element={<ProfileUser/>}>
                                 <Route index path="details" element={<ProfileUserDetails/>}/>
                                 <Route path="schedule" element={<ProfileUserSchedule/>}/>
+                                <Route path="working-times" element={<ProfileUserWorkingTimes/>}/>
                                 <Route path="documents" element={<ProfileUserDocuments/>}/>
                                 <Route path="absence" element={<ProfileUserAbsences/>}/>
                                 <Route path="contracts" element={<ProfileUserContracts/>}/>

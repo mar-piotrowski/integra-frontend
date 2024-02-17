@@ -18,7 +18,7 @@ const useDeleteUserSchedule = () => {
         onError: (response: ErrorResponse) => {
             errorToast(response.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] })
+        onSettled: (data, error, variables) => queryClient.invalidateQueries([`schedules_user_id_${variables.userId}`])
     });
 }
 

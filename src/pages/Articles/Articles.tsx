@@ -23,7 +23,7 @@ const Articles = () => {
         setFalse: closeCreateArticleModal
     } = useBoolean(false);
     const { data: articles } = useArticles();
-    const [articleToEdit, setArtileToEdit] = useState<ArticleDto | null>(null);
+    const [articleToEdit, setArticleToEdit] = useState<ArticleDto | null>(null);
 
     const columns = useMemo<MRT_ColumnDef<ArticleDto>[]>(
         () => [
@@ -68,9 +68,6 @@ const Articles = () => {
                         Dodaj produkt
                     </Button>
                 </Grid>
-                <Grid item xs={12} md={4} lg={2}>
-                    <ShowAmount label="Ilosc produktow" value={100} color="blue" />
-                </Grid>
                 <Grid item xs={12} sm={12} md={12}>
                     <CustomTable
                         columns={columns}
@@ -78,8 +75,8 @@ const Articles = () => {
                         enableRowActions
                         renderRowActionMenuItems={({ row, closeMenu }) => [
                             <MenuItem key="edit" onClick={() => {
-                                setArtileToEdit({ ...row.original });
                                 closeMenu();
+                                setArticleToEdit({ ...row.original });
                                 openCreateArticleModal();
                             }}>
                                 <ListItemIcon>
@@ -88,8 +85,8 @@ const Articles = () => {
                                 <ListItemText>Edytuj</ListItemText>
                             </MenuItem>,
                             <MenuItem key="delete" onClick={() => {
-                                setArtileToEdit({ ...row.original });
                                 closeMenu();
+                                setArticleToEdit({ ...row.original });
                                 openDeleteArticleModal();
                             }}>
                                 <ListItemIcon>

@@ -1,4 +1,5 @@
 export type LocationDto = {
+    id: number;
     street: string,
     houseNo: string,
     apartmentNo: string,

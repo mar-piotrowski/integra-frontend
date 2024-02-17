@@ -50,7 +50,7 @@ const FormInput = <T extends FieldValues>({
                         fullWidth
                         label={label}
                         inputProps={{
-                            maxLength: maxLength
+                            maxLength: maxLength,
                         }}
                     />
                 </>
