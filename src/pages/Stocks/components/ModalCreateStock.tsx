@@ -34,7 +34,7 @@ const defaultValues: CreateStockForm = {
 const validation = z.object({
     name: z.string().min(1, "Pole wymagane"),
     isMain: z.boolean(),
-    description: z.string().optional()
+    description: z.string().optional().nullable()
 })
 
 const ModalCreateStock = ({isOpen, onClose, stock}: ModalCreateStock) => {

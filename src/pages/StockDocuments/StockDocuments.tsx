@@ -13,6 +13,7 @@ import {errorToast} from "../../utils/toastUtil";
 import {useBoolean} from "../../hooks/useBoolean";
 import ModalDocumentDetails from "../../features/document/ModalDocumentDetails";
 import {useNavigate} from "react-router-dom";
+import ModalDocumentDelete from "../../features/modals/ModalDocumentDelete";
 
 const documentMenuItems: ButtonDropdownItem[] = [
     {
@@ -73,6 +74,21 @@ const StockDocuments = () => {
         setTrue: openDocumentDetailsModal,
         setFalse: closeDocumentDetailsModal
     } = useBoolean(false);
+    const {
+        value: documentDeleteModal,
+        setTrue: openDocumentDeleteModal,
+        setFalse: closeDocumentDeleteModal
+    } = useBoolean(false);
+
+    const onCloseDetailsModal = () => {
+        closeDocumentDetailsModal();
+        setDocument(null);
+    }
+
+    const onCloseDeleteModal = () => {
+        closeDocumentDeleteModal();
+        setDocument(null);
+    }
 
     const columns = useMemo<MRT_ColumnDef<DocumentDetails>[]>(
         () => [
@@ -158,6 +174,7 @@ const StockDocuments = () => {
                                     return;
                                 }
                                 setDocument(row.original);
+                                openDocumentDeleteModal();
                             }}>
                                 <ListItemIcon>
                                     <DeleteOutlineOutlinedIcon/>
@@ -172,8 +189,17 @@ const StockDocuments = () => {
                 documentDetailsModal
                     ? <ModalDocumentDetails
                         isOpen={documentDetailsModal}
-                        onClose={closeDocumentDetailsModal}
+                        onClose={onCloseDetailsModal}
                         document={document!}
+                    />
+                    : null
+            }
+            {
+                documentDeleteModal
+                    ? <ModalDocumentDelete
+                        open={documentDeleteModal}
+                        onClose={onCloseDeleteModal}
+                        documentId={document!.id}
                     />
                     : null
             }

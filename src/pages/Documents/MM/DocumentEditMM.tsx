@@ -7,7 +7,7 @@ import DocumentArticle from "../../../features/document/DocumentArticle";
 import DocumentMmBaseInfo from "./DocumentMmBaseInfo";
 import {useNavigate, useParams} from "react-router-dom";
 import useDocument from "../../../hooks/documents/useDocument";
-import useEditDocument from "../../../hooks/documents/useEditContractor";
+import useEditDocument from "../../../hooks/documents/useEditDocument";
 import DocumentHeader from "../../../features/document/DocumentHeader";
 
 const DocumentMM = () => {

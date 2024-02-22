@@ -1,8 +1,8 @@
-import React from "react";
-import {Button, Grid, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {Button, Grid, Typography} from "@mui/material";
+import React from "react";
 
-const Unauthorized = () => {
+const ErrorPage = () => {
     const navigate = useNavigate();
 
     return (
@@ -17,18 +17,18 @@ const Unauthorized = () => {
             }}
         >
             <Grid item>
-                <Typography variant={"h1"}>Ups... nie posiadasz uprawnień</Typography>
+                <Typography variant={"h1"}>Wystąpił błąd</Typography>
             </Grid>
             <Grid item>
                 <Button
                     variant={"outlined"}
-                    onClick={() => navigate(-3)}
+                    onClick={() => navigate("/")}
                 >
-                    Powrót
+                    Strona główna
                 </Button>
             </Grid>
         </Grid>
     );
-};
+}
 
-export default Unauthorized;
+export default ErrorPage;

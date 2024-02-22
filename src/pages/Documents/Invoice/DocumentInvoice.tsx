@@ -59,7 +59,7 @@ const DocumentInvoice = () => {
                         <DocumentContractor setContractor={handleSetContractor} control={control}/>
                     </Grid>
                     <Grid item md={12} lg={4}>
-                        <DocumentCalculations control={control}/>
+                        <DocumentCalculations control={control} setValue={setValue}/>
                     </Grid>
                     <Grid item xs={12}>
                         <DocumentArticle control={control}/>

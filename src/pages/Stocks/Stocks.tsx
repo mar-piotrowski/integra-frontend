@@ -32,10 +32,6 @@ const Stocks = () => {
 
     const columns = useMemo<MRT_ColumnDef<StockDto>[]>(() => [
         {
-            accessorKey: "id",
-            header: "Id"
-        },
-        {
             accessorKey: "name",
             header: "Nazwa"
         },

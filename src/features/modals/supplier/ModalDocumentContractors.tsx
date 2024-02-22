@@ -38,9 +38,6 @@ const ModalDocumentContractors = ({open, onClose, setContractor}: ModalSupplierP
                     <Grid item xs={12}>
                         <Typography variant={"h3"} mb={2}>Lista kontrahentów</Typography>
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField label={"Wyszukaj kontrahenta"} fullWidth/>
-                    </Grid>
                     <Grid item xs={12} height={"400px"}>
                         {renderContractors}
                     </Grid>

@@ -12,7 +12,7 @@ const useRefreshToken = (enable: boolean) => {
         queryKey: ["juan"],
         queryFn: async () => (await authenticationService.refreshToken(auth?.accessToken ?? "")).data,
         onSuccess: (data) => {
-            var token = decodeToken(data.accessToken);
+            const token = decodeToken(data.accessToken);
             if (token?.userId == undefined)
                 return;
             setAuth({ accessToken: data.accessToken, userId: token.userId, permissions: token.permissions });
@@ -21,6 +21,7 @@ const useRefreshToken = (enable: boolean) => {
         },
         enabled: enable,
         cacheTime: 0,
+        retry: false
     });
     return { token, query };
 

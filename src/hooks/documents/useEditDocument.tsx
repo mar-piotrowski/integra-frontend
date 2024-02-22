@@ -3,18 +3,22 @@ import {errorToast, successToast} from "../../utils/toastUtil";
 import documentService from "../../api/services/documentService";
 import {ErrorResponse} from "../../api/types/dto";
 
-const useCreateDocument = () => {
+const useEditDocument = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: documentService.create,
+        mutationFn: documentService.edit,
         onSuccess: () => {
             successToast("Utworzono dokument");
         },
         onError: (data: ErrorResponse) => {
             errorToast(data.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries({queryKey: ["stockDocuments", "invoices"]})
+        onSettled: (data, error, variables) => {
+            queryClient.invalidateQueries(["stockDocuments"]);
+            queryClient.invalidateQueries(["invoices"]);
+            queryClient.invalidateQueries([`document_id_${variables.id}`]);
+        }
     });
 };
 
-export default useCreateDocument;
+export default useEditDocument;

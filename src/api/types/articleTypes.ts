@@ -2,11 +2,6 @@ type Id = {
     id: number;
 }
 
-export type Article = {
-;
-}
-
-
 export type EditArticleRequest = {
     id: number;
     name: string;

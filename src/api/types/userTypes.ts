@@ -13,10 +13,10 @@ export type CreateUserRequest = {
     secondName: string;
     dateOfBirth: string;
     placeOfBirth: string;
-    pesel: string;
+    personalIdNumber: string;
     sex: number;
     email: string;
-    identityNumber: string;
+    documentNumber: string;
     phone: string;
     citizenship: string;
     nip: string;
@@ -39,7 +39,8 @@ export type UserDto = {
     secondName: string;
     email: string;
     phone: string;
-    identityNumber: string;
+    documentNumber: string;
+    personalIdNumber: string;
     nip?: string;
     citizenship?: string;
     jobPosition?: string;

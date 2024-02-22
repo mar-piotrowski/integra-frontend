@@ -10,8 +10,10 @@ import useDocuments from "../../hooks/documents/useDocuments";
 import {useNavigate} from "react-router-dom";
 import {useBoolean} from "../../hooks/useBoolean";
 import ModalDocumentDetails from "../../features/document/ModalDocumentDetails";
-import { errorToast } from "../../utils/toastUtil";
-import { toDateString } from "../../utils/dateHelper";
+import {errorToast} from "../../utils/toastUtil";
+import {toDateString} from "../../utils/dateHelper";
+import {Box} from "@mui/system";
+import ModalDocumentDelete from "../../features/modals/ModalDocumentDelete";
 
 export const defaultValues: DocumentDetails = {
     type: DocumentType.Unknown,
@@ -44,6 +46,21 @@ const Invoices = () => {
         setTrue: openDocumentDetailsModal,
         setFalse: closeDocumentDetailsModal
     } = useBoolean(false);
+    const {
+        value: documentDeleteModal,
+        setTrue: openDocumentDeleteModal,
+        setFalse: closeDocumentDeleteModal
+    } = useBoolean(false);
+
+    const onCloseDetailsModal = () => {
+        closeDocumentDetailsModal();
+        setDocument(null);
+    }
+
+    const onCloseDeleteModal = () => {
+        closeDocumentDeleteModal();
+        setDocument(null);
+    }
 
     const createInvoiceTypes = useMemo<ButtonDropdownItem[]>(
         () => [
@@ -69,6 +86,13 @@ const Invoices = () => {
                 accessorKey: "issueDate",
                 header: "Data wystawienia",
                 Cell: ({row}) => <div>{toDateString(row.original.issueDate)}</div>
+            },
+            {
+                accessorKey: "locked",
+                header: "Zatwierdzona",
+                Cell: ({row}) => row.original.locked
+                    ? <Box color={"green"}>Tak</Box>
+                    : <Box color={"red"}>Nie</Box>
             },
         ],
         []
@@ -114,6 +138,7 @@ const Invoices = () => {
                                     return;
                                 }
                                 setDocument(row.original);
+                                openDocumentDeleteModal();
                             }}>
                                 <ListItemIcon>
                                     <DeleteOutlineOutlinedIcon/>
@@ -129,12 +154,20 @@ const Invoices = () => {
                 documentDetailsModal
                     ? <ModalDocumentDetails
                         isOpen={documentDetailsModal}
-                        onClose={closeDocumentDetailsModal}
+                        onClose={onCloseDetailsModal}
                         document={document!}
                     />
                     : null
             }
-
+            {
+                documentDeleteModal
+                    ? <ModalDocumentDelete
+                        open={documentDeleteModal}
+                        onClose={onCloseDeleteModal}
+                        documentId={document!.id}
+                    />
+                    : null
+            }
         </>
     )
 }

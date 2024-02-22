@@ -86,7 +86,12 @@ const UserDetails = ({employee}: EmployeeDetailsProps) => {
                 </Grid>
                 <Grid item xs={12}>
                     <Box sx={{display: "flex", margin: "10px 0 0 8px", gap: "20px"}}>
-                        <TextWithLabel label="Numer dowodu" text={defaultWhenEmpty("Brak", employee?.identityNumber)}/>
+                        <TextWithLabel label="Numer dowodu" text={defaultWhenEmpty("Brak", employee?.documentNumber)}/>
+                    </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Box sx={{display: "flex", margin: "10px 0 0 8px", gap: "20px"}}>
+                        <TextWithLabel label="Pesel" text={defaultWhenEmpty("Brak", employee?.personalIdNumber)}/>
                     </Box>
                 </Grid>
                 <Grid item xs={12}>

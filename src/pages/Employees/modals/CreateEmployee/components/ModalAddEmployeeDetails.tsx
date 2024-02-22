@@ -22,7 +22,7 @@ const ModalAddEmployeeDetails = ({control}: ModalWorkerDetailsProps) => {
                 <FormInput name="citizenship" label="Obywatelstwo" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput name="identityNumber" label="Numer dowodu" control={control}/>
+                <FormInput name="documentNumber" label="Numer dowodu" control={control}/>
             </Grid>
         </Grid>
     );

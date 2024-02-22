@@ -62,7 +62,7 @@ const TopBar = ({sidebarToggle, sidebarSetToggle, type}: TopBarProps) => {
             const employeeItems = employeePanelAccountDropdownItems;
             if (
                 employeeItems.find(item => item.title == "Panel zarzadzania") == null
-                && auth?.permissions.some(permission => permission != 943)
+                && auth?.permissions.find(permission => permission == 643)
             ) employeeItems.push(employeePanelManagementRedirectItem);
             return employeeItems;
         }

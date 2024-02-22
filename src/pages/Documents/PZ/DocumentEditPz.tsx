@@ -11,7 +11,7 @@ import {ContractorDto} from "../../../api/types/contractorTypes";
 import DocumentHeader from "../../../features/document/DocumentHeader";
 import {useNavigate, useParams} from "react-router-dom";
 import useDocument from "../../../hooks/documents/useDocument";
-import useEditDocument from "../../../hooks/documents/useEditContractor";
+import useEditDocument from "../../../hooks/documents/useEditDocument";
 
 const DocumentPz = () => {
     const {documentId} = useParams();
@@ -82,7 +82,7 @@ const DocumentPz = () => {
                     <DocumentContractor control={control} setContractor={handleSetContractor}/>
                 </Grid>
                 <Grid item md={12} lg={4}>
-                    <DocumentCalculations control={control}/>
+                    <DocumentCalculations control={control} setValue={setValue}/>
                 </Grid>
                 <Grid item xs={12}>
                     <DocumentArticle control={control}/>

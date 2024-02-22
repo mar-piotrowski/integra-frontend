@@ -33,10 +33,6 @@ const Contractors = () => {
     const columns = useMemo<MRT_ColumnDef<ContractorDto>[]>(
         () => [
             {
-                accessorKey: "id",
-                header: "Id"
-            },
-            {
                 accessorKey: "fullName",
                 header: "Nazwa"
             },

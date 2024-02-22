@@ -1,6 +1,7 @@
 import {useMutation, useQueryClient} from "react-query";
 import stockService from "../../api/services/stockService";
 import {errorToast, successToast} from "../../utils/toastUtil";
+import {ErrorResponse} from "../../api/types/dto";
 
 const useCreateStock = () => {
     const queryClient = useQueryClient();
@@ -9,8 +10,8 @@ const useCreateStock = () => {
         onSuccess: () => {
             successToast("Dodano magazyn");
         },
-        onError: () => {
-            errorToast("Nie udało się dodać magazynu!");
+        onError: (error: ErrorResponse) => {
+            errorToast(error.response.data.message);
         },
         onSettled: () => queryClient.invalidateQueries({queryKey: ["stocks"]})
     })

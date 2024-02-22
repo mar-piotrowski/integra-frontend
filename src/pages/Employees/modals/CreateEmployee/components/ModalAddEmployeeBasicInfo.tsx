@@ -30,7 +30,7 @@ const ModalAddEmployeeBasicInfo = ({ control }: ModalWorkerBasicInfoProps) => {
 				<FormInput name="lastname" label="Nazwisko" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="identityNumber" label="PESEL" control={control} maxLength={11} />
+				<FormInput name="personalIdNumber" label="PESEL" control={control} maxLength={11} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<FormInput name="nip" label="NIP" control={control} />

@@ -28,17 +28,17 @@ const employeeFormDefaultValues: CreateUserRequest = {
     secondName: "",
     dateOfBirth: "",
     placeOfBirth: "",
-    pesel: "",
+    personalIdNumber: "",
     sex: 0,
     email: "",
-    identityNumber: "",
+    documentNumber: "",
     phone: "",
     citizenship: "",
     nip: "",
     isStudent: false,
     employeeAnyWherePassword: "",
     locations: [{
-        id:0,
+        id: 0,
         city: "",
         street: "",
         houseNo: "",
@@ -61,20 +61,48 @@ const validationSchema = z.object({
     id: z.number().optional(),
     firstname: z.string().min(1, "Pole jest wymagane"),
     lastname: z.string().min(1, "Pole jest wymagane"),
-    secondName: z.string().optional(),
     placeOfBirth: z.string().min(1, "Pole jest wymagane"),
     dateOfBirth: z.string().min(1, "Pole jest wymagane"),
-    pesel: z.string()
-        .length(11, "Pesel musi zawierać 11 cyfr")
-        .regex(/^[0-9]/, "Podano błędny pesel"),
+    personalIdNumber: z.string().length(11, "Pesel musi zawierać 11 cyfr").nullable(),
     sex: z.number().min(1, "Wymagane jest wybranie płci"),
     email: z.string().email("Podano błędy adres email"),
-    identityNumber: z.string().min(1, "Pole jest wymagane"),
+    documentNumber: z.string().min(1, "Pole jest wymagane").nullable(),
     phone: z.string().min(1, "Pole jest wymagane"),
     citizenship: z.string().min(1, "Pole jest wymagane"),
     nip: z.string().optional(),
-    isStudent: z.boolean(),
     employeeAnyWherePassword: z.string().min(8, "Hasło musi mięć conajmniej 8 znaków"),
+    locations: z.array(z.object({
+        city: z.string().min(1, "Pole jest wymagane"),
+        street: z.string().min(1, "Pole jest wymagane"),
+        houseNo: z.string().min(1, "Pole jest wymagane"),
+        apartmentNo: z.string().min(1, "Pole jest wymagane"),
+        postalCode: z.string().min(2, "Pole jest wymagane"),
+        country: z.string().min(1, "Pole jest wymagane"),
+        commune: z.string().min(1, "Pole jest wymagane"),
+        district: z.string().min(1, "Pole jest wymagane"),
+        province: z.string().min(1, "Pole jest wymagane"),
+        isPrivate: z.boolean(),
+        isCompany: z.boolean(),
+    })),
+    bankAccount: z.object({
+        name: z.string().min(1, "Pole jest wymagane"),
+        number: z.string().min(1, "Pole jest wymagane"),
+    })
+});
+
+const validationSchemaEdit = z.object({
+    id: z.number().optional(),
+    firstname: z.string().min(1, "Pole jest wymagane"),
+    lastname: z.string().min(1, "Pole jest wymagane"),
+    placeOfBirth: z.string().min(1, "Pole jest wymagane"),
+    dateOfBirth: z.string().min(1, "Pole jest wymagane"),
+    personalIdNumber: z.string().length(11, "Pesel musi zawierać 11 cyfr").nullable(),
+    sex: z.number().min(1, "Wymagane jest wybranie płci"),
+    email: z.string().email("Podano błędy adres email"),
+    documentNumber: z.string().min(1, "Pole jest wymagane").nullable(),
+    phone: z.string().min(1, "Pole jest wymagane"),
+    citizenship: z.string().min(1, "Pole jest wymagane"),
+    nip: z.string().optional(),
     locations: z.array(z.object({
         city: z.string().min(1, "Pole jest wymagane"),
         street: z.string().min(1, "Pole jest wymagane"),
@@ -100,7 +128,7 @@ const ModalUser = ({open, onClose, user}: ModalAddEmployeeProps) => {
     const [value, setValuePage] = React.useState("1");
     const {control, handleSubmit, reset, setValue} = useForm<CreateUserRequest>({
         defaultValues: employeeFormDefaultValues,
-        // resolver: zodResolver(validationSchema)
+        resolver: zodResolver(user != null ? validationSchemaEdit : validationSchema)
     });
 
     useEffect(() => {

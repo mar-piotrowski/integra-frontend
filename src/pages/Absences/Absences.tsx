@@ -38,6 +38,11 @@ const Absences = () => {
     const columns = useMemo<MRT_ColumnDef<UserAbsence>[]>(
         () => [
             {
+                accessorKey: "status",
+                header: "Status",
+                Cell: ({ row }) => <div>{absenceStatus(row.original.status)}</div>
+            },
+            {
                 accessorKey: "user.firstname",
                 header: "Imię"
             },
@@ -59,11 +64,6 @@ const Absences = () => {
                 accessorKey: "endDate",
                 header: "Do", Cell: ({row}) => <div>{toDateString(row.original.endDate)}</div>
             },
-            {
-                accessorKey: "status",
-                header: "Status",
-                Cell: ({row}) => <div>{absenceStatus(row.original.status)}</div>
-            }
         ],
         []
     );

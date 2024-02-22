@@ -25,7 +25,7 @@ const DocumentPw = () => {
                         <DocumentPwBaseInfo control={control} setValue={setValue}/>
                     </Grid>
                     <Grid item md={12} lg={6}>
-                        <DocumentCalculations control={control}/>
+                        <DocumentCalculations control={control} setValue={setValue}/>
                     </Grid>
                     <Grid item xs={12}>
                         <DocumentArticle control={control}/>

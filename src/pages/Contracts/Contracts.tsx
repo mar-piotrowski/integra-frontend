@@ -5,7 +5,9 @@ import {MRT_ColumnDef} from "material-react-table";
 import {useNavigate} from "react-router-dom";
 import useGetContracts from "../../hooks/contract/useGetContracts";
 import {toDateString} from "../../utils/dateHelper";
-import {ContractDto} from "../../api/types/documentTypes";
+import {ContractDto, DocumentType} from "../../api/types/documentTypes";
+import {contractTypeMapper} from "../../constants/mappers";
+import ContractStatus from "../../components/ContractStatus";
 
 const Contracts = () => {
     const {data: contracts} = useGetContracts();
@@ -14,10 +16,9 @@ const Contracts = () => {
     const columns = useMemo<MRT_ColumnDef<ContractDto>[]>(
         () => [
             {
-                accesorKey: "id",
-                header: "Id",
-                size: 50,
-                Cell: ({row}) => <div>{row.original.id}</div>
+                header: "Status",
+                Cell: ({ row }) => <ContractStatus status={row.original.status} />,
+                size: 100
             },
             {
                 header: "Pracownik",
@@ -25,7 +26,8 @@ const Contracts = () => {
             },
             {
                 accessorKey: "contractType",
-                header: "Typ"
+                header: "Typ",
+                Cell: ({row}) => <div>{contractTypeMapper(row.original.contractType)}</div>
             },
             {
                 header: "Wymiar",

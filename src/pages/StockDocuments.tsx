@@ -1,5 +1,0 @@
-const StockDocuments = () => {
-    return (
-        
-    );
-};
