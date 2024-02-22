@@ -11,14 +11,16 @@ export type DeleteUserSchedule = {
 const useDeleteUserSchedule = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async (payload: DeleteUserSchedule) => await employeeService.removeSchedule(payload),
+        mutationFn:  employeeService.delete,
         onSuccess: () => {
-            successToast("Usunięto grafik pracownika")
+            successToast("Usunięto pracownika")
         },
         onError: (response: ErrorResponse) => {
             errorToast(response.response.data.message);
         },
-        onSettled: (data, error, variables) => queryClient.invalidateQueries([`schedules_user_id_${variables.userId}`])
+        onSettled: () =>{
+            queryClient.invalidateQueries(["users"]);
+        }
     });
 }
 

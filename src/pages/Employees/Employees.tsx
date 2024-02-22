@@ -17,12 +17,18 @@ import {UserDto} from "../../api/types/userTypes";
 import {useUsers} from "../../hooks/employee/useUsers";
 import {useNavigate} from "react-router-dom";
 import {useBoolean} from "../../hooks/useBoolean";
+import ModalDeleteUser from "../../features/modals/ModalDeleteUser";
 
 const Employees = () => {
     const {
         value: createEmployeeModal,
         setTrue: openCreateEmployeeModal,
         setFalse: closeCreateEmployeeModal
+    } = useBoolean();
+    const {
+        value: deleteEmployeeModal,
+        setTrue: openDeleteEmployeeModal,
+        setFalse: closeDeleteEmployeeModal
     } = useBoolean();
     const {data: users} = useUsers();
     const navigate = useNavigate();
@@ -59,6 +65,11 @@ const Employees = () => {
         setUser(null);
     }
 
+    const handleOnCloseDeleteUserModal = () => {
+        closeDeleteEmployeeModal();
+        setUser(null);
+    }
+
     return (
         <>
             <Box sx={{flexGrow: 1}}>
@@ -92,7 +103,11 @@ const Employees = () => {
                                     </ListItemIcon>
                                     <ListItemText>Edytuj</ListItemText>
                                 </MenuItem>,
-                                <MenuItem key="delete" onClick={() => console.info("Delete")}>
+                                <MenuItem key="delete" onClick={() => {
+                                    closeMenu();
+                                    setUser(row.original);
+                                    openDeleteEmployeeModal();
+                                }}>
                                     <ListItemIcon>
                                         <DeleteOutlineOutlinedIcon/>
                                     </ListItemIcon>
@@ -109,6 +124,15 @@ const Employees = () => {
                         open={createEmployeeModal}
                         onClose={handleOnCloseAddUserModal}
                         user={user}
+                    />
+                    : null
+            }
+            {
+                deleteEmployeeModal
+                ? <ModalDeleteUser
+                        isOpen={deleteEmployeeModal}
+                        onClose={handleOnCloseDeleteUserModal}
+                        userId={user!.id}
                     />
                     : null
             }
