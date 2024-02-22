@@ -1,21 +1,41 @@
-import {Button, Grid, Typography} from "@mui/material";
-import React from "react";
+import {Grid} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import DocumentInvoiceBaseInfo from "./DocumentInvoiceBaseInfo";
 import DocumentArticle from "../../../features/document/DocumentArticle";
 import DocumentContractor from "../../../features/document/DocumentContractor";
 import DocumentCalculations from "../../../features/document/DocumentCalculations";
-import {DocumentDetails} from "../../../api/types/documentTypes";
+import {DocumentDetails, DocumentType} from "../../../api/types/documentTypes";
 import {ContractorDto} from "../../../api/types/contractorTypes";
 import {defaultValues} from "../../Invoices/Invoices";
+import {useNavigate} from "react-router-dom";
+import useCreateDocument from "../../../hooks/documents/useCreateDocument";
+import DocumentHeader from "../../../features/document/DocumentHeader";
 
 const DocumentInvoice = () => {
+    const navigate = useNavigate();
+    const [lock, setLock] = useState(false);
+    const {mutate: createDocumentMutate, isSuccess: createDocumentSuccess} = useCreateDocument();
     const {control, handleSubmit, setValue} = useForm<DocumentDetails>({
         defaultValues,
     });
 
+    useEffect(() => {
+        if (createDocumentSuccess)
+            navigate("/management-panel/invoices")
+    }, [createDocumentSuccess]);
+
     const onSubmitHandler: SubmitHandler<DocumentDetails> = (data) => {
-        console.log(data);
+        createDocumentMutate({
+            ...data,
+            type: DocumentType.Invoice,
+            locked: lock,
+            contractorId: data.contractor!.id,
+            articles: data.articles.map(article => ({
+                id: article.id,
+                amount: article.amount
+            }))
+        });
     };
 
     const handleSetContractor = (contractor: ContractorDto) => {
@@ -26,15 +46,11 @@ const DocumentInvoice = () => {
         <>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <Grid sx={{flexGrow: 1}} container spacing={4}>
-                    <Grid item container>
-                        <Grid item xs={6}>
-                            <Typography variant={"h3"} mb={2}>Wystawianie Faktury</Typography>
-                        </Grid>
-                        <Grid item xs={6} sx={{display: "flex", justifyContent: "flex-end", gap: "10px",}}>
-                            <Button disableElevation variant="contained" type="submit" color="primary"> Zapisz na stale </Button>
-                            <Button disableElevation variant="contained" type="submit" color="primary"> Zapisz tymczasowo</Button>
-                            <Button disableElevation variant="contained" color="error"> Anuluj </Button>
-                        </Grid>
+                    <Grid item xs={12}>
+                        <DocumentHeader
+                            title={"Faktura"}
+                            setLockDocument={() => setLock(true)}
+                        />
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <DocumentInvoiceBaseInfo control={control}/>
@@ -43,7 +59,7 @@ const DocumentInvoice = () => {
                         <DocumentContractor setContractor={handleSetContractor} control={control}/>
                     </Grid>
                     <Grid item md={12} lg={4}>
-                        <DocumentCalculations control={control}/>
+                        <DocumentCalculations control={control} setValue={setValue}/>
                     </Grid>
                     <Grid item xs={12}>
                         <DocumentArticle control={control}/>

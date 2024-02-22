@@ -60,7 +60,7 @@ const FormSelect = <T extends FieldValues>({
                             labelId="demo-select-small-label"
                             onChange={(value) => onChange(value)}
                             error={!!error}
-                            value={value == 0 ? "" : value}
+                            value={value == 0 || value == null ? "" : value}
                             label={label}
                         >
                             {renderedMenuItems}

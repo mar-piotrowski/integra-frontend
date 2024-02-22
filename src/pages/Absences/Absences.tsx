@@ -2,7 +2,6 @@ import {Grid} from "@mui/material";
 import {Box} from "@mui/system";
 import React, {useMemo} from "react";
 import CustomTable from "../../components/CustomTable";
-import ShowAmount from "../../components/ShowAmount";
 import {MRT_ColumnDef} from "material-react-table";
 import {useNavigate} from "react-router-dom";
 import useAbsences from "../../hooks/absence/useAbsences";
@@ -39,6 +38,11 @@ const Absences = () => {
     const columns = useMemo<MRT_ColumnDef<UserAbsence>[]>(
         () => [
             {
+                accessorKey: "status",
+                header: "Status",
+                Cell: ({ row }) => <div>{absenceStatus(row.original.status)}</div>
+            },
+            {
                 accessorKey: "user.firstname",
                 header: "Imię"
             },
@@ -60,11 +64,6 @@ const Absences = () => {
                 accessorKey: "endDate",
                 header: "Do", Cell: ({row}) => <div>{toDateString(row.original.endDate)}</div>
             },
-            {
-                accessorKey: "status",
-                header: "Status",
-                Cell: ({row}) => <div>{absenceStatus(row.original.status)}</div>
-            }
         ],
         []
     );
@@ -73,16 +72,7 @@ const Absences = () => {
         <>
             <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={2} justifyContent="flex-end">
-                    <Grid item xs={12} sm={4} md={3} lg={2}>
-                        <ShowAmount label="Oczekujące" value={100} color="blue"/>
-                    </Grid>
-                    <Grid item xs={12} sm={4} md={3} lg={2}>
-                        <ShowAmount label="Zaakceptowane" value={100} color="green"/>
-                    </Grid>
-                    <Grid item xs={12} sm={4} md={3} lg={2}>
-                        <ShowAmount label="Odrzucone" value={100} color="red"/>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12}>
+                    <Grid item xs={12}>
                         <CustomTable
                             columns={columns}
                             data={absences ?? []}
@@ -92,7 +82,6 @@ const Absences = () => {
                                     navigate(`/management-panel/employee/${row.original.user.id}/absence`),
                                 sx: {cursor: "pointer"}
                             })}
-
                         />
                     </Grid>
                 </Grid>

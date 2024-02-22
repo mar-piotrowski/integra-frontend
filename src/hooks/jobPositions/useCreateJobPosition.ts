@@ -9,15 +9,11 @@ const useCreateJobPosition = () => {
         mutationFn: async (jobPosition: JobPositionForm) => await jobPositionService.create(jobPosition),
         onSuccess: (data, variable) => {
             successToast("Dodano stanowisko");
-            queryClient.setQueryData<Partial<JobPosition>[] | undefined>(["jobPositions"], (data) => {
-                if (data != undefined)
-                    return [...data, { title: variable.title }]
-            });
         },
         onError: (data: ErrorResponse) => {
             errorToast(data.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries(["jobPosition"])
+        onSettled: () => queryClient.invalidateQueries(["jobPositions"])
     })
 }
 

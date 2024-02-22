@@ -27,7 +27,7 @@ const CancelCreateContractDialog = ({ isOpen: open, onClose, reset }: CancelCont
                 <DialogActions>
                     <Button variant={"contained"} color={"error"} onClick={() => {
                         onClose();
-                        navigate(-1);
+                        navigate("/management-panel/employees");
                         reset();
                     }}>
                         Wyjdź

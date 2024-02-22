@@ -63,7 +63,7 @@ const ProfileUserJobHistory = () => {
 
     return (
         <>
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
                 <Grid item xs={12}>
                     <HeaderAction title="Historia zatrudnienia">
                         <Button
@@ -76,6 +76,7 @@ const ProfileUserJobHistory = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <CustomTable
+                        enableTopToolbar={false}
                         columns={columns}
                         data={jobHistories ?? []}
                         enableRowActions

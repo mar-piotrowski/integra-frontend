@@ -3,20 +3,21 @@ import absenceService from "../../api/services/absenceService";
 import { errorToast, successToast } from "../../utils/toastUtil";
 import { ErrorResponse } from "../../api/types/dto";
 
-const useUpdateAbsence = () => {
+const useUpdateAbsence = (userId: number) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationKey: ["userAbsence"],
         mutationFn: absenceService.update,
-        onSuccess(data, variables, context) {
+        onSuccess() {
             successToast("Edytowano nieobecność")
         },
-        onError(error: ErrorResponse, variables, context) {
+        onError(error: ErrorResponse) {
             errorToast(error.response.data.message);
         },
-        onSettled(data, error, variables, context) {
-            queryClient.invalidateQueries(["absences"])
-        },
+        onSettled: () => {
+            queryClient.invalidateQueries([`absences_user_id_${userId}`]);
+            queryClient.invalidateQueries([`holidayLimits_user_id_${userId}`])
+        }
     });
 };
 

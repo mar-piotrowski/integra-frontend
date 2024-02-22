@@ -15,6 +15,10 @@ const employeeTabs = [
         link: "schedule"
     },
     {
+        title: "Czas pracy",
+        link: "working-times"
+    },
+    {
         title: "Nieobecności",
         link: "absence"
     },
@@ -25,6 +29,10 @@ const employeeTabs = [
     {
         title: "Umowy",
         link: "contracts"
+    },
+    {
+        title: "Karty",
+        link: "cards"
     },
 ]
 

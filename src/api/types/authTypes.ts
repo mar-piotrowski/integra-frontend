@@ -15,3 +15,9 @@ export type DecodedToken = {
     permissions: number[];
     userId: number;
 }
+
+export type ChangePasswordRequest = {
+    userId: number;
+    currentPassword: string;
+    newPassword: string;
+}

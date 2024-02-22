@@ -1,26 +1,19 @@
 import { useMutation, useQueryClient } from "react-query";
 import { errorToast, successToast } from "../../utils/toastUtil";
 import { schoolHistoryService } from "../../api/services/schoolHistoryService";
-import { SchoolHistoryDto } from "../../api/types/documentTypes";
+import {ErrorResponse} from "../../api/types/dto";
 
-const useDeleteSchoolHistory = (jobHistoryId: number) => {
+const useDeleteSchoolHistory = (userId: number, jobHistoryId: number) => {
     const queryClient = useQueryClient();
     return useMutation(
         () => schoolHistoryService.delete(jobHistoryId), {
         onSuccess: () => {
             successToast("Usunięto historię wykształcenia");
-            var schoolHistories: (SchoolHistoryDto[] | undefined) = queryClient.getQueryData(["schoolHistories"]);
-            if (schoolHistories?.length == 1)
-                queryClient.setQueryData(["schoolHistories"], []);
-            queryClient.setQueryData<Partial<SchoolHistoryDto>[] | undefined>(["schoolHistories"], (data) => {
-                if (data != undefined)
-                    return data.filter(jobHistory => jobHistory.id != jobHistoryId)
-            })
         },
-        onError: () => {
-            errorToast("Nie udało się dodać historii wykształcenia!");
+        onError: (error: ErrorResponse) => {
+            errorToast(error.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ["schoolHistories"] })
+        onSettled: () => queryClient.invalidateQueries([`schoolHistories_user_id_${userId}`])
     });
 }
 

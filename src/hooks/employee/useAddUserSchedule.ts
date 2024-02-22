@@ -10,10 +10,12 @@ const useAddUserSchedule = () => {
         onSuccess: () => {
             successToast("Dodano pracownika");
         },
-        onError: (response: ErrorResponse) => {
-            errorToast(response.response.data.message);
+        onError: (data: ErrorResponse) => {
+            errorToast(data.response.data.message);
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: ["userSchedule"] })
+        onSettled: (data, variables, context) => {
+            queryClient.invalidateQueries([`schedules_user_id_${context.userId}`])
+        }
     });
 };
 

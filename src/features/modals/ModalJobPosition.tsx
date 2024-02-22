@@ -16,9 +16,9 @@ const defaultValues: JobPositionForm = {
     title: ""
 };
 
-const JobPositionModal = ({ isOpen, onClose, jobPositionEdit }: JobPositionModalProps) => {
+const ModalJobPosition = ({ isOpen, onClose, jobPositionEdit }: JobPositionModalProps) => {
     const { control, handleSubmit, reset: resetForm } = useForm<JobPositionForm>({ defaultValues })
-    const { mutate: createJobPositonMutate, isSuccess: createSuccess } = useCreateJobPosition();
+    const { mutate: createJobPositionMutate, isSuccess: createSuccess } = useCreateJobPosition();
     const { mutate: editJobPositionMutate, isSuccess: editSuccess } = useEditJobPosition()
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const JobPositionModal = ({ isOpen, onClose, jobPositionEdit }: JobPositionModal
 
     const handleOnSubmit: SubmitHandler<JobPositionForm> = (data: JobPositionForm) => {
         if (jobPositionEdit == null)
-            createJobPositonMutate(data);
+            createJobPositionMutate(data);
         else
             editJobPositionMutate({
                 id: jobPositionEdit.id,
@@ -81,4 +81,4 @@ const JobPositionModal = ({ isOpen, onClose, jobPositionEdit }: JobPositionModal
     );
 };
 
-export default JobPositionModal;
+export default ModalJobPosition;

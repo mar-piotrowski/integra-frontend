@@ -8,7 +8,7 @@ const useCreateHolidayLimit = () => {
 
     return useMutation({
         mutationFn: holidayLimitService.create,
-        onSuccess: (data, variables) => {
+        onSuccess: () => {
             successToast("Dodanie limit urlopowy");
         },
         onError: (data: ErrorResponse) => {

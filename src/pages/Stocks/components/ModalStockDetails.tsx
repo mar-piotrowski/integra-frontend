@@ -49,7 +49,7 @@ const ModalStockDetails = ({isOpen, onClose, stock}: ModalStockDetailsProps) => 
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <CustomTable columns={columns} data={stock.articles}/>
+                    <CustomTable enableTopToolbar={false} columns={columns} data={stock.articles}/>
                 </Grid>
                 <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
                     <Button disableElevation color={"error"} variant={"contained"} onClick={onClose}>Wyjdź</Button>

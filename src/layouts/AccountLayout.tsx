@@ -13,6 +13,10 @@ const managePanelTabItems: CustomTabItem[] = [
         link: "/management-panel/account/schedule"
     },
     {
+        title: "Czas pracy",
+        link: "/management-panel/account/working-times"
+    },
+    {
         title: "Nieobecności",
         link: "/management-panel/account/absences"
     },
@@ -25,10 +29,14 @@ const managePanelTabItems: CustomTabItem[] = [
         link: "/management-panel/account/contracts"
     },
     {
+        title: "Karty",
+        link: "/management-panel/account/cards"
+    },
+    {
         title: "Prywatność",
         link: "/management-panel/account/privacy"
     }
-]
+];
 
 const employeePanelTabItems: CustomTabItem[] = [
     {
@@ -36,10 +44,14 @@ const employeePanelTabItems: CustomTabItem[] = [
         link: "/employee-panel/account"
     },
     {
+        title: "Karty",
+        link: "/employee-panel/account/cards"
+    },
+    {
         title: "Prywatność",
         link: "/employee-panel/account/privacy"
     }
-]
+];
 
 interface AccountLayoutProps {
     type: "employee" | "panel"

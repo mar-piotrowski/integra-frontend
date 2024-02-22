@@ -1,8 +1,8 @@
-import { useMutation } from "react-query";
-import { articleService } from "../../api/services/articleService";
-import { errorToast, successToast } from "../../utils/toastUtil";
-import { queryClient } from "../../App";
-import { ErrorResponse } from "../../api/types/dto";
+import {useMutation} from "react-query";
+import {articleService} from "../../api/services/articleService";
+import {errorToast, successToast} from "../../utils/toastUtil";
+import {queryClient} from "../../App";
+import {ErrorResponse} from "../../api/types/dto";
 
 const useEditArticle = () => useMutation({
     mutationFn: articleService.update,
@@ -12,7 +12,11 @@ const useEditArticle = () => useMutation({
     onError: (data: ErrorResponse) => {
         errorToast(data.response.data.message);
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["articles"] })
+    onSettled: () => {
+        queryClient.invalidateQueries({queryKey: ["articles"]});
+        queryClient.invalidateQueries({queryKey: ["stocks"]});
+        queryClient.invalidateQueries({queryKey: ["stockDocuments"]});
+    }
 });
 
 export default useEditArticle;

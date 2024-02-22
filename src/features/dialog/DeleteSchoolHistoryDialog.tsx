@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { DialogProps } from "../../interfaces/dialog";
+import React, {useEffect} from "react";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {DialogProps} from "../../interfaces/dialog";
 import useDeleteSchoolHistory from "../../hooks/schoolHistory/useDeleteSchoolHistory";
+import useAuth from "../../hooks/auth/useAuth";
 
 interface DeleteSchoolHistoryDialogProps extends DialogProps {
     schoolHistoryId: number;
 }
 
-const DeleteSchoolHistoryDialog = ({ isOpen: open, onClose, schoolHistoryId }: DeleteSchoolHistoryDialogProps) => {
-    const { mutate, isSuccess } = useDeleteSchoolHistory(schoolHistoryId);
+const DeleteSchoolHistoryDialog = ({isOpen: open, onClose, schoolHistoryId}: DeleteSchoolHistoryDialogProps) => {
+    const {userId} = useAuth();
+    const {mutate, isSuccess} = useDeleteSchoolHistory(parseInt(userId!), schoolHistoryId);
 
     useEffect(() => {
         if (isSuccess) {

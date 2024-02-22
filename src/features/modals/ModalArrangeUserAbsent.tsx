@@ -1,18 +1,18 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import {Button, Grid, TextField, Typography} from "@mui/material";
 import CustomModal from "../../components/CustomModal";
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
-import FormSelect, { FormSelectOption } from "../../components/Form/FormSelect";
+import React, {useEffect, useState} from "react";
+import {SubmitHandler, useForm, useWatch} from "react-hook-form";
+import FormSelect, {FormSelectOption} from "../../components/Form/FormSelect";
 import FormDate from "../../components/Form/FormDate";
 import FormInput from "../../components/Form/FormInput";
-import { z } from "Zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {z} from "Zod";
+import {zodResolver} from "@hookform/resolvers/zod";
 import moment from "moment";
 import useCreateAbsence from "../../hooks/absence/useCreateAbsence";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import FormCheckBox from "../../components/Form/FormCheckBox";
-import { AbsenceType } from "../../constants/enums";
-import { UpdateAbsence } from "../../api/types/absenceTypes";
+import {AbsenceType} from "../../constants/enums";
+import {UpdateAbsence} from "../../api/types/absenceTypes";
 import useUpdateAbsence from "../../hooks/absence/useUpdateAbsence";
 
 interface ModalArrangeUserAbsentProps {
@@ -53,9 +53,9 @@ const validationSchema = z.object({
     endDate: z.string().min(1, "Pole wymagane"),
     type: z.string().min(1, "Pole wymagane"),
     accepted: z.boolean(),
-    diseaseCode: z.string().nullable(),
-    description: z.string().nullable(),
-    series: z.string().nullable(),
+    diseaseCode: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
+    series: z.string().nullable().optional(),
     number: z.string().nullable()
 });
 
@@ -70,20 +70,23 @@ const absentTypes: FormSelectOption[] = [
     },
 ]
 
-const ModalArrangeUserAbsent = ({ open, onClose, absence }: ModalArrangeUserAbsentProps) => {
-    const { mutate: createAbsence, isSuccess: createAbsenceSuccess } = useCreateAbsence();
-    const { mutate: updateAbsence, isSuccess: updateAbsenceSuccess } = useUpdateAbsence();
-    const { userId } = useParams();
-    const [calculateArrange, setCalculateArrange] = useState<CalculateArrange>({ days: 0, hours: 0 });
-    const { control, handleSubmit, reset } = useForm<UserAbsentReasonForm>({ defaultValues });
+const ModalArrangeUserAbsence = ({open, onClose, absence}: ModalArrangeUserAbsentProps) => {
+    const {userId} = useParams();
+    const {mutate: createAbsence, isSuccess: createAbsenceSuccess} = useCreateAbsence();
+    const {mutate: updateAbsence, isSuccess: updateAbsenceSuccess} = useUpdateAbsence(parseInt(userId));
+    const [calculateArrange, setCalculateArrange] = useState<CalculateArrange>({days: 0, hours: 0});
+    const {control, handleSubmit, reset} = useForm<UserAbsentReasonForm>({
+        defaultValues,
+        resolver: zodResolver(validationSchema)
+    });
 
-    const absenceTypeWatch = useWatch({ name: "type", control });
-    const startDateWatch = useWatch({ name: "startDate", control });
-    const endDateWatch = useWatch({ name: "endDate", control });
+    const absenceTypeWatch = useWatch({name: "type", control});
+    const startDateWatch = useWatch({name: "startDate", control});
+    const endDateWatch = useWatch({name: "endDate", control});
 
     useEffect(() => {
         if (absence == null) return;
-        reset({ ...absence, type: absence.type.toString() });
+        reset({...absence, type: absence.type.toString()});
     }, [absence]);
 
     useEffect(() => {
@@ -98,10 +101,10 @@ const ModalArrangeUserAbsent = ({ open, onClose, absence }: ModalArrangeUserAbse
 
     useEffect(() => {
         if (startDateWatch == "" || endDateWatch == "") return;
-        var startDate = moment(startDateWatch);
-        var endDate = moment(endDateWatch);
+        const startDate = moment(startDateWatch);
+        const endDate = moment(endDateWatch);
         if (startDate > endDate) {
-            setCalculateArrange({ days: 0, hours: 0 });
+            setCalculateArrange({days: 0, hours: 0});
             return;
         }
         setCalculateArrange({
@@ -130,7 +133,7 @@ const ModalArrangeUserAbsent = ({ open, onClose, absence }: ModalArrangeUserAbse
 
     const handleOnClose = () => {
         onClose();
-        setCalculateArrange({ days: 0, hours: 0 });
+        setCalculateArrange({days: 0, hours: 0});
         reset(defaultValues);
     }
 
@@ -142,29 +145,29 @@ const ModalArrangeUserAbsent = ({ open, onClose, absence }: ModalArrangeUserAbse
                 </Grid>
                 <Grid item>
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
-                        <Grid sx={{ flexGrow: 1 }} item container spacing={2}>
+                        <Grid sx={{flexGrow: 1}} item container spacing={2}>
                             <Grid item xs={12}>
-                                <FormSelect name="type" label="Typ urlopu" control={control} options={absentTypes} />
+                                <FormSelect name="type" label="Typ urlopu" control={control} options={absentTypes}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"startDate"} label={"Rozpoczęcie"} control={control} />
+                                <FormDate name={"startDate"} label={"Rozpoczęcie"} control={control}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"endDate"} label={"Zakończenie"} control={control} />
+                                <FormDate name={"endDate"} label={"Zakończenie"} control={control}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <TextField value={calculateArrange.hours} label="Ilość godzin" sx={{ width: "100%" }} />
+                                <TextField value={calculateArrange.hours} label="Ilość godzin" sx={{width: "100%"}}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <TextField value={calculateArrange.days} label="Ilość dni" sx={{ width: "100%" }} />
+                                <TextField value={calculateArrange.days} label="Ilość dni" sx={{width: "100%"}}/>
                             </Grid>
                             <Grid item>
-                                <FormCheckBox name="accepted" label="Zaakceptuj nieobecność" control={control} />
+                                <FormCheckBox name="accepted" label="Zaakceptuj nieobecność" control={control}/>
                             </Grid>
                             <Grid item xs={12}>
                                 {
                                     parseInt(absenceTypeWatch) === 2
-                                        ? <FormInput name="diseaseCode" label="Kod choroby" control={control} />
+                                        ? <FormInput name="diseaseCode" label="Kod choroby" control={control}/>
                                         : null
                                 }
                             </Grid>
@@ -174,10 +177,10 @@ const ModalArrangeUserAbsent = ({ open, onClose, absence }: ModalArrangeUserAbse
                                     label="Opis"
                                     multiline
                                     rows={4}
-                                    sx={{ width: "100%" }}
+                                    sx={{width: "100%"}}
                                 />
                             </Grid>
-                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "flex-end", gap: "10px", }} >
+                            <Grid item xs={12} sx={{display: "flex", justifyContent: "flex-end", gap: "10px",}}>
                                 <Button variant="contained" color="error" onClick={handleOnClose}>
                                     Anuluj
                                 </Button>
@@ -193,4 +196,4 @@ const ModalArrangeUserAbsent = ({ open, onClose, absence }: ModalArrangeUserAbse
     )
 }
 
-export default ModalArrangeUserAbsent;
+export default ModalArrangeUserAbsence;

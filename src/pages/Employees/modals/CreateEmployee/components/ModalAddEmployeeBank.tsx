@@ -1,26 +1,21 @@
 import { Grid } from "@mui/material";
 import { Control } from "react-hook-form";
 import FormInput from "../../../../../components/Form/FormInput";
-import { EmployeeForm } from "../ModalAddEmployee";
 import React from "react";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import { CreateUserRequest } from "../../../../../api/types/userTypes";
 
 interface ModalWorkerBankProps {
-	control: Control<CreateUser>;
+	control: Control<CreateUserRequest>;
 }
 
 const ModalAddEmployeeBank = ({ control }: ModalWorkerBankProps) => {
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
-				<FormInput name="bank.name" label="Nazwa banku" control={control} />
+				<FormInput name="bankAccount.name" label="Nazwa banku" control={control} />
 			</Grid>
 			<Grid item xs={12}>
-				<FormInput
-					name="bank.number"
-					label="Numer rachunku"
-					control={control}
-				/>
+				<FormInput name="bankAccount.number" label="Numer rachunku" control={control} />
 			</Grid>
 		</Grid>
 	);

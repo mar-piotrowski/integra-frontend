@@ -9,13 +9,13 @@ import useGetContracts from "../../hooks/contract/useGetContracts";
 import { toDateString } from "../../utils/dateHelper";
 import ContentPasteOffOutlinedIcon from '@mui/icons-material/ContentPasteOffOutlined';
 import ContractDetailsModal from "../../features/modals/contractDetails/ContractDetailsModal";
-import { useParams } from "react-router-dom";
+import useAuth from "../../hooks/auth/useAuth";
 
 const EmployeePanelContracts = () => {
     const [openDetailsContractModal, setOpenDetailsContractModal] = useState<boolean>(false);
     const [contract, setContract] = useState<ContractDto | null>(null);
-    const { userId } = useParams();
-    const { data: contracts } = useGetContracts(parseInt(userId!));
+    const {auth} = useAuth();
+    const { data: contracts } = useGetContracts(auth!.userId);
 
     const columns = useMemo<MRT_ColumnDef<ContractDto>[]>(
         () => [
@@ -65,7 +65,6 @@ const EmployeePanelContracts = () => {
                 <Grid item xs={12}>
                     <CustomTable
                         columns={columns}
-                        enableRowActions
                         data={contracts ?? []}
                         muiTableBodyRowProps={({ row }) => ({
                             onClick: () => {
@@ -74,16 +73,6 @@ const EmployeePanelContracts = () => {
                             },
                             sx: { cursor: "pointer" }
                         })}
-                        renderRowActionMenuItems={({ closeMenu, row }) => [
-                            <MenuItem key="cancel" onClick={() => {
-                                closeMenu();
-                            }}>
-                                <ListItemIcon>
-                                    <ContentPasteOffOutlinedIcon />
-                                </ListItemIcon>
-                                <ListItemText>Wypowiedz</ListItemText>
-                            </MenuItem>,
-                        ]}
                     />
                 </Grid>
             </Grid>

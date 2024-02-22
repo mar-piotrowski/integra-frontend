@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import CustomModal from "../../components/CustomModal";
-import { Button, Grid, Typography } from "@mui/material";
-import { SubmitHandler, useForm } from "react-hook-form";
+import {Button, Grid, Typography} from "@mui/material";
+import {SubmitHandler, useForm} from "react-hook-form";
 import FormDate from "../../components/Form/FormDate";
 import FormInput from "../../components/Form/FormInput";
-import { ModalBaseProps } from "../../interfaces/modal";
-import { JobHistory, JobHistoryDto } from "../../api/types/documentTypes";
+import {ModalBaseProps} from "../../interfaces/modal";
+import {JobHistory, JobHistoryDto} from "../../api/types/documentTypes";
 import useCreateJobHistory from "../../hooks/workHistory/useCreateJobHistory";
 import useUpdateJobHistory from "../../hooks/workHistory/useUpdateJobHistory";
 import useAuth from "../../hooks/auth/useAuth";
-import { z } from "Zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams } from "react-router-dom";
+import {z} from "Zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useParams} from "react-router-dom";
 
 interface EmployeeWorkHistoryModalProps extends ModalBaseProps {
     jobHistory?: JobHistoryDto | null;
@@ -31,11 +31,15 @@ const validationSchema = z.object({
     endDate: z.string().min(1, "Podaj date rozwiazania umowy")
 })
 
-const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHistoryModalProps) => {
-    const { userId } = useParams();
-    const { mutate: createJobHistoryMutation, isSuccess: createSuccess, reset: createReset } = useCreateJobHistory();
-    const { mutate: updateJobHistoryMutation, isSuccess: updateSuccess, reset: updateReset } = useUpdateJobHistory();
-    const { handleSubmit, reset, control } = useForm<JobHistory>({
+const EmployeeJobHistoryModal = ({open, onClose, jobHistory}: EmployeeWorkHistoryModalProps) => {
+    const {userId} = useParams();
+    const {mutate: createJobHistoryMutation, isSuccess: createSuccess, reset: createReset} = useCreateJobHistory();
+    const {
+        mutate: updateJobHistoryMutation,
+        isSuccess: updateSuccess,
+        reset: updateReset
+    } = useUpdateJobHistory(parseInt(userId!));
+    const {handleSubmit, reset, control} = useForm<JobHistory>({
         defaultValues: employeeSchoolHistoryDefaultValues,
         resolver: zodResolver(validationSchema)
     });
@@ -54,7 +58,7 @@ const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHist
         if (jobHistory != null) {
             updateJobHistoryMutation({
                 jobHistoryId: jobHistory.id,
-                jobHistory: { ...data }
+                jobHistory: {...data}
             });
             return;
         }
@@ -84,16 +88,16 @@ const EmployeeJobHistoryModal = ({ open, onClose, jobHistory }: EmployeeWorkHist
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <Grid item container spacing={2}>
                             <Grid item xs={12} md={6}>
-                                <FormInput name={"companyName"} label={"Nazwa firmy"} control={control} />
+                                <FormInput name={"companyName"} label={"Nazwa firmy"} control={control}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormInput name={"position"} label={"Stanowisko"} control={control} />
+                                <FormInput name={"position"} label={"Stanowisko"} control={control}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"startDate"} label={"Data rozpoczęcia"} control={control} />
+                                <FormDate name={"startDate"} label={"Data rozpoczęcia"} control={control}/>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <FormDate name={"endDate"} label={"Data zakończenia"} control={control} />
+                                <FormDate name={"endDate"} label={"Data zakończenia"} control={control}/>
                             </Grid>
                             <Grid
                                 item

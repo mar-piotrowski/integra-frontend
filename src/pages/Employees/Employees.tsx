@@ -1,5 +1,5 @@
 import {MRT_ColumnDef} from "material-react-table";
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import {
     Box,
     Button,
@@ -8,7 +8,7 @@ import {
     ListItemText,
     MenuItem,
 } from "@mui/material";
-import ModalAddEmployee from "./modals/CreateEmployee/ModalAddEmployee";
+import ModalUser from "./modals/CreateEmployee/ModalUser";
 import ShowAmount from "../../components/ShowAmount";
 import CustomTable from "../../components/CustomTable";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -17,6 +17,7 @@ import {UserDto} from "../../api/types/userTypes";
 import {useUsers} from "../../hooks/employee/useUsers";
 import {useNavigate} from "react-router-dom";
 import {useBoolean} from "../../hooks/useBoolean";
+import ModalDeleteUser from "../../features/modals/ModalDeleteUser";
 
 const Employees = () => {
     const {
@@ -24,8 +25,14 @@ const Employees = () => {
         setTrue: openCreateEmployeeModal,
         setFalse: closeCreateEmployeeModal
     } = useBoolean();
-    const {data: employees} = useUsers();
+    const {
+        value: deleteEmployeeModal,
+        setTrue: openDeleteEmployeeModal,
+        setFalse: closeDeleteEmployeeModal
+    } = useBoolean();
+    const {data: users} = useUsers();
     const navigate = useNavigate();
+    const [user, setUser] = useState<UserDto | null>(null);
 
     const columns = useMemo<MRT_ColumnDef<UserDto>[]>(
         () => [
@@ -53,6 +60,16 @@ const Employees = () => {
         []
     );
 
+    const handleOnCloseAddUserModal = () => {
+        closeCreateEmployeeModal();
+        setUser(null);
+    }
+
+    const handleOnCloseDeleteUserModal = () => {
+        closeDeleteEmployeeModal();
+        setUser(null);
+    }
+
     return (
         <>
             <Box sx={{flexGrow: 1}}>
@@ -66,15 +83,6 @@ const Employees = () => {
                             Dodaj pracownika
                         </Button>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Ilość pracowników" value={employees?.length ?? 0} color="blue"/>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Aktywnych" value={100} color="green"/>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3} lg={2}>
-                        <ShowAmount label="Nieaktywnych" value={100} color="red"/>
-                    </Grid>
                     <Grid item xs={12}>
                         <CustomTable
                             muiTableBodyRowProps={({row}) => ({
@@ -82,15 +90,24 @@ const Employees = () => {
                                 sx: {cursor: "pointer"}
                             })}
                             columns={columns}
-                            data={employees ?? []}
-                            renderRowActionMenuItems={() => [
-                                <MenuItem key="edit" onClick={() => console.info("Edit")}>
+                            data={users ?? []}
+                            enableRowActions
+                            renderRowActionMenuItems={({row, closeMenu}) => [
+                                <MenuItem key="edit" onClick={() => {
+                                    closeMenu();
+                                    setUser(row.original);
+                                    openCreateEmployeeModal();
+                                }}>
                                     <ListItemIcon>
                                         <EditOutlinedIcon/>
                                     </ListItemIcon>
                                     <ListItemText>Edytuj</ListItemText>
                                 </MenuItem>,
-                                <MenuItem key="delete" onClick={() => console.info("Delete")}>
+                                <MenuItem key="delete" onClick={() => {
+                                    closeMenu();
+                                    setUser(row.original);
+                                    openDeleteEmployeeModal();
+                                }}>
                                     <ListItemIcon>
                                         <DeleteOutlineOutlinedIcon/>
                                     </ListItemIcon>
@@ -103,9 +120,19 @@ const Employees = () => {
             </Box>
             {
                 createEmployeeModal
-                    ? <ModalAddEmployee
+                    ? <ModalUser
                         open={createEmployeeModal}
-                        onClose={closeCreateEmployeeModal}
+                        onClose={handleOnCloseAddUserModal}
+                        user={user}
+                    />
+                    : null
+            }
+            {
+                deleteEmployeeModal
+                ? <ModalDeleteUser
+                        isOpen={deleteEmployeeModal}
+                        onClose={handleOnCloseDeleteUserModal}
+                        userId={user!.id}
                     />
                     : null
             }

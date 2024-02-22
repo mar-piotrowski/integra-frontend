@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
@@ -13,25 +13,13 @@ const FormCheckBox = <T extends FieldValues>({
     name,
     control,
 }: FormCheckBoxProps<T>) => {
-    const [selected, setSelected] = useState<boolean>(false)
-
-    const selectedHandler = () => setSelected(prev => !prev);
-
     return (
         <FormControl size={"small"} variant={"outlined"}>
             <FormControlLabel
                 control={
-                    <Controller
-                        name={name}
-                        render={({ field: { onChange, value } }) => {
-                            return (
-                                <Checkbox
-                                    checked={value}
-                                    onChange={() => {
-                                        selectedHandler();
-                                        onChange(selected);
-                                    }}
-                                />
+                    <Controller name={name} render={({ field: { onChange, value } }) => {
+                        return (
+                                <Checkbox checked={value} onChange={() => { onChange(!value); }} />
                             );
                         }}
                         control={control}

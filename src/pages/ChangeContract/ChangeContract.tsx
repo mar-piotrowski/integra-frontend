@@ -7,7 +7,7 @@ import FormSelect, { FormSelectOption } from "../../components/Form/FormSelect";
 import CancelCreateContractDialog from "../../features/dialog/CancelCreateContractDialog";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
-import useGetJobPositions from "../../hooks/jobPositions/useGetJobPositions";
+import useJobPositions from "../../hooks/jobPositions/useJobPositions";
 import { ContractChange } from "../../api/types/documentTypes";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetContract from "../../hooks/contract/useGetContract";
@@ -15,7 +15,7 @@ import Header from "../../components/CustomModalHeader";
 import { z } from "Zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useBoolean } from "../../hooks/useBoolean";
-import JobPositionModal from "../../features/modals/JobPositionModal";
+import ModalJobPosition from "../../features/modals/ModalJobPosition";
 import useCreateContractChange from "../../hooks/contract/useCreateContractChange";
 
 const defaultValues: ContractChange = {
@@ -74,7 +74,7 @@ const ChangeContract = () => {
         defaultValues,
         resolver: zodResolver(validationSchema)
     });
-    const { data: jobPositions } = useGetJobPositions();
+    const { data: jobPositions } = useJobPositions();
     const { data: contract } = useGetContract(parseInt(contractId!));
     const { mutate: createContractChange, reset: createContractChangeReset, isSuccess: createContractChangeSuccess } = useCreateContractChange();
 
@@ -209,7 +209,7 @@ const ChangeContract = () => {
                 </Grid>
             </Grid >
             <CancelCreateContractDialog isOpen={openDialog} onClose={handleCloseDialog} reset={reset} />
-            <JobPositionModal isOpen={jobPositionModal} onClose={handleCloseJobPositionModal} />
+            <ModalJobPosition isOpen={jobPositionModal} onClose={handleCloseJobPositionModal} />
         </>
     );
 };

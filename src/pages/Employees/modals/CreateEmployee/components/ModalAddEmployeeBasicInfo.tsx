@@ -3,10 +3,10 @@ import React from "react";
 import { Control } from "react-hook-form";
 import FormInput from "../../../../../components/Form/FormInput";
 import FormRadio from "../../../../../components/Form/FormRadio";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import { CreateUserRequest } from "../../../../../api/types/userTypes";
 
 interface ModalWorkerBasicInfoProps {
-	control: Control<CreateUser>;
+	control: Control<CreateUserRequest>;
 }
 
 const radioSexOptions = [
@@ -30,7 +30,7 @@ const ModalAddEmployeeBasicInfo = ({ control }: ModalWorkerBasicInfoProps) => {
 				<FormInput name="lastname" label="Nazwisko" control={control} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<FormInput name="pesel" label="PESEL" control={control} maxLength={11} />
+				<FormInput name="personalIdNumber" label="PESEL" control={control} maxLength={11} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<FormInput name="nip" label="NIP" control={control} />
@@ -42,12 +42,7 @@ const ModalAddEmployeeBasicInfo = ({ control }: ModalWorkerBasicInfoProps) => {
 				<FormInput name="phone" label="Numer telefonu" control={control} />
 			</Grid>
 			<Grid item xs={12}>
-				<FormRadio
-					name="sex"
-					label="Płeć"
-					control={control}
-					options={radioSexOptions}
-				/>
+				<FormRadio name="sex" label="Płeć" control={control} options={radioSexOptions} />
 			</Grid>
 		</Grid>
 	);

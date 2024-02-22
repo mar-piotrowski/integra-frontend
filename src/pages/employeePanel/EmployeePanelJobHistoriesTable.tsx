@@ -5,11 +5,11 @@ import { toDateString } from "../../utils/dateHelper";
 import { JobHistoryDto } from "../../api/types/documentTypes";
 import CustomTable from "../../components/CustomTable";
 import useGetJobHistories from "../../hooks/workHistory/useGetJobHistories";
-import { useParams } from "react-router-dom";
+import useAuth from "../../hooks/auth/useAuth";
 
 const EmployeePanelJobHistoriesTable = () => {
-    const { userId } = useParams();
-    const { data: jobHistories } = useGetJobHistories(parseInt(userId!));
+    const {auth} = useAuth();
+    const { data: jobHistories } = useGetJobHistories(auth!.userId);
 
     const columns = useMemo<MRT_ColumnDef<JobHistoryDto>[]>(
         () => [

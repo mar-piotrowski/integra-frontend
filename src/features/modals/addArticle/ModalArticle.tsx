@@ -51,24 +51,24 @@ const schema = z.object({
     gtin: z.string().optional(),
     tax: z.number().gt(0, "Wybierz stawke vat!"),
     pkwiu: z.string().nullable().optional(),
-    buyPriceWithoutTax: z.number().gt(0, "Pole wymagane!"),
-    buyPriceWithTax: z.number().gt(0, "Pole wymagane!"),
-    sellPriceWithoutTax: z.number().optional(),
-    sellPriceWithTax: z.number().optional()
+    sellPriceWithoutTax: z.number().gt(0, "Pole wymagane!"),
+    sellPriceWithTax: z.number().gt(0, "Pole wymagane!"),
+    buyPriceWithoutTax: z.number().optional(),
+    buyPriceWithTax: z.number().optional()
 })
 
 const ModalArticle = ({open, onClose, articleToEdit}: ModalAddArticleProps) => {
     const {mutate: createArticle, isSuccess: createArticleSuccess} = useCreateArticle();
     const {mutate: editArticle, isSuccess: editArticleSuccess} = useEditArticle();
-    const {control, reset, handleSubmit} = useForm<ArticleForm>({
+    const {control, reset, handleSubmit, setValue} = useForm<ArticleForm>({
         defaultValues,
         resolver: zodResolver(schema)
     });
 
     useEffect(() => {
-        if (!articleToEdit) return;
+        if (articleToEdit == null) return;
         reset({...articleToEdit});
-    }, [articleToEdit])
+    }, [open, articleToEdit, reset])
 
     useEffect(() => {
         if (!editArticleSuccess) return;
@@ -86,7 +86,7 @@ const ModalArticle = ({open, onClose, articleToEdit}: ModalAddArticleProps) => {
             editArticle({...data, id: articleToEdit.id});
             return;
         }
-        createArticle({...data});
+        createArticle({...data, stockAmount: 0});
     };
 
     const handleOnClose = () => {
@@ -102,7 +102,7 @@ const ModalArticle = ({open, onClose, articleToEdit}: ModalAddArticleProps) => {
                         <Typography variant="h3">Dodawanie nowego produktu</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <ModalAddArticleDetails control={control}/>
+                        <ModalAddArticleDetails control={control} setValue={setValue}/>
                     </Grid>
                     <Grid item container justifyContent={"flex-end"} spacing={1} xs={12}>
                         <Grid item>

@@ -48,7 +48,7 @@ const ModalArticleChangeAmount = ({ open, onClose, article }: ModalArticleChange
                     <Grid item> <Typography variant="h3">Aktualizacja stanu magazynowego</Typography> </Grid>
                     <Grid item xs={12}>Nazwa: {article.name}</Grid>
                     <Grid item xs={12}>Kod produktu: {article.code}</Grid>
-                    <Grid item xs={12}>Aktualny stan: {article.amount}</Grid>
+                    <Grid item xs={12}>Aktualny stan: {article.stockAmount}</Grid>
                     <Grid item xs={12}>
                         <FormInput type={"number"} name={"amount"} label={"Stan magazynowy"} control={control} />
                     </Grid>

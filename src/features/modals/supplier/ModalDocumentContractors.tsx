@@ -5,6 +5,8 @@ import {Button, Grid, TextField, Typography} from "@mui/material";
 import useGetContractors from "../../../hooks/contractor/useGetContractors";
 import ModalContractorListItem from "./components/ModalContractorListItem";
 import {ContractorDto} from "../../../api/types/contractorTypes";
+import ModalContractor from "../addContractor/ModalContractor";
+import {useBoolean} from "../../../hooks/useBoolean";
 
 interface ModalSupplierProps extends ModalBaseProps {
     setContractor: (contractor: ContractorDto) => void;
@@ -12,6 +14,11 @@ interface ModalSupplierProps extends ModalBaseProps {
 
 const ModalDocumentContractors = ({open, onClose, setContractor}: ModalSupplierProps) => {
     const {data: contractors} = useGetContractors();
+    const {
+        value: createContractorModal,
+        setTrue: openCreateContractorModal,
+        setFalse: closeCreateContractorModal
+    } = useBoolean();
 
     const renderContractors = contractors?.map(contractor =>
         <ModalContractorListItem
@@ -25,25 +32,25 @@ const ModalDocumentContractors = ({open, onClose, setContractor}: ModalSupplierP
     )
 
     return (
-        <CustomModal isOpen={open} onClose={onClose}>
-            <Grid container>
-                <Grid item xs={12}>
-                    <Typography variant={"h3"} mb={2}>Lista kontrahentów</Typography>
+        <>
+            <CustomModal isOpen={open} onClose={onClose}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Typography variant={"h3"} mb={2}>Lista kontrahentów</Typography>
+                    </Grid>
+                    <Grid item xs={12} height={"400px"}>
+                        {renderContractors}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button variant={"outlined"} fullWidth onClick={openCreateContractorModal}>Dodaj nowego kontrahenta</Button>
+                    </Grid>
+                    <Grid item container justifyContent={"flex-end"} mt={1}>
+                        <Button size={"large"} onClick={onClose}>Wyjdź</Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField label={"Wyszukaj kontrahenta"} fullWidth/>
-                </Grid>
-                <Grid item xs={12} height={"400px"}>
-                    {renderContractors}
-                </Grid>
-                <Grid item xs={12}>
-                    <Button variant={"outlined"} fullWidth>Dodaj nowego kontrahenta</Button>
-                </Grid>
-                <Grid item container justifyContent={"flex-end"} mt={1}>
-                    <Button size={"large"} onClick={onClose}>Wyjdź</Button>
-                </Grid>
-            </Grid>
-        </CustomModal>
+            </CustomModal>
+            <ModalContractor open={createContractorModal} onClose={closeCreateContractorModal}  />
+        </>
     )
 }
 export default ModalDocumentContractors;

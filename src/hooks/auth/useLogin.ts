@@ -9,14 +9,12 @@ import { decodeToken } from "../../utils/authUtils";
 
 const useLogin = () => {
     const { setAuth } = useAuth();
-    const navigate = useNavigate();
     return useMutation({
         mutationFn: async (login: Login) => (await authenticationService.login(login)).data.accessToken,
         onSuccess: (data) => {
             setAuth({ accessToken: data, userId: decodeToken(data)?.userId!, permissions: decodeToken(data)?.permissions! });
             console.log(decodeToken(data));
             successToast("Zalogowano!");
-            navigate("/employee-panel");
         },
         onError: (data: ErrorResponse) => {
             errorToast(data.response.data.message);

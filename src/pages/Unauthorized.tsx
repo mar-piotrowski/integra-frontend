@@ -22,7 +22,7 @@ const Unauthorized = () => {
             <Grid item>
                 <Button
                     variant={"outlined"}
-                    onClick={() => navigate(-2)}
+                    onClick={() => navigate(-3)}
                 >
                     Powrót
                 </Button>

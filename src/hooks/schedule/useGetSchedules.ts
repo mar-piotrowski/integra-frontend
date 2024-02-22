@@ -3,8 +3,7 @@ import scheduleService from "../../api/services/scheduleService";
 
 const useGetSchedules = () => useQuery({
     queryKey: ["schedules"],
-    queryFn: async () => ((await scheduleService.getAll()).data.schedules),
-    cacheTime: 0
+    queryFn: async () => ((await scheduleService.getAll()).data.schedules)
 });
 
 export default useGetSchedules;

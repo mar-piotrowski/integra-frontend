@@ -1,17 +1,15 @@
-import { EventContentArg } from "@fullcalendar/core";
+import {EventContentArg} from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
-import { Button, Grid } from "@mui/material";
-import { Box, useTheme } from "@mui/system";
-import React from "react";
-import { createRef, useEffect, useState } from "react";
-import { ScheduleDay } from "../../api/types/scheduleTypes";
-import { useBoolean } from "../../hooks/useBoolean";
+import {Grid} from "@mui/material";
+import {Box, useTheme} from "@mui/system";
+import React, {createRef, useEffect, useState} from "react";
+import {ScheduleDay} from "../../api/types/scheduleTypes";
+import {useBoolean} from "../../hooks/useBoolean";
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction';
 import useGetUserSchedules from "../../hooks/employee/useGetUserSchedules";
 import AddUserScheduleModal from "../modals/addUserSchedule/AddUserScheduleModal";
 import useDeleteUserSchedule from "../../hooks/employee/useDeleteSchedule";
-import { ReactQueryDevtools } from "react-query/types/devtools";
 
 interface ScheduleProps {
     userId: number;
@@ -23,21 +21,20 @@ interface ScheduleCurrentDate {
     month: number;
 }
 
-const Schedule = ({ userId, manage }: ScheduleProps) => {
+const Schedule = ({userId, manage}: ScheduleProps) => {
     const theme = useTheme();
-    const [date, setDate] = useState<ScheduleCurrentDate>({ year: 0, month: 0 });
-    const { value: fetch, setTrue: fetchStart } = useBoolean(false);
-    const { value: addScheduleModal, setTrue: openAddScheduleModal, setFalse: closeAddScheduleModal } = useBoolean(false);
+    const [date, setDate] = useState<ScheduleCurrentDate>({year: 0, month: 0});
+    const {value: fetch, setTrue: fetchStart} = useBoolean(false);
+    const {value: addScheduleModal, setTrue: openAddScheduleModal, setFalse: closeAddScheduleModal} = useBoolean(false);
     const [scheduleId, setScheduleId] = useState<number>(0);
-    const { data: schedule, isSuccess: scheduleSuccess, refetch: scheduleRefetch } = useGetUserSchedules(
+    const {data: schedule, isSuccess: scheduleSuccess, refetch: scheduleRefetch} = useGetUserSchedules(
         userId,
         date.year,
         date.month,
         false,
         fetch
     );
-    const { mutate: deleteSchedule, isSuccess: deleteScheduleSuccess, reset: deleteReset } = useDeleteUserSchedule();
-
+    const {mutate: deleteSchedule, isSuccess: deleteScheduleSuccess, reset: deleteReset} = useDeleteUserSchedule();
 
     const calendarRef = createRef<FullCalendar>();
 
@@ -53,9 +50,9 @@ const Schedule = ({ userId, manage }: ScheduleProps) => {
 
     useEffect(() => {
         if (deleteScheduleSuccess) {
-            console.log("chuj");
             handleOnClearCalendar();
             deleteReset();
+            scheduleRefetch();
         }
     }, [deleteScheduleSuccess])
 
@@ -132,21 +129,6 @@ const Schedule = ({ userId, manage }: ScheduleProps) => {
     return (
         <>
             <Grid container spacing={2}>
-                {
-                    manage ?
-                        <Grid container item spacing={2} xs={12}>
-                            <Grid item>
-                                <Button variant="contained" onClick={openAddScheduleModal}>Dodaj grafik</Button>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="contained" color="error" onClick={() => {
-                                    if (scheduleId == 0) return;
-                                    deleteSchedule({ userId, scheduleId });
-                                }}>Usun</Button>
-                            </Grid>
-                        </Grid>
-                        : null
-                }
                 <Grid item xs={12}>
                     <FullCalendar
                         editable={true}
@@ -159,7 +141,15 @@ const Schedule = ({ userId, manage }: ScheduleProps) => {
                         }}
                         customButtons={{
                             addSchedule: {
-                                text: "Dodaj graf"
+                                text: "Dodaj garafik",
+                                click: openAddScheduleModal
+                            },
+                            deleteSchedule: {
+                                text: "Usuń",
+                                click: () => {
+                                    if (scheduleId == 0) return;
+                                    deleteSchedule({userId, scheduleId});
+                                }
                             },
                             prev: {
                                 click: () => {
@@ -179,10 +169,10 @@ const Schedule = ({ userId, manage }: ScheduleProps) => {
                                     calendarRef.current?.getApi().today();
                                     handleChangeMonth();
                                 }
-                            }
+                            },
                         }}
                         headerToolbar={{
-                            right: 'today prev,next',
+                            right: `${manage ? "addSchedule deleteSchedule " : ""}today prev,next`,
                             center: '',
                             left: "title"
                         }}
@@ -194,7 +184,7 @@ const Schedule = ({ userId, manage }: ScheduleProps) => {
             </Grid>
             {
                 addScheduleModal
-                    ? <AddUserScheduleModal isOpen={addScheduleModal} onClose={closeAddScheduleModal} />
+                    ? <AddUserScheduleModal isOpen={addScheduleModal} onClose={closeAddScheduleModal}/>
                     : null
             }
         </>

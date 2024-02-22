@@ -2,10 +2,12 @@ import {Grid, Typography, Button} from "@mui/material";
 import {Box} from "@mui/system";
 import React from "react";
 import {useBoolean} from "../../hooks/useBoolean";
-import ModalContractor from "../modals/supplier/ModalDocumentContractors";
+import Mo from "../modals/supplier/ModalDocumentContractors";
 import {Control, useWatch} from "react-hook-form";
 import {ContractorDto} from "../../api/types/contractorTypes";
 import {DocumentDetails} from "../../api/types/documentTypes";
+import ModalDocumentContractors from "../modals/supplier/ModalDocumentContractors";
+import ModalContractor from "../modals/addContractor/ModalContractor";
 
 interface DocumentContractorProps {
     setContractor: (contractor: ContractorDto) => void;
@@ -47,16 +49,14 @@ const DocumentContractor = ({setContractor, control}: DocumentContractorProps) =
                     }
                 </Grid>
                 <Grid item>
-                    <Button
-                        variant="outlined"
-                        onClick={openContractorsModal}>
+                    <Button variant="outlined" onClick={openContractorsModal}>
                         {contractorWatch == null ? "Dodaj kontrahenta": "Edytuj kontrahenta"}
                     </Button>
                 </Grid>
             </Grid>
             {
                 contractorsModal
-                    ? <ModalContractor
+                    ? <ModalDocumentContractors
                         open={contractorsModal}
                         onClose={closeContractorsModal}
                         setContractor={setContractor}

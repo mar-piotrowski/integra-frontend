@@ -2,8 +2,10 @@ import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import CustomButton from "../components/CustomButton";
 import image from "../../../assets/Analytic.png";
+import {useNavigate} from "react-router-dom";
 
 const WelcomeBanner = () => {
+    const navigate = useNavigate();
     return (
         <Grid container justifyContent={"center"} alignItems={"center"} gap={10} my={10}>
             <Grid item spacing={2}>
@@ -18,7 +20,7 @@ const WelcomeBanner = () => {
                         Umów się na przezentację systemu z naszym konsultantem
                     </Typography>
                     <Box mt={2}>
-                        <CustomButton variant="contained" text="Umów się" />
+                        <CustomButton variant="contained" text="Umów się" onClick={() => navigate("/contact")}/>
                     </Box>
                 </Box>
             </Grid>

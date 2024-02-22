@@ -2,7 +2,7 @@ import React from "react";
 import {DocumentDetails} from "../../../api/types/documentTypes";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {defaultValues} from "../../Invoices/Invoices";
-import {Button, Grid, Typography} from "@mui/material";
+import {Grid} from "@mui/material";
 import DocumentCalculations from "../../../features/document/DocumentCalculations";
 import DocumentArticle from "../../../features/document/DocumentArticle";
 import DocumentPwBaseInfo from "./DocumentPwBaseInfo";

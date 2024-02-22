@@ -1,67 +1,43 @@
-import { Control } from "react-hook-form";
-import { Grid } from "@mui/material";
+import {Control} from "react-hook-form";
+import {Grid} from "@mui/material";
 import React from "react";
 import FormInput from "../../../../../components/Form/FormInput";
-import { CreateUser } from "../../../../../api/types/userTypes";
+import {CreateUserRequest} from "../../../../../api/types/userTypes";
 
 interface ModalWorkerAddressProps {
-    control: Control<CreateUser>;
+    control: Control<CreateUserRequest>;
 }
 
-const ModalAddEmployeeAddress = ({ control }: ModalWorkerAddressProps) => {
+const ModalAddEmployeeAddress = ({control}: ModalWorkerAddressProps) => {
     return (
-        <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+        <Grid sx={{flexGrow: 1}} container spacing={2}>
             <Grid item xs={12} md={6}>
-                <FormInput name="locations[0].city" label="Miasto" control={control} />
+                <FormInput name="locations.0.city" label="Miasto" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput
-                    name="location.postalCode"
-                    label="Kod pocztowy"
-                    control={control}
-                />
+                <FormInput name="locations.0.postalCode" label="Kod pocztowy" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput name="location.street" label="Ulica" control={control} />
+                <FormInput name="locations.0.street" label="Ulica" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput
-                    name="location.houseNo"
-                    label="Numer domu"
-                    control={control}
-                />
+                <FormInput name="locations.0.houseNo" label="Numer domu" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput
-                    name="location.apartmentNo"
-                    label="Numer mieszkania"
-                    control={control}
-                />
+                <FormInput name="locations.0.apartmentNo" label="Numer mieszkania" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput name="location.commune" label="Gmina" control={control} />
+                <FormInput name="locations.0.commune" label="Gmina" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput name="location.district" label="Powiat" control={control} />
+                <FormInput name="locations.0.district" label="Powiat" control={control}/>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormInput
-                    name="location.province"
-                    label="Wojewodztwo"
-                    control={control}
-                />
+                <FormInput name="locations.0.province" label="Wojewodztwo" control={control}/>
             </Grid>
             <Grid item xs={12}>
-                <FormInput name="location.country" label="Kraj" control={control} />
+                <FormInput name="locations.0.country" label="Kraj" control={control}/>
             </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*    <FormCheckBoxes*/}
-            {/*        label=""*/}
-            {/*        name="abc"*/}
-            {/*        control={control}*/}
-            {/*        options={addressType}*/}
-            {/*    />*/}
-            {/*</Grid>*/}
         </Grid>
     );
 };

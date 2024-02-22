@@ -21,7 +21,6 @@ import ProfileUserSchedule from "../pages/ProfileUser/ProfileUserSchedule";
 import EmployeePanelAbsences from "../pages/employeePanel/EmployeePanelAbsences";
 import EmployeePanelLayout from "../layouts/EmployeePanelLayout";
 import EmployeePanelWorkingTime from "../pages/employeePanel/EmployeePanelWorkingTime";
-import Register from "../pages/main/register/Register";
 import Login from "../pages/main/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import {Permission} from "../constants/permission";
@@ -44,15 +43,23 @@ import EmployeePanelSchedule from "../pages/employeePanel/EmployeePanelSchedule"
 import StockDocuments from "../pages/StockDocuments/StockDocuments";
 import DocumentInvoice from "../pages/Documents/Invoice/DocumentInvoice";
 import DocumentMM from "../pages/Documents/MM/DocumentMM";
-import DocumentRw from "../pages/Documents/RW/DocumentRw";
 import DocumentPz from "../pages/Documents/PZ/DocumentPz";
 import DocumentWz from "../pages/Documents/WZ/DocumentWz";
-import DocumentPw from "../pages/Documents/PW/DocumentPw";
 import AccountSchedule from "../pages/Account/AccountSchedule";
 import AccountAbsences from "../pages/Account/AccountAbsences";
 import AccountDocuments from "../pages/Account/AccountDocuments";
 import AccountContracts from "../pages/Account/AccountContracts";
 import Stocks from "../pages/Stocks/Stocks";
+import DocumentEditPz from "../pages/Documents/PZ/DocumentEditPz";
+import DocumentEditMM from "../pages/Documents/MM/DocumentEditMM";
+import DocumentEditWz from "../pages/Documents/WZ/DocumentEditWz";
+import DocumentEditInvoice from "../pages/Documents/Invoice/DocumentEditInvoice";
+import Contact from "../pages/main/Contact";
+import ProfileUserWorkingTimes from "../pages/ProfileUser/ProfileUserWorkingTimes";
+import AccountWorkingTimes from "../pages/Account/AccountWorkingTimes";
+import ProfileUserCards from "../pages/ProfileUser/ProfileUserCards";
+import EmployeePanelCards from "../pages/employeePanel/EmployeePanelCards";
+import AccountCards from "../pages/Account/AccountCards";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -62,14 +69,15 @@ const router = createBrowserRouter(
             <Route path="unauthorized" element={<Unauthorized/>}/>
             <Route path="management-panel/login" element={<Login type={"management"}/>}/>
             <Route path="employee-panel/login" element={<Login type={"employee"}/>}/>
-            <Route path="register" element={<Register/>}/>
             <Route path="logout" element={<Logout/>}/>
             <Route path="choose-login" element={<ChooseLogin/>}/>
+            <Route path="contact" element={<Contact/>}/>
             <Route element={<PersistLogin/>}>
                 <Route path="employee-panel" element={<MainLayout type={"employee"}/>}>
                     <Route path="account" element={<AccountLayout type={"employee"}/>}>
                         <Route path="" element={<AccountDetails/>}/>
                         <Route path="privacy" element={<AccountPrivacy/>}/>
+                        <Route path="cards" element={<EmployeePanelCards/>}/>
                     </Route>
                     <Route path="working-time" element={<EmployeePanelWorkingTime/>}/>
                     <Route element={<EmployeePanelLayout/>}>
@@ -87,9 +95,11 @@ const router = createBrowserRouter(
                             <Route path="" element={<AccountDetails/>}/>
                             <Route path="schedule" element={<AccountSchedule/>}/>
                             <Route path="absences" element={<AccountAbsences/>}/>
+                            <Route path="working-times" element={<AccountWorkingTimes/>}/>
                             <Route path="documents" element={<AccountDocuments/>}/>
                             <Route path="contracts" element={<AccountContracts/>}/>
                             <Route path="privacy" element={<AccountPrivacy/>}/>
+                            <Route path="cards" element={<AccountCards/>}/>
                         </Route>
                         <Route element={<ProtectedRoute
                             allowedPermissions={[Permission.FullAccess, Permission.HrAll, Permission.HrEmployees]}/>}>
@@ -97,9 +107,11 @@ const router = createBrowserRouter(
                             <Route path="employee/:userId" element={<ProfileUser/>}>
                                 <Route index path="details" element={<ProfileUserDetails/>}/>
                                 <Route path="schedule" element={<ProfileUserSchedule/>}/>
+                                <Route path="working-times" element={<ProfileUserWorkingTimes/>}/>
                                 <Route path="documents" element={<ProfileUserDocuments/>}/>
                                 <Route path="absence" element={<ProfileUserAbsences/>}/>
                                 <Route path="contracts" element={<ProfileUserContracts/>}/>
+                                <Route path="cards" element={<ProfileUserCards/>}/>
                             </Route>
                         </Route>
                         <Route path="stocks" element={<Stocks/>}/>
@@ -108,10 +120,11 @@ const router = createBrowserRouter(
                             <Route path="stock-documents" element={<StockDocuments/>}/>
                             <Route element={<BackgroundLayout/>}>
                                 <Route path="document-pz" element={<DocumentPz/>}/>
-                                <Route path="document-pw" element={<DocumentPw/>}/>
-                                <Route path="document-rw" element={<DocumentRw/>}/>
                                 <Route path="document-wz" element={<DocumentWz/>}/>
                                 <Route path="document-mm" element={<DocumentMM/>}/>
+                                <Route path="document-pz/:documentId/edit" element={<DocumentEditPz/>}/>
+                                <Route path="document-wz/:documentId/edit" element={<DocumentEditWz/>}/>
+                                <Route path="document-mm/:documentId/edit" element={<DocumentEditMM/>}/>
                             </Route>
                         </Route>
                         <Route element={<ProtectedRoute
@@ -127,6 +140,7 @@ const router = createBrowserRouter(
                             <Route path="invoices" element={<Invoices/>}/>
                             <Route element={<BackgroundLayout/>}>
                                 <Route path="document-invoice" element={<DocumentInvoice/>}/>
+                                <Route path="document-invoice/:documentId/edit" element={<DocumentEditInvoice/>}/>
                             </Route>
                         </Route>
                         <Route element={<ProtectedRoute

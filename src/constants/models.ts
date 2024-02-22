@@ -14,7 +14,7 @@ export interface UserAbsence {
     status: AbsenceStatus;
 }
 
-export interface BankDetails {
+export interface BankAccount {
     name: string;
     number: string;
 }
@@ -33,7 +33,7 @@ export interface Contractor {
     phone: string;
     email: string;
     type: ContractorType,
-    bankDetails: BankDetails;
+    bankDetails: BankAccount;
 }
 
 export enum InvoiceType {
@@ -57,6 +57,6 @@ export interface Invoice {
     paymentDate: Date;
     contractor: Contractor;
     stockId: number;
-    bankDetails: BankDetails;
+    bankDetails: BankAccount;
     paid: boolean;
 }

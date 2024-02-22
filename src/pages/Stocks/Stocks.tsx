@@ -32,10 +32,6 @@ const Stocks = () => {
 
     const columns = useMemo<MRT_ColumnDef<StockDto>[]>(() => [
         {
-            accessorKey: "id",
-            header: "Id"
-        },
-        {
             accessorKey: "name",
             header: "Nazwa"
         },
@@ -45,7 +41,7 @@ const Stocks = () => {
             Cell: ({row}) => <div>{row.original.isMain ? "Tak" : "Nie"}</div>
         },
         {
-            // accessorKey: "totalProductsAmount",
+            accessorKey: "totalProductsAmount",
             header: "Ilość produktów"
         }
     ], []);
